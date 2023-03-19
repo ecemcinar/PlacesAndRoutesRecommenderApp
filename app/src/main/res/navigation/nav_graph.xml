@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/loginFragment">
+
+    <activity
+        android:id="@+id/mainActivity"
+        android:name="com.wheretogo.placesandroutesrecommenderapp.MainActivity"
+        android:label="Places And Routes Recommender App"
+        tools:layout="@layout/activity_main" />
+
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="com.wheretogo.placesandroutesrecommenderapp.ui.signup.SignUpFragment"
+        android:label="activity_sign_up"
+        tools:layout="@layout/fragment_sign_up" >
+        <action
+            android:id="@+id/action_signUpFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_signUpFragment_to_customizeProfileFragment"
+            app:destination="@id/customizeProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.wheretogo.placesandroutesrecommenderapp.ui.login.LoginFragment"
+        android:label="LoginFragment" >
+        <action
+            android:id="@+id/action_loginFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_feedFragment"
+            app:destination="@id/feedFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/customizeProfileFragment"
+        android:name="com.wheretogo.placesandroutesrecommenderapp.ui.customizeprofile.CustomizeProfileFragment"
+        android:label="fragment_customize_profile"
+        tools:layout="@layout/fragment_customize_profile" >
+        <action
+            android:id="@+id/action_customizeProfileFragment_to_setPreferencesFragment"
+            app:destination="@id/setPreferencesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/feedFragment"
+        android:name="com.wheretogo.placesandroutesrecommenderapp.ui.feed.FeedFragment"
+        android:label="fragment_feed"
+        tools:layout="@layout/fragment_feed" >
+        <action
+            android:id="@+id/action_feedFragment_to_customizeProfileFragment"
+            app:destination="@id/customizeProfileFragment" />
+        <action
+            android:id="@+id/action_feedFragment_to_postViewFragment"
+            app:destination="@id/postViewFragment" />
+        <action
+            android:id="@+id/action_feedFragment_to_checkInFragment"
+            app:destination="@id/checkInFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/postViewFragment"
+        android:name="com.wheretogo.placesandroutesrecommenderapp.ui.postview.PostViewFragment"
+        android:label="fragment_post_view"
+        tools:layout="@layout/fragment_post_view" >
+        <action
+            android:id="@+id/action_postViewFragment_to_feedFragment"
+            app:destination="@id/feedFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/checkInFragment"
+        android:name="com.wheretogo.placesandroutesrecommenderapp.ui.checkin.CheckInFragment"
+        android:label="CheckInFragment" >
+        <action
+            android:id="@+id/action_checkInFragment_to_feedFragment"
+            app:destination="@id/feedFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/setPreferencesFragment"
+        android:name="com.wheretogo.placesandroutesrecommenderapp.ui.setpreferences.SetPreferencesFragment"
+        android:label="SetPreferencesFragment" >
+        <action
+            android:id="@+id/action_setPreferencesFragment_to_feedFragment"
+            app:destination="@id/feedFragment" />
+    </fragment>
+</navigation>

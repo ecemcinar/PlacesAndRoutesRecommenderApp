@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.wheretogo.placesandroutesrecommenderapp.ui.login.LoginViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.wheretogo.placesandroutesrecommenderapp.ui.login.LoginFragment">
+
+        <ImageView
+            android:id="@+id/appLogoImageView"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="@dimen/dim_large"
+            android:src="@drawable/wheretogoapp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="@null" />
+
+        <TextView
+            android:id="@+id/signInLabel"
+            style="@style/regularTextViewStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dim_extra"
+            android:layout_marginTop="@dimen/dim_medium"
+            android:text="@string/sign_in_label_text"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/appLogoImageView" />
+
+        <TextView
+            android:id="@+id/welcomeLabel"
+            style="@style/greySmallTextViewStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dim_small"
+            android:text="@string/sign_in_welcome_label_text"
+            app:layout_constraintStart_toStartOf="@id/signInLabel"
+            app:layout_constraintTop_toBottomOf="@id/signInLabel" />
+
+        <TextView
+            android:id="@+id/emailLabel"
+            style="@style/regularTextViewStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dim_small"
+            android:fontFamily="@font/quicksand_medium"
+            android:text="@string/sign_in_email_label_text"
+            app:layout_constraintStart_toStartOf="@id/welcomeLabel"
+            app:layout_constraintTop_toBottomOf="@id/welcomeLabel" />
+
+        <EditText
+            android:id="@+id/emailAddressEditText"
+            style="@style/regularEditTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dim_small"
+            android:autofillHints="emailAddress"
+            android:hint="@string/sign_in_email_label_text"
+            android:inputType="textEmailAddress"
+            app:layout_constraintStart_toStartOf="@+id/emailLabel"
+            app:layout_constraintTop_toBottomOf="@+id/emailLabel" />
+
+        <TextView
+            android:id="@+id/passwordLabel"
+            style="@style/regularTextViewStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dim_small"
+            android:fontFamily="@font/quicksand_medium"
+            android:text="@string/sign_in_password_label_text"
+            app:layout_constraintStart_toStartOf="@id/emailAddressEditText"
+            app:layout_constraintTop_toBottomOf="@id/emailAddressEditText" />
+
+        <EditText
+            android:id="@+id/passwordEditText"
+            style="@style/regularEditTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dim_small"
+            android:autofillHints="password"
+            android:hint="@string/sign_in_password_label_text"
+            android:inputType="textPassword"
+            app:layout_constraintStart_toStartOf="@id/passwordLabel"
+            app:layout_constraintTop_toBottomOf="@id/passwordLabel" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/signInButton"
+            style="@style/orangeButtonStyle"
+            android:layout_marginTop="@dimen/dim_large"
+            android:text="@string/sign_in_continue_text"
+            android:onClick="@{() -> viewModel.loginButtonClick()}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/passwordEditText" />
+
+        <TextView
+            android:id="@+id/noAccountLabel"
+            style="@style/greySmallTextViewStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dim_small"
+            android:text="@string/sign_in_no_account_text"
+            app:layout_constraintStart_toStartOf="@id/signInButton"
+            app:layout_constraintTop_toBottomOf="@id/signInButton" />
+
+        <TextView
+            android:id="@+id/signUpButton"
+            style="@style/smallTextViewStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dim_small"
+            android:layout_marginStart="@dimen/dim_small"
+            android:fontFamily="@font/quicksand_medium"
+            android:onClick="@{() -> viewModel.signUpButtonClick()}"
+            android:text="@string/sign_up_label_text"
+            app:layout_constraintStart_toEndOf="@id/noAccountLabel"
+            app:layout_constraintTop_toBottomOf="@id/signInButton" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

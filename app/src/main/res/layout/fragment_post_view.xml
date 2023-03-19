@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.wheretogo.placesandroutesrecommenderapp.ui.postview.PostViewFragment">
+
+
+    <ImageView
+        android:id="@+id/userProfilePictureImageView"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/user_profile_photo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="@dimen/dim_medium"
+        android:layout_marginStart="@dimen/dim_medium"
+        android:contentDescription="@null" />
+
+    <TextView
+        android:id="@+id/nameSurnameTextView"
+        style="@style/greySmallTextViewStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="@dimen/dim_small"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/userProfilePictureImageView"
+        app:layout_constraintStart_toEndOf="@+id/userProfilePictureImageView"
+        app:layout_constraintTop_toTopOf="@+id/userProfilePictureImageView"
+        tools:text="David Smith" />
+
+    <TextView
+        android:id="@+id/postTopicLabel"
+        style="@style/regularTextViewStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dim_medium"
+        android:layout_marginTop="@dimen/dim_medium"
+        tools:text="Best Things To Do in Fethiye"
+        android:text="@string/post_view_topic_sample"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/userProfilePictureImageView" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        android:layout_marginTop="@dimen/dim_small"
+        android:layout_marginBottom="@dimen/dim_small"
+        app:layout_constraintTop_toBottomOf="@+id/postTopicLabel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <TextView
+            android:id="@+id/selectedPlace"
+            style="@style/greySmallTextViewStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dim_small"
+            android:text="@string/post_view_content_sample"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="post"
+            type="com.wheretogo.placesandroutesrecommenderapp.model.Post" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/firstContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/item_background"
+        android:layout_margin="@dimen/dim_small"
+        android:padding="@dimen/dim_small">
+
+        <ImageView
+            android:id="@+id/userProfilePictureImageView"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:contentDescription="@null"
+            android:src="@drawable/user_profile_photo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/nameSurnameTextView"
+            style="@style/greySmallTextViewStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/dim_small"
+            android:text="David Smith"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/userProfilePictureImageView"
+            app:layout_constraintStart_toEndOf="@+id/userProfilePictureImageView"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="David Smith" />
+
+
+        <TextView
+            android:id="@+id/articleTitleTextView"
+            style="@style/regularTextViewStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dim_small"
+            android:maxLength="23"
+            android:text="ENGLISHMAN IN PARIS"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/userProfilePictureImageView"
+            tools:text="ENGLISHMAN IN PARIS" />
+
+        <TextView
+            android:id="@+id/articleContextTextView"
+            style="@style/greySmallTextViewStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dim_small"
+            android:maxLength="250"
+            android:maxLines="10"
+            android:text="@string/feed_article_content_sample_text"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/articleTitleTextView"
+            tools:text="@string/feed_article_content_sample_text" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

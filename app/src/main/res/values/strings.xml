@@ -1,0 +1,41 @@
+<resources>
+    <string name="app_name">PlacesAndRoutesRecommenderApp</string>
+    <string name="continue_button_text">Continue</string>
+
+    <string name="sign_in_label_text">Sign In</string>
+    <string name="sign_in_welcome_label_text">Hi there! Nice to see you.</string>
+    <string name="sign_in_email_label_text">Email</string>
+    <string name="sign_in_password_label_text">Password</string>
+    <string name="sign_in_continue_text">SIGN IN</string>
+    <string name="sign_in_no_account_text">Don\'t you have an account?</string>
+
+    <string name="sign_up_label_text">Sign Up</string>
+    <string name="sign_up_name_label">Name</string>
+    <string name="sign_up_your_name_label">Your Name</string>
+    <string name="sign_up_surname_label">Surname</string>
+    <string name="sign_up_your_surname_label">Your Surname</string>
+
+    <string name="sign_up_gender_label">Gender</string>
+
+    <string name="sign_up_confirm_your_password_label">Confirm Your Password</string>
+    <string name="sign_up_password_again_label_text">Password Again</string>
+    <string name="sign_up_have_an_account_text">Have an Account?</string>
+
+    <string name="upload_profile_photo_label">Click to Select a Photo</string>
+    <string name="upload_profile_photo_upload_text">Upload</string>
+
+    <string name="post_view_content_sample">Fethiye is an area on the turquoise coast of Turkey that shouldn’t be missed on your trip through this incredible country. It is very popular for its paragliding which is definitely a must-do. Here are 9 reasons why Fethiye is the hidden gem of Turkey’s turquoise coastline.
+    \nOne of the craziest drops you will ever see, Butterfly Valley is mainly visited by boat where you can enjoy the beautiful white beach. If you rent a car or motorbike you can get to the viewpoint that looks out over the valley. It’s about a 15-minute drive from Oludeniz town. (Also see our complete Turkey route)
+    \nRent a car in Turkey at a local car company through Sunny Cars. When booking through them, all insurances are included. Book your rental car here.
+    Paragliding from 1960 meters\n
+    Paragliding is the must-do in Fethiye. It is actually located in Oludeniz town. We highly recommend Sky Sports, which was the best paragliding company in the area and owned by a Dutch lady named Nicolette.
+    \nAfter instructions you will be taken to the top of Babadag Mountain at 1960 meters, which is about a 40-minute drive to the top. You will get to know your instructor and he asks you if you like to do tricks or just enjoy the view.
+    \n\nExplore Fethiye old town\n
+    After some adrenaline-pumping sports, cool down in Fethiye. Old towns are always the best areas to explore if you ask us. Fethiye old town is a cute small shopping area including the famous Umbrella Street and Fish Market where you pick a fish and a restaurant at the market prepares it. This is a perfect place to get dinner in town! :)
+    </string>
+    <string name="post_view_topic_sample">Best Things To Do in Fethiye</string>
+
+    <string name="feed_article_content_sample_text">Channel your inner ‘Emily in Paris’ and start your day with a delicious coffee and freshly baked croissant at a boulangerie near your accommodation. Practice your French, and enjoy the satisfaction of those perfect warm layers of pastry!</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
