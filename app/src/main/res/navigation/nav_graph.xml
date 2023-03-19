@@ -14,7 +14,7 @@
     <fragment
         android:id="@+id/signUpFragment"
         android:name="com.wheretogo.placesandroutesrecommenderapp.ui.signup.SignUpFragment"
-        android:label="activity_sign_up"
+        android:label="Sign Up"
         tools:layout="@layout/fragment_sign_up" >
         <action
             android:id="@+id/action_signUpFragment_to_loginFragment"
@@ -28,7 +28,7 @@
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.wheretogo.placesandroutesrecommenderapp.ui.login.LoginFragment"
-        android:label="LoginFragment" >
+        android:label="Login" >
         <action
             android:id="@+id/action_loginFragment_to_signUpFragment"
             app:destination="@id/signUpFragment" />
@@ -39,7 +39,7 @@
     <fragment
         android:id="@+id/customizeProfileFragment"
         android:name="com.wheretogo.placesandroutesrecommenderapp.ui.customizeprofile.CustomizeProfileFragment"
-        android:label="fragment_customize_profile"
+        android:label="Customize Profile"
         tools:layout="@layout/fragment_customize_profile" >
         <action
             android:id="@+id/action_customizeProfileFragment_to_setPreferencesFragment"
@@ -48,7 +48,7 @@
     <fragment
         android:id="@+id/feedFragment"
         android:name="com.wheretogo.placesandroutesrecommenderapp.ui.feed.FeedFragment"
-        android:label="fragment_feed"
+        android:label="Dashboard"
         tools:layout="@layout/fragment_feed" >
         <action
             android:id="@+id/action_feedFragment_to_customizeProfileFragment"
@@ -63,7 +63,7 @@
     <fragment
         android:id="@+id/postViewFragment"
         android:name="com.wheretogo.placesandroutesrecommenderapp.ui.postview.PostViewFragment"
-        android:label="fragment_post_view"
+        android:label="Post"
         tools:layout="@layout/fragment_post_view" >
         <action
             android:id="@+id/action_postViewFragment_to_feedFragment"
@@ -72,7 +72,7 @@
     <fragment
         android:id="@+id/checkInFragment"
         android:name="com.wheretogo.placesandroutesrecommenderapp.ui.checkin.CheckInFragment"
-        android:label="CheckInFragment" >
+        android:label="Check In" >
         <action
             android:id="@+id/action_checkInFragment_to_feedFragment"
             app:destination="@id/feedFragment" />
@@ -80,7 +80,7 @@
     <fragment
         android:id="@+id/setPreferencesFragment"
         android:name="com.wheretogo.placesandroutesrecommenderapp.ui.setpreferences.SetPreferencesFragment"
-        android:label="SetPreferencesFragment" >
+        android:label="Set Your Preferences" >
         <action
             android:id="@+id/action_setPreferencesFragment_to_feedFragment"
             app:destination="@id/feedFragment" />
