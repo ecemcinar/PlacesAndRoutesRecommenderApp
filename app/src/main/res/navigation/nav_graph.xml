@@ -7,7 +7,7 @@
 
     <activity
         android:id="@+id/mainActivity"
-        android:name="com.wheretogo.placesandroutesrecommenderapp.MainActivity"
+        android:name="com.wheretogo.placesandroutesrecommenderapp.ui.MainActivity"
         android:label="Places And Routes Recommender App"
         tools:layout="@layout/activity_main" />
 

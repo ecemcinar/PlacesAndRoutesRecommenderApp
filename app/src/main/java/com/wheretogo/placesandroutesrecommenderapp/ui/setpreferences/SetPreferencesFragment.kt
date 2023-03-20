@@ -11,7 +11,7 @@ import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.wheretogo.placesandroutesrecommenderapp.databinding.FragmentSetPreferencesBinding
 
-class SetPreferencesFragment : Fragment() {
+class SetPreferencesFragment : Fragment(), PreferenceButtonClick {
 
     private var _binding: FragmentSetPreferencesBinding? = null
     private val binding get() = _binding!!
@@ -34,7 +34,7 @@ class SetPreferencesFragment : Fragment() {
                 }
             }
         }
-        adapter = SetPreferencesRecyclerAdapter(viewModel.prefList.value)
+        adapter = SetPreferencesRecyclerAdapter(viewModel.prefList.value, this)
         setUpRecyclerView()
 
         return binding.root
@@ -50,5 +50,9 @@ class SetPreferencesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+    }
+
+    override fun onPreferenceButtonClick(item: SetPreferencesModel) {
+        TODO("Not yet implemented")
     }
 }

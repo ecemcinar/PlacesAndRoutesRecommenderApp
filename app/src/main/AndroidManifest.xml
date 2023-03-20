@@ -13,7 +13,7 @@
         android:theme="@style/Theme.PlacesAndRoutesRecommenderApp"
         tools:targetApi="33">
         <activity
-            android:name="com.wheretogo.placesandroutesrecommenderapp.MainActivity"
+            android:name="com.wheretogo.placesandroutesrecommenderapp.ui.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

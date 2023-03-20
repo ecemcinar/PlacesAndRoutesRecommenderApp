@@ -7,6 +7,10 @@
         <variable
             name="model"
             type="com.wheretogo.placesandroutesrecommenderapp.ui.setpreferences.SetPreferencesModel" />
+
+        <variable
+            name="listener"
+            type="com.wheretogo.placesandroutesrecommenderapp.ui.setpreferences.PreferenceButtonClick" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -14,6 +18,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/item_background"
         android:layout_margin="4dp"
+        android:onClick="@{() -> listener.onPreferenceButtonClick(model)}"
         android:padding="@dimen/dim_small">
 
         <ImageView

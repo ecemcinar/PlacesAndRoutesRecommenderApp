@@ -5,11 +5,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.wheretogo.placesandroutesrecommenderapp.databinding.SetPreferencesItemBinding
 
-class SetPreferencesRecyclerAdapter(private var data: List<SetPreferencesModel?>?): RecyclerView.Adapter<SetPreferencesRecyclerAdapter.SetPreferencesItemHolder>() {
+class SetPreferencesRecyclerAdapter(private var data: List<SetPreferencesModel?>?, private val listener: PreferenceButtonClick): RecyclerView.Adapter<SetPreferencesRecyclerAdapter.SetPreferencesItemHolder>() {
     class SetPreferencesItemHolder(val binding: SetPreferencesItemBinding): RecyclerView.ViewHolder(binding.root) {
-        fun bind(model: SetPreferencesModel?) {
+        fun bind(model: SetPreferencesModel?, listener: PreferenceButtonClick) {
             binding.model = model
             binding.executePendingBindings()
+            binding.listener = listener
         }
     }
 
@@ -24,7 +25,7 @@ class SetPreferencesRecyclerAdapter(private var data: List<SetPreferencesModel?>
         data?.get(position)?.let {
             currentItem = it
         }
-        holder.bind(currentItem)
+        holder.bind(currentItem, listener)
     }
 
     override fun getItemCount(): Int {
