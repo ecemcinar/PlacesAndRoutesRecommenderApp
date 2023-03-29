@@ -6,13 +6,13 @@
     <data>
             <variable
                 name="viewModel"
-                type="com.wheretogo.placesandroutesrecommenderapp.ui.signup.SignUpViewModel" />
+                type="com.wheretogo.placesandroutesrecommenderapp.ui.auth.SignUpViewModel" />
     </data>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.wheretogo.placesandroutesrecommenderapp.ui.signup.SignUpFragment">
+        tools:context="com.wheretogo.placesandroutesrecommenderapp.ui.auth.SignUpFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -158,7 +158,7 @@
                 android:layout_marginStart="@dimen/dim_small"
                 android:layout_marginTop="@dimen/dim_medium"
                 android:layout_marginBottom="@dimen/dim_medium"
-                android:text="I agree to the Terms of Services and Privacy Policy."
+                android:text="@string/sign_up_agreement_text"
                 app:layout_constraintBottom_toTopOf="@+id/signUpButton"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/confirmPasswordEditText" />

@@ -13,7 +13,7 @@
 
     <fragment
         android:id="@+id/signUpFragment"
-        android:name="com.wheretogo.placesandroutesrecommenderapp.ui.signup.SignUpFragment"
+        android:name="com.wheretogo.placesandroutesrecommenderapp.ui.auth.SignUpFragment"
         android:label="Sign Up"
         tools:layout="@layout/fragment_sign_up" >
         <action
@@ -27,7 +27,7 @@
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.wheretogo.placesandroutesrecommenderapp.ui.login.LoginFragment"
+        android:name="com.wheretogo.placesandroutesrecommenderapp.ui.auth.LoginFragment"
         android:label="Login" >
         <action
             android:id="@+id/action_loginFragment_to_signUpFragment"

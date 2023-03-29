@@ -1,4 +1,4 @@
-package com.wheretogo.placesandroutesrecommenderapp.ui.signup
+package com.wheretogo.placesandroutesrecommenderapp.ui.auth
 
 import android.os.Bundle
 import android.view.LayoutInflater

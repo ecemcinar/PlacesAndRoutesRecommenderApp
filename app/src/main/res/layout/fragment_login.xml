@@ -6,13 +6,15 @@
     <data>
         <variable
             name="viewModel"
-            type="com.wheretogo.placesandroutesrecommenderapp.ui.login.LoginViewModel" />
+            type="com.wheretogo.placesandroutesrecommenderapp.ui.auth.SharedAuthViewModel" />
+
+        <import type="android.view.View" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.wheretogo.placesandroutesrecommenderapp.ui.login.LoginFragment">
+        tools:context="com.wheretogo.placesandroutesrecommenderapp.ui.auth.LoginFragment">
 
         <ImageView
             android:id="@+id/appLogoImageView"
@@ -67,6 +69,7 @@
             android:layout_marginTop="@dimen/dim_small"
             android:autofillHints="emailAddress"
             android:hint="@string/sign_in_email_label_text"
+            android:imeOptions="actionNext"
             android:inputType="textEmailAddress"
             app:layout_constraintStart_toStartOf="@+id/emailLabel"
             app:layout_constraintTop_toBottomOf="@+id/emailLabel" />
@@ -90,6 +93,7 @@
             android:layout_marginTop="@dimen/dim_small"
             android:autofillHints="password"
             android:hint="@string/sign_in_password_label_text"
+            android:imeOptions="actionDone"
             android:inputType="textPassword"
             app:layout_constraintStart_toStartOf="@id/passwordLabel"
             app:layout_constraintTop_toBottomOf="@id/passwordLabel" />
@@ -99,7 +103,7 @@
             style="@style/orangeButtonStyle"
             android:layout_marginTop="@dimen/dim_large"
             android:text="@string/sign_in_continue_text"
-            android:onClick="@{() -> viewModel.loginButtonClick()}"
+            android:enabled="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/passwordEditText" />
@@ -122,10 +126,22 @@
             android:layout_marginTop="@dimen/dim_small"
             android:layout_marginStart="@dimen/dim_small"
             android:fontFamily="@font/quicksand_medium"
-            android:onClick="@{() -> viewModel.signUpButtonClick()}"
             android:text="@string/sign_up_label_text"
+            android:onClick="@{() -> viewModel.otherOptionClick()}"
             app:layout_constraintStart_toEndOf="@id/noAccountLabel"
             app:layout_constraintTop_toBottomOf="@id/signInButton" />
+
+        <ProgressBar
+            android:id="@+id/progressBarLoading"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminateDrawable="@drawable/circularprogressbar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

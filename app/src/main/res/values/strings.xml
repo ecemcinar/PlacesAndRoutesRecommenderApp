@@ -20,6 +20,7 @@
     <string name="sign_up_confirm_your_password_label">Confirm Your Password</string>
     <string name="sign_up_password_again_label_text">Password Again</string>
     <string name="sign_up_have_an_account_text">Have an Account?</string>
+    <string name="sign_up_agreement_text">I agree to the Terms of Services and Privacy Policy.</string>
 
     <string name="upload_profile_photo_label">Click to Select a Photo</string>
     <string name="upload_profile_photo_upload_text">Upload</string>
