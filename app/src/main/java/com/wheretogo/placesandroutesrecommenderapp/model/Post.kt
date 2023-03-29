@@ -1,7 +1,7 @@
 package com.wheretogo.placesandroutesrecommenderapp.model
 
 data class Post(
-    private val username: String?,
-    private val title: String?,
-    private val context: String?
+    val username: String? = null,
+    val title: String? = null,
+    val context: String? = null
 )

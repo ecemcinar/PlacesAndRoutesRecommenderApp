@@ -37,4 +37,9 @@ class FeedAdapter: RecyclerView.Adapter<FeedAdapter.FeedItemHolder>() {
     override fun getItemCount(): Int {
         return postList.size
     }
+
+    fun setFeedData(post: List<Post>) {
+        this.postList = post
+        notifyDataSetChanged()
+    }
 }

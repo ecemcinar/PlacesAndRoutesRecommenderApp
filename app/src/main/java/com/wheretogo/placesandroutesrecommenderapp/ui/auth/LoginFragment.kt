@@ -53,6 +53,8 @@ class LoginFragment: Fragment() {
                         Toast.makeText(requireActivity(), "Directing...", Toast.LENGTH_SHORT)
                             .show()
                         findNavController().navigate(R.id.action_loginFragment_to_feedFragment)
+                        // when auth is ok, remove the login fragment from back stack
+                        // findNavController().popBackStack(R.id.loginFragment, true)
                     }
                     is Resource.Loading -> {
                         binding.progressBarLoading.visibility = View.VISIBLE

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/routeFragment"
+        android:title="@string/bottom_nav_create_route_text"
+        android:icon="@drawable/planet_earth"/>
+
+    <item android:id="@+id/uploadArticleFragment"
+        android:title="@string/bottom_nav_upload_article_text"
+        android:icon="@drawable/upload"/>
+
+    <item android:id="@+id/feedFragment"
+        android:title="@string/bottom_nav_home_page_text"
+        android:icon="@drawable/home"/>
+
+    <item android:id="@+id/checkInFragment"
+        android:title="@string/bottom_nav_home_page_text"
+        android:icon="@drawable/map"/>
+
+    <item android:id="@+id/profileFragment"
+        android:title="@string/bottom_nav_show_profile_text"
+        android:icon="@drawable/user"/>
+</menu>
