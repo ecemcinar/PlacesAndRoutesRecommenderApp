@@ -52,7 +52,11 @@ class LoginFragment: Fragment() {
                         binding.progressBarLoading.visibility = View.GONE
                         Toast.makeText(requireActivity(), "Directing...", Toast.LENGTH_SHORT)
                             .show()
-                        findNavController().navigate(R.id.action_loginFragment_to_feedFragment)
+                        // first remove login fragment from back stack, then navigate to feed
+                        // https://stackoverflow.com/questions/50514758/how-to-clear-navigation-stack-after-navigating-to-another-fragment-in-android
+                        findNavController().popBackStack(R.id.loginFragment, true)
+                        findNavController().navigate(R.id.feedFragment)
+                        // findNavController().navigate(R.id.action_loginFragment_to_feedFragment)
                         // when auth is ok, remove the login fragment from back stack
                         // findNavController().popBackStack(R.id.loginFragment, true)
                     }
