@@ -5,8 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.wheretogo.placesandroutesrecommenderapp.R
 import com.wheretogo.placesandroutesrecommenderapp.databinding.FragmentFeedBinding
+import com.wheretogo.placesandroutesrecommenderapp.model.Post
 
 class FeedFragment : Fragment() {
 
@@ -24,10 +27,37 @@ class FeedFragment : Fragment() {
             container,
             false
         )
-
+        binding.lifecycleOwner = viewLifecycleOwner
         setUpRecyclerView()
 
+        adapter.setFeedData(
+            listOf(
+                Post(
+                    username = "ecemcinar",
+                    title = "PARIS",
+                    context = getString(R.string.feed_article_content_sample_text),
+                ),
+                Post(
+                    username = "dogaerdemir",
+                    title = "PARIS 1",
+                    context = getString(R.string.feed_article_content_sample_text)
+                ),
+                Post(
+                    username = "armancelik",
+                    title = "PARIS 2",
+                    context = getString(R.string.feed_article_content_sample_text)
+                )
+            )
+        )
+
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // disables the back arrow
+        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
     }
 
     override fun onDestroyView() {
