@@ -3,27 +3,41 @@ package com.wheretogo.placesandroutesrecommenderapp.ui.auth
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.wheretogo.placesandroutesrecommenderapp.model.User
+import com.wheretogo.placesandroutesrecommenderapp.repository.firestore.FirebaseFirestoreRepository
+import com.wheretogo.placesandroutesrecommenderapp.util.Resource
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
-class SignUpViewModel(application: Application): AndroidViewModel(application) {
-
-    private var _continueButtonClickEvent = Channel<Unit>()
-    val continueButtonClickEvent = _continueButtonClickEvent.receiveAsFlow()
+@HiltViewModel
+class SignUpViewModel @Inject constructor(
+    application: Application,
+    private val repository: FirebaseFirestoreRepository) :
+    AndroidViewModel(application) {
 
     private var _loginClickEvent = Channel<Unit>()
     val loginClickEvent = _loginClickEvent.receiveAsFlow()
 
-    fun continueButtonClick() {
-        viewModelScope.launch {
-            _continueButtonClickEvent.send(Unit)
-        }
-    }
+    private var _addUserFlow = MutableStateFlow<Resource<User>?>(null)
+    val addUserFlow = _addUserFlow.asStateFlow()
 
     fun loginButtonClick() {
         viewModelScope.launch {
             _loginClickEvent.send(Unit)
+        }
+    }
+
+    fun addUserToFirestore(email: String, nameAndSurname: String) {
+        _addUserFlow.value = Resource.Loading
+        val user = User(nameAndSurname, email)
+        viewModelScope.launch {
+            val result = repository.addUser(user)
+            _addUserFlow.value = result
         }
     }
 }

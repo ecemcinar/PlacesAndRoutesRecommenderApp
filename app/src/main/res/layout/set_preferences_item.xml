@@ -36,6 +36,7 @@
             android:layout_marginStart="@dimen/dim_small"
             android:text="@{model.prefName}"
             tools:text="Cinema"
+            android:textColor="@{model.isSelected == true ? @color/main_color_orange : @color/black}"
             app:layout_constraintStart_toEndOf="@+id/prefImageView"
             app:layout_constraintTop_toTopOf="parent" />
 

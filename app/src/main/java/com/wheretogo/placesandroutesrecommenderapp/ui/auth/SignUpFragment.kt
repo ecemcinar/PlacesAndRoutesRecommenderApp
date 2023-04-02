@@ -1,12 +1,15 @@
 package com.wheretogo.placesandroutesrecommenderapp.ui.auth
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
@@ -16,12 +19,16 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.wheretogo.placesandroutesrecommenderapp.R
 import com.wheretogo.placesandroutesrecommenderapp.databinding.FragmentSignUpBinding
+import com.wheretogo.placesandroutesrecommenderapp.util.Resource
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SignUpFragment: Fragment() {
 
     private var _binding: FragmentSignUpBinding? = null
     private val binding get() = _binding!!
     private val viewModel: SignUpViewModel by viewModels()
+    private val sharedViewModel: SharedAuthViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,7 +37,7 @@ class SignUpFragment: Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentSignUpBinding.inflate(inflater, container, false)
         binding.viewModel = viewModel
-
+        setListeners()
         return binding.root
     }
 
@@ -51,17 +58,92 @@ class SignUpFragment: Fragment() {
 
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
-
-        lifecycleScope.launchWhenStarted {
-            viewModel.continueButtonClickEvent.collect {
-                findNavController().navigate(R.id.action_signUpFragment_to_customizeProfileFragment)
-            }
-        }
-
         lifecycleScope.launchWhenStarted {
             viewModel.loginClickEvent.collect {
                 findNavController().navigate(R.id.action_signUpFragment_to_loginFragment)
             }
+        }
+
+        lifecycleScope.launchWhenStarted {
+            sharedViewModel.signUpFlow.collect {
+                when (it) {
+                    is Resource.Failure -> {
+                        Toast.makeText(requireActivity(), it.exception.message, Toast.LENGTH_LONG)
+                            .show()
+                    }
+                    is Resource.Success -> {
+                        viewModel.addUserFlow.collect { res ->
+                            when (res) {
+                                is Resource.Failure -> {
+                                    Toast.makeText(
+                                        requireActivity(),
+                                        res.exception.message,
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                }
+                                is Resource.Success -> {
+                                    Toast.makeText(requireActivity(), "User created and added to Firestore", Toast.LENGTH_SHORT)
+                                        .show()
+                                    findNavController().popBackStack()
+                                    findNavController().navigate(R.id.customizeProfileFragment)
+                                }
+                                is Resource.Loading -> { }
+                                else -> { }
+                            }
+                        }
+                    }
+                    is Resource.Loading -> { }
+                    else -> { }
+                }
+            }
+        }
+    }
+
+    private fun setListeners() {
+        binding.emailAddressEditText.addTextChangedListener(signUpTextWatcher)
+        binding.nameEditText.addTextChangedListener(signUpTextWatcher)
+        binding.surnameEditText.addTextChangedListener(signUpTextWatcher)
+        binding.passwordEditText.addTextChangedListener(signUpTextWatcher)
+        binding.confirmPasswordEditText.addTextChangedListener(signUpTextWatcher)
+
+        binding.signUpButton.setOnClickListener {
+            val email = binding.emailAddressEditText.text.toString()
+            val name = binding.nameEditText.text.toString()
+            val surname = binding.surnameEditText.text.toString()
+            val password = binding.passwordEditText.text.toString()
+            val confirmPassword = binding.confirmPasswordEditText.text.toString()
+
+            if (password != confirmPassword) {
+                Toast.makeText(requireActivity(), "Passwords must be matched!", Toast.LENGTH_LONG)
+                    .show()
+            } else {
+                sharedViewModel.signup(name = "$name $surname",
+                    email = email,
+                    password = password
+                )
+                viewModel.addUserToFirestore(email = email,
+                    nameAndSurname = "$name $surname")
+            }
+        }
+    }
+
+    private val signUpTextWatcher = object: TextWatcher {
+        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            //
+        }
+
+        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            binding.signUpButton.isEnabled =
+                (binding.passwordEditText.text.isNullOrEmpty().not() &&
+                        binding.nameEditText.text.isNullOrEmpty().not() &&
+                        binding.surnameEditText.text.isNullOrEmpty().not() &&
+                        binding.confirmPasswordEditText.text.isNullOrEmpty().not() &&
+                        binding.emailAddressEditText.text.isNullOrEmpty().not() &&
+                        binding.agreeTermsCheckBox.isChecked)
+        }
+
+        override fun afterTextChanged(p0: Editable?) {
+            //
         }
     }
 }

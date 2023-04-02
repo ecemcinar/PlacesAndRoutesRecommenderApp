@@ -53,6 +53,7 @@ class SetPreferencesFragment : Fragment(), PreferenceButtonClick {
     }
 
     override fun onPreferenceButtonClick(item: SetPreferencesModel) {
-        TODO("Not yet implemented")
+        item.isSelected = (item.isSelected != true)
+        viewModel.setPrefList(item)
     }
 }

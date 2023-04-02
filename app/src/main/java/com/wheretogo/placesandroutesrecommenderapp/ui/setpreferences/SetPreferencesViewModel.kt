@@ -4,16 +4,6 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.wheretogo.placesandroutesrecommenderapp.R
-import com.wheretogo.placesandroutesrecommenderapp.ui.setpreferences.SetPreferencesModel.Companion.BAKERY
-import com.wheretogo.placesandroutesrecommenderapp.ui.setpreferences.SetPreferencesModel.Companion.CINEMA
-import com.wheretogo.placesandroutesrecommenderapp.ui.setpreferences.SetPreferencesModel.Companion.COFFEE
-import com.wheretogo.placesandroutesrecommenderapp.ui.setpreferences.SetPreferencesModel.Companion.DINING
-import com.wheretogo.placesandroutesrecommenderapp.ui.setpreferences.SetPreferencesModel.Companion.FITNESS
-import com.wheretogo.placesandroutesrecommenderapp.ui.setpreferences.SetPreferencesModel.Companion.MUSEUM
-import com.wheretogo.placesandroutesrecommenderapp.ui.setpreferences.SetPreferencesModel.Companion.MUSIC
-import com.wheretogo.placesandroutesrecommenderapp.ui.setpreferences.SetPreferencesModel.Companion.NATURE
-import com.wheretogo.placesandroutesrecommenderapp.ui.setpreferences.SetPreferencesModel.Companion.SHOPPING
-import com.wheretogo.placesandroutesrecommenderapp.ui.setpreferences.SetPreferencesModel.Companion.THEATRE
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -23,6 +13,8 @@ class SetPreferencesViewModel(application: Application): AndroidViewModel(applic
 
     private var _prefList = MutableStateFlow<MutableList<SetPreferencesModel?>?>(null)
     val prefList = _prefList.asStateFlow()
+
+    private var _userPrefList =  mutableListOf<SetPreferencesModel>()
 
     private var _locationList: MutableList<String> =
         mutableListOf("SHOPPING",
@@ -66,6 +58,14 @@ class SetPreferencesViewModel(application: Application): AndroidViewModel(applic
             _prefList.emit(
                 setIconForPrefList()
             )
+        }
+    }
+
+    fun setPrefList(item: SetPreferencesModel) {
+        if (item.isSelected == true) {
+            _userPrefList.add(item)
+        } else {
+            _userPrefList.remove(item)
         }
     }
 }
