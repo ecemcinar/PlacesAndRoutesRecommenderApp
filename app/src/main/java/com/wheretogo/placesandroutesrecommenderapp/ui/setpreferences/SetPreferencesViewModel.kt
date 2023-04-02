@@ -4,12 +4,20 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.wheretogo.placesandroutesrecommenderapp.R
+import com.wheretogo.placesandroutesrecommenderapp.repository.firestore.FirebaseFirestoreRepository
+import com.wheretogo.placesandroutesrecommenderapp.util.Resource
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class SetPreferencesViewModel(application: Application): AndroidViewModel(application) {
+@HiltViewModel
+class SetPreferencesViewModel @Inject constructor(
+    application: Application,
+    private val repository: FirebaseFirestoreRepository
+) : AndroidViewModel(application) {
 
     private var _prefList = MutableStateFlow<MutableList<SetPreferencesModel?>?>(null)
     val prefList = _prefList.asStateFlow()
@@ -27,6 +35,9 @@ class SetPreferencesViewModel(application: Application): AndroidViewModel(applic
             "DINING",
             "FITNESS",
             "COFFEE")
+
+    private var _setPrefListFlow = MutableStateFlow<Resource<List<String>>?>(null)
+    val setPrefListFlow = _setPrefListFlow.asStateFlow()
 
 
     private fun setIconForPrefList(): MutableList<SetPreferencesModel?> {
@@ -67,5 +78,10 @@ class SetPreferencesViewModel(application: Application): AndroidViewModel(applic
         } else {
             _userPrefList.remove(item)
         }
+    }
+
+    fun setPrefListToUser() {
+        _setPrefListFlow.value = Resource.Loading
+        // TODO
     }
 }

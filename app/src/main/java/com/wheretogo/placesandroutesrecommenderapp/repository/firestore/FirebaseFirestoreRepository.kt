@@ -6,4 +6,6 @@ import com.wheretogo.placesandroutesrecommenderapp.util.Resource
 interface FirebaseFirestoreRepository {
 
     suspend fun addUser(user: User): Resource<User>
+
+    suspend fun setUserPrefList(user: User): Resource<List<String>>
 }

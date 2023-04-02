@@ -3,6 +3,7 @@ package com.wheretogo.placesandroutesrecommenderapp.repository.firestore
 import com.google.firebase.firestore.FirebaseFirestore
 import com.wheretogo.placesandroutesrecommenderapp.model.User
 import com.wheretogo.placesandroutesrecommenderapp.repository.await
+import com.wheretogo.placesandroutesrecommenderapp.ui.setpreferences.SetPreferencesModel
 import com.wheretogo.placesandroutesrecommenderapp.util.Resource
 import javax.inject.Inject
 
@@ -20,6 +21,23 @@ class FirebaseFirestoreRepositoryImpl  @Inject constructor(
             val result = firebaseFirestore.collection("users")
                 .add(userMap).await()
             Resource.Success(user)
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Resource.Failure(e)
+        }
+    }
+
+    override suspend fun setUserPrefList(user: User): Resource<List<String>> {
+        return try {
+            val userMap = hashMapOf(
+                "nameAndSurname" to user.nameAndSurname,
+                "email" to user.email,
+                "prefList" to user.prefList
+            )
+            val result = firebaseFirestore.collection("users")
+                .add(userMap).await()
+            Resource.Success(user.prefList)
 
         } catch (e: Exception) {
             e.printStackTrace()

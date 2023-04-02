@@ -143,7 +143,13 @@ class SignUpFragment: Fragment() {
         }
 
         override fun afterTextChanged(p0: Editable?) {
-            //
+            binding.signUpButton.isEnabled =
+                (binding.passwordEditText.text.isNullOrEmpty().not() &&
+                        binding.nameEditText.text.isNullOrEmpty().not() &&
+                        binding.surnameEditText.text.isNullOrEmpty().not() &&
+                        binding.confirmPasswordEditText.text.isNullOrEmpty().not() &&
+                        binding.emailAddressEditText.text.isNullOrEmpty().not() &&
+                        binding.agreeTermsCheckBox.isChecked)
         }
     }
 }
