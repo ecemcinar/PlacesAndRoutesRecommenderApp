@@ -2,9 +2,11 @@ package com.wheretogo.placesandroutesrecommenderapp.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.wheretogo.placesandroutesrecommenderapp.R
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -22,7 +24,16 @@ class MainActivity : AppCompatActivity() {
 
         navController = navHostFragment.navController
 
-        setupActionBarWithNavController(navController)
+       findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+           .setupWithNavController(navController)
+
+        navController.addOnDestinationChangedListener { _, dest, _ ->
+            when (dest.id) {
+                R.id.loginFragment, R.id.signUpFragment ->
+                    findViewById<BottomNavigationView>(R.id.bottomNavigationView).visibility = View.GONE
+                else -> findViewById<BottomNavigationView>(R.id.bottomNavigationView).visibility = View.VISIBLE
+            }
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
