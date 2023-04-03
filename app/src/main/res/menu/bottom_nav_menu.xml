@@ -13,7 +13,7 @@
         android:icon="@drawable/home"/>
 
     <item android:id="@+id/checkInFragment"
-        android:title="@string/bottom_nav_home_page_text"
+        android:title="@string/bottom_nav_check_in_text"
         android:icon="@drawable/map"/>
 
     <item android:id="@+id/profileFragment"
