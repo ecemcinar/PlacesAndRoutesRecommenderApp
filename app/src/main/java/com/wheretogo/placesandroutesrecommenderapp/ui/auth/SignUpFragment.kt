@@ -1,8 +1,6 @@
 package com.wheretogo.placesandroutesrecommenderapp.ui.auth
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -12,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -100,11 +99,24 @@ class SignUpFragment: Fragment() {
     }
 
     private fun setListeners() {
-        binding.emailAddressEditText.addTextChangedListener(signUpTextWatcher)
-        binding.nameEditText.addTextChangedListener(signUpTextWatcher)
-        binding.surnameEditText.addTextChangedListener(signUpTextWatcher)
-        binding.passwordEditText.addTextChangedListener(signUpTextWatcher)
-        binding.confirmPasswordEditText.addTextChangedListener(signUpTextWatcher)
+        binding.emailAddressEditText.doOnTextChanged { _, _, _, _ ->
+            setButtonEnable()
+        }
+        binding.nameEditText.doOnTextChanged { _, _, _, _ ->
+            setButtonEnable()
+        }
+        binding.surnameEditText.doOnTextChanged { _, _, _, _ ->
+            setButtonEnable()
+        }
+        binding.passwordEditText.doOnTextChanged { _, _, _, _ ->
+            setButtonEnable()
+        }
+        binding.confirmPasswordEditText.doOnTextChanged { _, _, _, _ ->
+            setButtonEnable()
+        }
+        binding.agreeTermsCheckBox.setOnCheckedChangeListener { _, _ ->
+            setButtonEnable()
+        }
 
         binding.signUpButton.setOnClickListener {
             val email = binding.emailAddressEditText.text.toString()
@@ -127,29 +139,13 @@ class SignUpFragment: Fragment() {
         }
     }
 
-    private val signUpTextWatcher = object: TextWatcher {
-        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            //
-        }
-
-        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            binding.signUpButton.isEnabled =
-                (binding.passwordEditText.text.isNullOrEmpty().not() &&
-                        binding.nameEditText.text.isNullOrEmpty().not() &&
-                        binding.surnameEditText.text.isNullOrEmpty().not() &&
-                        binding.confirmPasswordEditText.text.isNullOrEmpty().not() &&
-                        binding.emailAddressEditText.text.isNullOrEmpty().not() &&
-                        binding.agreeTermsCheckBox.isChecked)
-        }
-
-        override fun afterTextChanged(p0: Editable?) {
-            binding.signUpButton.isEnabled =
-                (binding.passwordEditText.text.isNullOrEmpty().not() &&
-                        binding.nameEditText.text.isNullOrEmpty().not() &&
-                        binding.surnameEditText.text.isNullOrEmpty().not() &&
-                        binding.confirmPasswordEditText.text.isNullOrEmpty().not() &&
-                        binding.emailAddressEditText.text.isNullOrEmpty().not() &&
-                        binding.agreeTermsCheckBox.isChecked)
-        }
+    private fun setButtonEnable() {
+        binding.signUpButton.isEnabled =
+            (binding.passwordEditText.text.isNullOrEmpty().not() &&
+                    binding.nameEditText.text.isNullOrEmpty().not() &&
+                    binding.surnameEditText.text.isNullOrEmpty().not() &&
+                    binding.confirmPasswordEditText.text.isNullOrEmpty().not() &&
+                    binding.emailAddressEditText.text.isNullOrEmpty().not() &&
+                    binding.agreeTermsCheckBox.isChecked)
     }
 }

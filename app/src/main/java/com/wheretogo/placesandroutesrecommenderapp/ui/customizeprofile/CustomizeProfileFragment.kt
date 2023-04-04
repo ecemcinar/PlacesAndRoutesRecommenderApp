@@ -22,7 +22,7 @@ class CustomizeProfileFragment: Fragment() {
     private val binding get() = _binding!!
     private val viewModel: CustomizeProfileViewModel by viewModels()
     private lateinit var activityResultLauncher: ActivityResultLauncher<Intent>
-    var selectedImage: Uri? = null
+    private var selectedImage: Uri? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,7 +46,7 @@ class CustomizeProfileFragment: Fragment() {
 
         lifecycleScope.launchWhenStarted {
             viewModel.imageClickEvent.collect {
-                whenImageClicked()
+                // whenImageClicked()
             }
         }
     }
