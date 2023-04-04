@@ -3,7 +3,7 @@
     <dimen name="dim_small">8dp</dimen>
     <dimen name="dim_medium">16dp</dimen>
     <dimen name="dim_large">32dp</dimen>
-
+    <dimen name="dim_extra_medium">24dp</dimen>
 
     <dimen name="dim_extra">50dp</dimen>
 </resources>

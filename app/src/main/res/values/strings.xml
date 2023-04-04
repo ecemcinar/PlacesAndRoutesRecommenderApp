@@ -39,8 +39,11 @@
     <string name="feed_article_content_sample_text">Channel your inner ‘Emily in Paris’ and start your day with a delicious coffee and freshly baked croissant at a boulangerie near your accommodation. Practice your French, and enjoy the satisfaction of those perfect warm layers of pastry!</string>
 
     <string name="bottom_nav_create_route_text">Create a Route</string>
-    <string name="bottom_nav_upload_article_text">Upload an Article</string>
+    <string name="bottom_nav_upload_article_text">Upload Post</string>
     <string name="bottom_nav_home_page_text">Home Page</string>
     <string name="bottom_nav_check_in_text">Check In</string>
     <string name="bottom_nav_show_profile_text">Show Your Profile</string>
+
+    <string name="post_upload_title_text">Title</string>
+    <string name="post_upload_content_text">Content</string>
 </resources>

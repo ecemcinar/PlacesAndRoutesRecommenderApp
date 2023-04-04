@@ -4,7 +4,7 @@
         android:title="@string/bottom_nav_create_route_text"
         android:icon="@drawable/planet_earth"/>
 
-    <item android:id="@+id/uploadArticleFragment"
+    <item android:id="@+id/uploadPostFragment"
         android:title="@string/bottom_nav_upload_article_text"
         android:icon="@drawable/upload"/>
 

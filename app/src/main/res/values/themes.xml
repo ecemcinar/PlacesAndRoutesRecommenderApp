@@ -57,4 +57,16 @@
         <item name="android:textSize">14sp</item>
     </style>
 
+    <style name="smallTextViewStyleForPostUploadTopic">
+        <item name="android:fontFamily">@font/quicksand_medium</item>
+        <item name="fontFamily">@font/quicksand_medium</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">#ff6624</item>
+    </style>
+
+    <style name="smallTextViewStyleForPostUploadContent">
+        <item name="android:fontFamily">@font/quicksand_medium</item>
+        <item name="fontFamily">@font/quicksand_medium</item>
+        <item name="android:textStyle">normal</item>
+    </style>
 </resources>
