@@ -32,7 +32,7 @@ class FeedFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         setUpRecyclerView()
 
-        println(args.email)
+        // println(args.email)
 
         adapter.setFeedData(
             listOf(

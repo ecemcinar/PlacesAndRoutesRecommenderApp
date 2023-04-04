@@ -33,7 +33,7 @@ class UploadPostFragment : Fragment() {
 
         setListeners()
 
-        println(args.email)
+        // println(args.email)
 
         return binding.root
     }
