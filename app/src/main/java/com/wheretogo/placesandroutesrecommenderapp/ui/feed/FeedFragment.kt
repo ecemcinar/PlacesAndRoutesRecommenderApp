@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wheretogo.placesandroutesrecommenderapp.R
 import com.wheretogo.placesandroutesrecommenderapp.databinding.FragmentFeedBinding
@@ -16,6 +17,7 @@ class FeedFragment : Fragment() {
     private var _binding: FragmentFeedBinding? = null
     private val binding get() =_binding!!
     private val adapter: FeedAdapter by lazy { FeedAdapter() }
+    private val args by navArgs<FeedFragmentArgs>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,22 +32,24 @@ class FeedFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         setUpRecyclerView()
 
+        println(args.email)
+
         adapter.setFeedData(
             listOf(
                 Post(
                     username = "ecemcinar",
                     title = "PARIS",
-                    context = getString(R.string.feed_article_content_sample_text),
+                    content = getString(R.string.feed_article_content_sample_text),
                 ),
                 Post(
                     username = "dogaerdemir",
                     title = "PARIS 1",
-                    context = getString(R.string.feed_article_content_sample_text)
+                    content = getString(R.string.feed_article_content_sample_text)
                 ),
                 Post(
                     username = "armancelik",
                     title = "PARIS 2",
-                    context = getString(R.string.feed_article_content_sample_text)
+                    content = getString(R.string.feed_article_content_sample_text)
                 )
             )
         )

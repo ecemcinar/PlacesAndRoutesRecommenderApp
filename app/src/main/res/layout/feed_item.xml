@@ -64,7 +64,7 @@
             android:layout_marginTop="@dimen/dim_small"
             android:maxLength="250"
             android:maxLines="10"
-            android:text="@{post.context}"
+            android:text="@{post.content}"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/articleTitleTextView"

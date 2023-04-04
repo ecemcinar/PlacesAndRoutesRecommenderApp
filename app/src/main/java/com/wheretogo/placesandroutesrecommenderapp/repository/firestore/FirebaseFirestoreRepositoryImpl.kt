@@ -1,9 +1,9 @@
 package com.wheretogo.placesandroutesrecommenderapp.repository.firestore
 
 import com.google.firebase.firestore.FirebaseFirestore
+import com.wheretogo.placesandroutesrecommenderapp.model.Post
 import com.wheretogo.placesandroutesrecommenderapp.model.User
 import com.wheretogo.placesandroutesrecommenderapp.repository.await
-import com.wheretogo.placesandroutesrecommenderapp.ui.setpreferences.SetPreferencesModel
 import com.wheretogo.placesandroutesrecommenderapp.util.Resource
 import javax.inject.Inject
 
@@ -38,6 +38,24 @@ class FirebaseFirestoreRepositoryImpl  @Inject constructor(
             val result = firebaseFirestore.collection("users")
                 .add(userMap).await()
             Resource.Success(user.prefList)
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Resource.Failure(e)
+        }
+    }
+
+    override suspend fun addPost(userEmail: String, post: Post): Resource<Post> {
+        return try {
+            val postMap = hashMapOf(
+                "userEmail" to userEmail,
+                "title" to post.title,
+                "content" to post.content
+            )
+
+            val result = firebaseFirestore.collection("posts")
+                .add(postMap).await()
+            Resource.Success(post)
 
         } catch (e: Exception) {
             e.printStackTrace()
