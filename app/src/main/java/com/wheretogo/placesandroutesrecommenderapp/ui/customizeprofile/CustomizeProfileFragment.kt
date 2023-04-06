@@ -1,16 +1,17 @@
 package com.wheretogo.placesandroutesrecommenderapp.ui.customizeprofile
 
+import android.Manifest
+import android.app.Activity
 import android.content.Intent
-import android.net.Uri
+import android.content.pm.PackageManager
 import android.os.Bundle
-import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.result.ActivityResultCallback
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -22,7 +23,7 @@ class CustomizeProfileFragment: Fragment() {
     private val binding get() = _binding!!
     private val viewModel: CustomizeProfileViewModel by viewModels()
     private lateinit var activityResultLauncher: ActivityResultLauncher<Intent>
-    private var selectedImage: Uri? = null
+    private val PERMISSION_REQUEST_READ_EXTERNAL_STORAGE = Manifest.permission.READ_EXTERNAL_STORAGE
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,28 +47,44 @@ class CustomizeProfileFragment: Fragment() {
 
         lifecycleScope.launchWhenStarted {
             viewModel.imageClickEvent.collect {
-                // whenImageClicked()
+                requestPermission()
             }
         }
     }
 
-    private fun whenImageClicked() {
-        // callback
-        activityResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult(),
-            ActivityResultCallback { result ->
-                if(result.resultCode == AppCompatActivity.RESULT_OK){
-                    val intentFromResult = result.data // bize nullable intent donecek
-                    if(intentFromResult !=null){
-                        selectedImage = intentFromResult.data
-                        selectedImage?.let {
-                            binding.imageView.setImageURI(it) //bitmape cevirmeden bu sekilde yapilabilir
-                            //cunku direkt firebase bunu uri olarak alip upload edebiliyor
-                        }
-                    }
-                }
-            })
-
-        val intentToGallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        activityResultLauncher.launch(intentToGallery)
+    // Kullanıcı galerisine erişim izni verilmediyse, izin isteği gösterilir
+    private fun requestPermission() {
+        if (ContextCompat.checkSelfPermission(requireActivity(), PERMISSION_REQUEST_READ_EXTERNAL_STORAGE)
+            != PackageManager.PERMISSION_GRANTED) {
+            permissionLauncher.launch(PERMISSION_REQUEST_READ_EXTERNAL_STORAGE)
+        } else {
+            openGallery()
+        }
     }
+
+    // ACTION_GET_CONTENT intent'ini kullanarak galeri uygulamasını açar
+    private fun openGallery() {
+        val intent = Intent(Intent.ACTION_GET_CONTENT)
+        intent.type = "image/*"
+        resultLauncher.launch(intent)
+    }
+
+    // İzin isteği sonucunu kontrol eder
+    private val permissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                openGallery()
+            } else {
+                Toast.makeText(requireActivity(), "Galeriye erişim izni reddedildi.", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+    // Seçilen resmi kullanmak için buraya geleceğiz
+    private val resultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK && result.data != null) {
+                val imageUri = result.data!!.data
+                binding.imageView.setImageURI(imageUri)
+            }
+        }
 }
