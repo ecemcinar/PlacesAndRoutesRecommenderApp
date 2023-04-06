@@ -22,7 +22,6 @@ class CustomizeProfileFragment: Fragment() {
     private var _binding: FragmentCustomizeProfileBinding? = null
     private val binding get() = _binding!!
     private val viewModel: CustomizeProfileViewModel by viewModels()
-    private lateinit var activityResultLauncher: ActivityResultLauncher<Intent>
     private val PERMISSION_REQUEST_READ_EXTERNAL_STORAGE = Manifest.permission.READ_EXTERNAL_STORAGE
 
     override fun onCreateView(
