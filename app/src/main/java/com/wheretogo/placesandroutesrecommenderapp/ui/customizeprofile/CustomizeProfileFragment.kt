@@ -4,25 +4,33 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
+import com.wheretogo.placesandroutesrecommenderapp.R
 import com.wheretogo.placesandroutesrecommenderapp.databinding.FragmentCustomizeProfileBinding
+import com.wheretogo.placesandroutesrecommenderapp.util.Resource
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class CustomizeProfileFragment: Fragment() {
 
     private var _binding: FragmentCustomizeProfileBinding? = null
     private val binding get() = _binding!!
     private val viewModel: CustomizeProfileViewModel by viewModels()
     private val PERMISSION_REQUEST_READ_EXTERNAL_STORAGE = Manifest.permission.READ_EXTERNAL_STORAGE
+    private val args by navArgs<CustomizeProfileFragmentArgs>()
+    private var selectedImage: Uri? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,14 +47,50 @@ class CustomizeProfileFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         lifecycleScope.launchWhenStarted {
-            viewModel.uploadClickEvent.collect {
-                // findNavController().navigate(R.id.action_customizeProfileFragment_to_setPreferencesFragment)
+            viewModel.imageClickEvent.collect {
+                requestPermission()
             }
         }
 
         lifecycleScope.launchWhenStarted {
-            viewModel.imageClickEvent.collect {
-                requestPermission()
+            viewModel.uploadClickEvent.collect {
+                selectedImage?.let { image ->
+                    print(args.userId)
+                    viewModel.uploadImageToStorage(image, args.userId)
+                }
+            }
+        }
+
+        lifecycleScope.launchWhenStarted {
+            viewModel.uploadImageFlow.collect {
+                when (it) {
+                    is Resource.Failure -> {
+                        Toast.makeText(requireActivity(), it.exception.message, Toast.LENGTH_LONG)
+                            .show()
+                    }
+                    is Resource.Success -> {
+                        viewModel.addImageRefToFirestore(it.result, args.userId)
+                        viewModel.addFirestoreFlow.collect { res ->
+                            when (res) {
+                                is Resource.Failure -> {
+                                    Toast.makeText(requireActivity(), res.exception.message, Toast.LENGTH_LONG)
+                                        .show()
+                                }
+                                is Resource.Success -> {
+                                    findNavController().navigate(R.id.action_customizeProfileFragment_to_setPreferencesFragment)
+                                }
+                                is Resource.Loading -> {
+                                    // TODO -> progress bar calisabilir
+                                }
+                                else -> {}
+                            }
+                        }
+                    }
+                    is Resource.Loading -> {
+                        // TODO -> progress bar calisabilir
+                    }
+                    else -> {}
+                }
             }
         }
     }
@@ -82,8 +126,8 @@ class CustomizeProfileFragment: Fragment() {
     private val resultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK && result.data != null) {
-                val imageUri = result.data!!.data
-                binding.imageView.setImageURI(imageUri)
+                selectedImage = result.data!!.data
+                binding.imageView.setImageURI(selectedImage)
             }
         }
 }

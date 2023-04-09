@@ -1,9 +1,9 @@
 package com.wheretogo.placesandroutesrecommenderapp.repository.storage
 
-import com.wheretogo.placesandroutesrecommenderapp.model.User
+import android.net.Uri
 import com.wheretogo.placesandroutesrecommenderapp.util.Resource
 
 interface FirebaseStorageRepository {
 
-    suspend fun addUserProfilePhoto(user: User): Resource<User>
+    suspend fun addUserProfilePhoto(selectedImage: Uri, userId: String): Resource<String>
 }

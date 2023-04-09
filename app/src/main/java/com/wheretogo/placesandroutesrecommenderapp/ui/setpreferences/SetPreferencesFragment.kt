@@ -10,7 +10,9 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.wheretogo.placesandroutesrecommenderapp.databinding.FragmentSetPreferencesBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SetPreferencesFragment : Fragment(), PreferenceButtonClick {
 
     private var _binding: FragmentSetPreferencesBinding? = null

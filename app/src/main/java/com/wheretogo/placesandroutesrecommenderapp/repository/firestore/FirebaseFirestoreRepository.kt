@@ -11,4 +11,6 @@ interface FirebaseFirestoreRepository {
     suspend fun setUserPrefList(user: User): Resource<List<String>>
 
     suspend fun addPost(userEmail: String, post: Post): Resource<Post>
+
+    suspend fun addUserProfileImageRef(res: String, documentId: String): Resource<String>
 }
