@@ -28,6 +28,9 @@ class SignUpFragment: Fragment() {
     private val binding get() = _binding!!
     private val viewModel: SignUpViewModel by viewModels()
     private val sharedViewModel: SharedAuthViewModel by viewModels()
+    private lateinit var email: String
+    private lateinit var name: String
+    private lateinit var surname: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -71,6 +74,11 @@ class SignUpFragment: Fragment() {
                             .show()
                     }
                     is Resource.Success -> {
+                        viewModel.addUserToFirestore(
+                            userId = it.result.uid,
+                            email = email,
+                            nameAndSurname = "$name $surname")
+
                         viewModel.addUserFlow.collect { res ->
                             when (res) {
                                 is Resource.Failure -> {
@@ -119,9 +127,9 @@ class SignUpFragment: Fragment() {
         }
 
         binding.signUpButton.setOnClickListener {
-            val email = binding.emailAddressEditText.text.toString()
-            val name = binding.nameEditText.text.toString()
-            val surname = binding.surnameEditText.text.toString()
+            email = binding.emailAddressEditText.text.toString()
+            name = binding.nameEditText.text.toString()
+            surname = binding.surnameEditText.text.toString()
             val password = binding.passwordEditText.text.toString()
             val confirmPassword = binding.confirmPasswordEditText.text.toString()
 
@@ -129,12 +137,11 @@ class SignUpFragment: Fragment() {
                 Toast.makeText(requireActivity(), "Passwords must be matched!", Toast.LENGTH_LONG)
                     .show()
             } else {
-                sharedViewModel.signup(name = "$name $surname",
+                sharedViewModel.signup(
+                    name = "$name $surname",
                     email = email,
                     password = password
                 )
-                viewModel.addUserToFirestore(email = email,
-                    nameAndSurname = "$name $surname")
             }
         }
     }

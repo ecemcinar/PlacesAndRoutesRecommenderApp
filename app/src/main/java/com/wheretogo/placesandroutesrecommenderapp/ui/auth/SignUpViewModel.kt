@@ -32,9 +32,12 @@ class SignUpViewModel @Inject constructor(
         }
     }
 
-    fun addUserToFirestore(email: String, nameAndSurname: String) {
+    fun addUserToFirestore(userId: String, email: String, nameAndSurname: String) {
         _addUserFlow.value = Resource.Loading
-        val user = User(nameAndSurname, email)
+        val user = User(
+            userId = userId,
+            nameAndSurname = nameAndSurname,
+            email = email)
         viewModelScope.launch {
             val result = repository.addUser(user)
             _addUserFlow.value = result

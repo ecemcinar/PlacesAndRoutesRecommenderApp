@@ -14,12 +14,13 @@ class FirebaseFirestoreRepositoryImpl  @Inject constructor(
     override suspend fun addUser(user: User): Resource<User> {
         return try {
             val userMap = hashMapOf(
+                "userId" to user.userId,
                 "nameAndSurname" to user.nameAndSurname,
                 "email" to user.email
             )
 
-            val result = firebaseFirestore.collection("users")
-                .add(userMap).await()
+            val result = firebaseFirestore.collection("users").document(user.userId!!)
+                .set(userMap).await()
             Resource.Success(user)
 
         } catch (e: Exception) {
@@ -31,6 +32,7 @@ class FirebaseFirestoreRepositoryImpl  @Inject constructor(
     override suspend fun setUserPrefList(user: User): Resource<List<String>> {
         return try {
             val userMap = hashMapOf(
+                "userId" to user.userId,
                 "nameAndSurname" to user.nameAndSurname,
                 "email" to user.email,
                 "prefList" to user.prefList
@@ -58,6 +60,22 @@ class FirebaseFirestoreRepositoryImpl  @Inject constructor(
             Resource.Success(post)
 
         } catch (e: Exception) {
+            e.printStackTrace()
+            Resource.Failure(e)
+        }
+    }
+
+    override suspend fun addUserProfileImageRef(res: String, documentId: String): Resource<String> {
+        return try {
+            val data = hashMapOf(
+                "userProfileImage" to res
+            )
+
+            val result = firebaseFirestore.collection("users").document(documentId)
+                .update(data as Map<String, Any>).await()
+            Resource.Success(res)
+        }
+        catch (e: Exception) {
             e.printStackTrace()
             Resource.Failure(e)
         }

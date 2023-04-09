@@ -32,14 +32,14 @@ class MainActivity : AppCompatActivity() {
 
         navController.addOnDestinationChangedListener { _, dest, args ->
             when (dest.id) {
-                R.id.loginFragment, R.id.signUpFragment, R.id.customizeProfileFragment -> {
+                R.id.loginFragment, R.id.signUpFragment, R.id.customizeProfileFragment, R.id.setPreferencesFragment -> {
                     findViewById<BottomNavigationView>(R.id.bottomNavigationView).visibility = View.GONE
-                    args?.putString("email", sharedViewModel.currentUser?.email.orEmpty())
+                    args?.putString("userId", sharedViewModel.currentUser?.uid)
                 }
                 else -> {
                     findViewById<BottomNavigationView>(R.id.bottomNavigationView).visibility =
                         View.VISIBLE
-                    args?.putString("email", sharedViewModel.currentUser?.email.orEmpty())
+                    args?.putString("userId", sharedViewModel.currentUser?.uid)
                 }
             }
         }
