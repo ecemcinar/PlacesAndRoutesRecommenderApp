@@ -6,18 +6,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wheretogo.placesandroutesrecommenderapp.R
 import com.wheretogo.placesandroutesrecommenderapp.databinding.FragmentFeedBinding
 import com.wheretogo.placesandroutesrecommenderapp.model.Post
+import com.wheretogo.placesandroutesrecommenderapp.util.Resource
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class FeedFragment : Fragment() {
 
     private var _binding: FragmentFeedBinding? = null
     private val binding get() =_binding!!
     private val adapter: FeedAdapter by lazy { FeedAdapter() }
     private val args by navArgs<FeedFragmentArgs>()
+    private val viewModel: FeedViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,28 +37,7 @@ class FeedFragment : Fragment() {
         )
         binding.lifecycleOwner = viewLifecycleOwner
         setUpRecyclerView()
-
-        // println(args.email)
-
-        adapter.setFeedData(
-            listOf(
-                Post(
-                    username = "ecemcinar",
-                    title = "PARIS",
-                    content = getString(R.string.feed_article_content_sample_text),
-                ),
-                Post(
-                    username = "dogaerdemir",
-                    title = "PARIS 1",
-                    content = getString(R.string.feed_article_content_sample_text)
-                ),
-                Post(
-                    username = "armancelik",
-                    title = "PARIS 2",
-                    content = getString(R.string.feed_article_content_sample_text)
-                )
-            )
-        )
+        viewModel.getPostList()
 
         return binding.root
     }
@@ -62,6 +47,23 @@ class FeedFragment : Fragment() {
 
         // disables the back arrow
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
+
+        lifecycleScope.launchWhenStarted {
+            viewModel.getPostListFlow.collect {
+                when (it) {
+                    is Resource.Failure -> {
+
+                    }
+                    is Resource.Success -> {
+                        adapter.setFeedData(it.result)
+                    }
+                    is Resource.Loading -> {
+
+                    }
+                    else -> {}
+                }
+            }
+        }
     }
 
     override fun onDestroyView() {

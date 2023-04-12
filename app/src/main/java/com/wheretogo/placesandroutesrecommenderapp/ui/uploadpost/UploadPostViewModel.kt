@@ -32,7 +32,7 @@ class UploadPostViewModel @Inject constructor(
         _addPostFlow.value = Resource.Loading
         viewModelScope.launch {
             authRepository.currentUser?.let { user ->
-                user.email?.let {
+                user.displayName?.let {
                     val result = repository.addPost(it, post)
                     _addPostFlow.value = result
                 }

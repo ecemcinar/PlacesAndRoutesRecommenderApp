@@ -17,11 +17,11 @@ class FirebaseFirestoreRepositoryImpl  @Inject constructor(
         return try {
             val userMap = hashMapOf(
                 "userId" to user.userId,
-                "nameAndSurname" to user.nameAndSurname,
+                "username" to user.username,
                 "email" to user.email
             )
 
-            val result = firebaseFirestore.collection("users").document(user.userId!!)
+            firebaseFirestore.collection("users").document(user.userId!!)
                 .set(userMap).await()
             Resource.Success(user)
 
@@ -36,7 +36,7 @@ class FirebaseFirestoreRepositoryImpl  @Inject constructor(
             val userMap = hashMapOf(
                 "prefList" to prefList,
             )
-            val result = firebaseFirestore.collection("users").document(documentId)
+            firebaseFirestore.collection("users").document(documentId)
                 .update(userMap as Map<String, Any>).await()
             Resource.Success(prefList)
 
@@ -46,15 +46,15 @@ class FirebaseFirestoreRepositoryImpl  @Inject constructor(
         }
     }
 
-    override suspend fun addPost(userEmail: String, post: Post): Resource<Post> {
+    override suspend fun addPost(username: String, post: Post): Resource<Post> {
         return try {
             val postMap = hashMapOf(
-                "userEmail" to userEmail,
+                "username" to username,
                 "title" to post.title,
                 "content" to post.content
             )
 
-            val result = firebaseFirestore.collection("posts")
+            firebaseFirestore.collection("posts")
                 .add(postMap).await()
             Resource.Success(post)
 
@@ -70,7 +70,7 @@ class FirebaseFirestoreRepositoryImpl  @Inject constructor(
                 "userProfileImage" to res
             )
 
-            val result = firebaseFirestore.collection("users").document(documentId)
+            firebaseFirestore.collection("users").document(documentId)
                 .update(data as Map<String, Any>).await()
             Resource.Success(res)
         }
@@ -98,6 +98,24 @@ class FirebaseFirestoreRepositoryImpl  @Inject constructor(
             e.printStackTrace()
             Resource.Failure(e)
             user
+        }
+    }
+
+    override suspend fun getPosts(): Resource<List<Post>> {
+        val postList = mutableListOf<Post>()
+        return try {
+            val result = firebaseFirestore.collection("posts")
+                .get().await()
+            for (doc in result.documents) {
+                val post = doc.toObject<Post>()
+                post?.let {
+                    postList.add(post)
+                }
+            }
+            Resource.Success(postList)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Resource.Failure(e)
         }
     }
 }

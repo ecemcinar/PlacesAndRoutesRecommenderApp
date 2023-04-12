@@ -36,7 +36,7 @@ class SignUpViewModel @Inject constructor(
         _addUserFlow.value = Resource.Loading
         val user = User(
             userId = userId,
-            nameAndSurname = nameAndSurname,
+            username = nameAndSurname,
             email = email)
         viewModelScope.launch {
             val result = repository.addUser(user)
