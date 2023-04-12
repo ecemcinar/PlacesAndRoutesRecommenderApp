@@ -46,4 +46,7 @@
 
     <string name="post_upload_title_text">Title</string>
     <string name="post_upload_content_text">Content</string>
+
+    <string name="feed_no_post_text">There is no post at the moment..</string>
+    <string name="feed_problem_message_text">Error occurred while loading the posts</string>
 </resources>

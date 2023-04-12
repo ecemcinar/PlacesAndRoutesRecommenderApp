@@ -36,6 +36,7 @@ class FeedFragment : Fragment() {
             false
         )
         binding.lifecycleOwner = viewLifecycleOwner
+        binding.viewModel = viewModel
         setUpRecyclerView()
         viewModel.getPostList()
 
@@ -52,13 +53,20 @@ class FeedFragment : Fragment() {
             viewModel.getPostListFlow.collect {
                 when (it) {
                     is Resource.Failure -> {
-
+                        binding.progressBarLoading.visibility = View.VISIBLE
                     }
                     is Resource.Success -> {
+                        binding.progressBarLoading.visibility = View.GONE
                         adapter.setFeedData(it.result)
+                        if (it.result.isEmpty()) {
+                            binding.warningMessageTextView.apply {
+                                text = getString(R.string.feed_no_post_text)
+                                visibility = View.VISIBLE
+                            }
+                        }
                     }
                     is Resource.Loading -> {
-
+                        binding.progressBarLoading.visibility = View.VISIBLE
                     }
                     else -> {}
                 }
