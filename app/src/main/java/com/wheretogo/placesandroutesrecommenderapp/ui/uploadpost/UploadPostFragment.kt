@@ -9,7 +9,9 @@ import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.wheretogo.placesandroutesrecommenderapp.R
 import com.wheretogo.placesandroutesrecommenderapp.databinding.FragmentUploadPostBinding
 import com.wheretogo.placesandroutesrecommenderapp.model.Post
 import com.wheretogo.placesandroutesrecommenderapp.util.Resource
@@ -33,8 +35,6 @@ class UploadPostFragment : Fragment() {
 
         setListeners()
 
-        // println(args.email)
-
         return binding.root
     }
 
@@ -44,7 +44,7 @@ class UploadPostFragment : Fragment() {
         lifecycleScope.launchWhenStarted {
             viewModel.postButtonClickEvent.collect {
                 val post = setPost()
-                viewModel.addPostToFirestore(args.email, post)
+                viewModel.addPostToFirestore(post)
             }
         }
 
@@ -52,15 +52,17 @@ class UploadPostFragment : Fragment() {
             viewModel.addPostFlow.collect {
                 when (it) {
                     is Resource.Failure -> {
+                        binding.progressBarLoading.visibility = View.GONE
                         Toast.makeText(requireActivity(), it.exception.message, Toast.LENGTH_LONG)
                             .show()
                     }
                     is Resource.Success -> {
-
+                        binding.progressBarLoading.visibility = View.GONE
+                        Toast.makeText(requireActivity(), "Post upload!", Toast.LENGTH_LONG)
+                            .show()
+                        findNavController().navigate(R.id.action_uploadPostFragment_to_feedFragment)
                     }
-                    is Resource.Loading -> {
-
-                    }
+                    is Resource.Loading -> { binding.progressBarLoading.visibility = View.VISIBLE }
                     else -> {}
                 }
             }

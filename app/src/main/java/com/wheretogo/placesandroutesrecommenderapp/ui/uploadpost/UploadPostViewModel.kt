@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.wheretogo.placesandroutesrecommenderapp.model.Post
+import com.wheretogo.placesandroutesrecommenderapp.repository.authentication.FirebaseAuthRepository
 import com.wheretogo.placesandroutesrecommenderapp.repository.firestore.FirebaseFirestoreRepository
 import com.wheretogo.placesandroutesrecommenderapp.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,7 +18,8 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class UploadPostViewModel @Inject constructor(
     application: Application,
-    private val repository: FirebaseFirestoreRepository) :
+    private val repository: FirebaseFirestoreRepository,
+    private val authRepository: FirebaseAuthRepository) :
     AndroidViewModel(application) {
 
     private var _addPostFlow = MutableStateFlow<Resource<Post>?>(null)
@@ -26,11 +28,15 @@ class UploadPostViewModel @Inject constructor(
     private var _postButtonClickEvent = Channel<Unit>()
     val postButtonClickEvent = _postButtonClickEvent.receiveAsFlow()
 
-    fun addPostToFirestore(userEmail: String, post: Post) {
+    fun addPostToFirestore(post: Post) {
         _addPostFlow.value = Resource.Loading
         viewModelScope.launch {
-            val result = repository.addPost(userEmail, post)
-            _addPostFlow.value = result
+            authRepository.currentUser?.let { user ->
+                user.email?.let {
+                    val result = repository.addPost(it, post)
+                    _addPostFlow.value = result
+                }
+            }
         }
     }
 

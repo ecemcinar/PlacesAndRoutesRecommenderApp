@@ -1,6 +1,8 @@
 package com.wheretogo.placesandroutesrecommenderapp.repository.firestore
 
+import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.toObject
 import com.wheretogo.placesandroutesrecommenderapp.model.Post
 import com.wheretogo.placesandroutesrecommenderapp.model.User
 import com.wheretogo.placesandroutesrecommenderapp.repository.await
@@ -75,6 +77,27 @@ class FirebaseFirestoreRepositoryImpl  @Inject constructor(
         catch (e: Exception) {
             e.printStackTrace()
             Resource.Failure(e)
+        }
+    }
+
+    override suspend fun getUser(documentId: String): User? {
+        var user: User? = User()
+        return try {
+            firebaseFirestore.collection("users").document(documentId)
+                .get()
+                .addOnSuccessListener {
+                    if (it.exists()) {
+                        user = it.toObject()
+                    }
+                }
+                .addOnFailureListener {
+                    Log.d("Hata", it.message, it)
+                }
+            user
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Resource.Failure(e)
+            user
         }
     }
 }

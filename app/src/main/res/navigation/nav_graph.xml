@@ -106,7 +106,9 @@
         android:label="UploadPostFragment" >
         <action
             android:id="@+id/action_uploadPostFragment_to_feedFragment"
-            app:destination="@id/feedFragment" />
+            app:destination="@id/feedFragment"
+            app:popUpTo="@id/feedFragment"
+            app:popUpToInclusive="true" />
         <argument
             android:name="email"
             app:argType="string" />
