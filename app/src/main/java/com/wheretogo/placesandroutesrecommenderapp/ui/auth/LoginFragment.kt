@@ -72,7 +72,8 @@ class LoginFragment: Fragment() {
 
         lifecycleScope.launchWhenStarted {
             sharedViewModel.otherOptionButtonClick.collect {
-                findNavController().navigate(R.id.action_loginFragment_to_signUpFragment)
+                findNavController().popBackStack()
+                findNavController().navigate(R.id.signUpFragment)
             }
         }
     }

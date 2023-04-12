@@ -62,7 +62,8 @@ class SignUpFragment: Fragment() {
 
         lifecycleScope.launchWhenStarted {
             viewModel.loginClickEvent.collect {
-                findNavController().navigate(R.id.action_signUpFragment_to_loginFragment)
+                findNavController().popBackStack()
+                findNavController().navigate(R.id.loginFragment)
             }
         }
 
