@@ -71,6 +71,7 @@ class SignUpFragment: Fragment() {
             sharedViewModel.signUpFlow.collect {
                 when (it) {
                     is Resource.Failure -> {
+                        binding.progressBarLoading.visibility = View.GONE
                         Toast.makeText(requireActivity(), it.exception.message, Toast.LENGTH_LONG)
                             .show()
                     }
@@ -83,6 +84,7 @@ class SignUpFragment: Fragment() {
                         viewModel.addUserFlow.collect { res ->
                             when (res) {
                                 is Resource.Failure -> {
+                                    binding.progressBarLoading.visibility = View.GONE
                                     Toast.makeText(
                                         requireActivity(),
                                         res.exception.message,
@@ -90,17 +92,18 @@ class SignUpFragment: Fragment() {
                                     ).show()
                                 }
                                 is Resource.Success -> {
+                                    binding.progressBarLoading.visibility = View.GONE
                                     Toast.makeText(requireActivity(), "User created and added to Firestore", Toast.LENGTH_SHORT)
                                         .show()
                                     findNavController().popBackStack()
                                     findNavController().navigate(R.id.customizeProfileFragment)
                                 }
-                                is Resource.Loading -> { }
+                                is Resource.Loading -> { binding.progressBarLoading.visibility = View.VISIBLE }
                                 else -> { }
                             }
                         }
                     }
-                    is Resource.Loading -> { }
+                    is Resource.Loading -> { binding.progressBarLoading.visibility = View.VISIBLE }
                     else -> { }
                 }
             }

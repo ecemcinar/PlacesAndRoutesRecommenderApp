@@ -56,18 +56,18 @@ class SetPreferencesFragment : Fragment(), PreferenceButtonClick {
             viewModel.setPrefListFlow.collect {
                 when (it) {
                     is Resource.Failure -> {
+                        binding.progressBarLoading.visibility = View.GONE
                         Toast.makeText(requireActivity(), it.exception.message, Toast.LENGTH_LONG)
                             .show()
                     }
                     is Resource.Success -> {
+                        binding.progressBarLoading.visibility = View.GONE
                         Toast.makeText(requireActivity(), "User preferences are set.", Toast.LENGTH_SHORT)
                             .show()
                         findNavController().popBackStack()
                         findNavController().navigate(R.id.feedFragment)
                     }
-                    is Resource.Loading -> {
-
-                    }
+                    is Resource.Loading -> { binding.progressBarLoading.visibility = View.VISIBLE }
                     else -> {}
                 }
             }

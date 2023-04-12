@@ -66,6 +66,7 @@ class CustomizeProfileFragment: Fragment() {
             viewModel.uploadImageFlow.collect {
                 when (it) {
                     is Resource.Failure -> {
+                        binding.progressBarLoading.visibility = View.GONE
                         Toast.makeText(requireActivity(), it.exception.message, Toast.LENGTH_LONG)
                             .show()
                     }
@@ -76,23 +77,23 @@ class CustomizeProfileFragment: Fragment() {
                         viewModel.addFirestoreFlow.collect { res ->
                             when (res) {
                                 is Resource.Failure -> {
+                                    binding.progressBarLoading.visibility = View.GONE
                                     Toast.makeText(requireActivity(), res.exception.message, Toast.LENGTH_LONG)
                                         .show()
                                 }
                                 is Resource.Success -> {
+                                    binding.progressBarLoading.visibility = View.GONE
                                     findNavController().popBackStack()
                                     findNavController().navigate(R.id.setPreferencesFragment)
                                 }
                                 is Resource.Loading -> {
-                                    // TODO -> progress bar calisabilir
+                                    binding.progressBarLoading.visibility = View.VISIBLE
                                 }
                                 else -> {}
                             }
                         }
                     }
-                    is Resource.Loading -> {
-                        // TODO -> progress bar calisabilir
-                    }
+                    is Resource.Loading -> { binding.progressBarLoading.visibility = View.VISIBLE }
                     else -> {}
                 }
             }
