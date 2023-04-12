@@ -29,17 +29,14 @@ class FirebaseFirestoreRepositoryImpl  @Inject constructor(
         }
     }
 
-    override suspend fun setUserPrefList(user: User): Resource<List<String>> {
+    override suspend fun setUserPrefList(prefList: List<String>, documentId: String): Resource<List<String>> {
         return try {
             val userMap = hashMapOf(
-                "userId" to user.userId,
-                "nameAndSurname" to user.nameAndSurname,
-                "email" to user.email,
-                "prefList" to user.prefList
+                "prefList" to prefList,
             )
-            val result = firebaseFirestore.collection("users")
-                .add(userMap).await()
-            Resource.Success(user.prefList)
+            val result = firebaseFirestore.collection("users").document(documentId)
+                .update(userMap as Map<String, Any>).await()
+            Resource.Success(prefList)
 
         } catch (e: Exception) {
             e.printStackTrace()

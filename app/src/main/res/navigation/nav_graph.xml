@@ -46,7 +46,8 @@
             app:destination="@id/setPreferencesFragment" />
         <argument
             android:name="userId"
-            app:argType="string" />
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
     <fragment
         android:id="@+id/feedFragment"

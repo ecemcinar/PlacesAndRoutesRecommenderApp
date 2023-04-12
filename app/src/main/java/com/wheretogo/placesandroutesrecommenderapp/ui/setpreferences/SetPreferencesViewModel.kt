@@ -22,7 +22,7 @@ class SetPreferencesViewModel @Inject constructor(
     private var _prefList = MutableStateFlow<MutableList<SetPreferencesModel?>?>(null)
     val prefList = _prefList.asStateFlow()
 
-    private var _userPrefList =  mutableListOf<SetPreferencesModel>()
+    private var _userPrefList =  mutableListOf<SetPreferencesModel?>()
 
     private var _locationList: MutableList<String> =
         mutableListOf("SHOPPING",
@@ -80,8 +80,23 @@ class SetPreferencesViewModel @Inject constructor(
         }
     }
 
-    fun setPrefListToUser() {
+    fun setPrefListToUser(documentId: String) {
         _setPrefListFlow.value = Resource.Loading
-        // TODO
+        viewModelScope.launch {
+            val result = repository.setUserPrefList(getLocationFromPrefList(), documentId)
+            _setPrefListFlow.value = result
+        }
+    }
+
+    private fun getLocationFromPrefList(): List<String> {
+        val list = mutableListOf<String>()
+        for (element in _userPrefList) {
+            element?.let { model ->
+                model.prefName?.let {
+                    list.add(it)
+                }
+            }
+        }
+        return list
     }
 }

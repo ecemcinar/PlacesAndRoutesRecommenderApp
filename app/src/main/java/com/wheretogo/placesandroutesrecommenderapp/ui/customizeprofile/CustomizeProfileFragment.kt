@@ -55,8 +55,9 @@ class CustomizeProfileFragment: Fragment() {
         lifecycleScope.launchWhenStarted {
             viewModel.uploadClickEvent.collect {
                 selectedImage?.let { image ->
-                    print(args.userId)
-                    viewModel.uploadImageToStorage(image, args.userId)
+                    args.userId?.let {
+                        viewModel.uploadImageToStorage(image, it)
+                    }
                 }
             }
         }
@@ -69,7 +70,9 @@ class CustomizeProfileFragment: Fragment() {
                             .show()
                     }
                     is Resource.Success -> {
-                        viewModel.addImageRefToFirestore(it.result, args.userId)
+                        args.userId?.let { id ->
+                            viewModel.addImageRefToFirestore(it.result, id)
+                        }
                         viewModel.addFirestoreFlow.collect { res ->
                             when (res) {
                                 is Resource.Failure -> {
@@ -77,7 +80,8 @@ class CustomizeProfileFragment: Fragment() {
                                         .show()
                                 }
                                 is Resource.Success -> {
-                                    findNavController().navigate(R.id.action_customizeProfileFragment_to_setPreferencesFragment)
+                                    findNavController().popBackStack()
+                                    findNavController().navigate(R.id.setPreferencesFragment)
                                 }
                                 is Resource.Loading -> {
                                     // TODO -> progress bar calisabilir
