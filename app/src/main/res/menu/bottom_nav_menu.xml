@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/routeFragment"
+    <item android:id="@+id/createRouteFragment"
         android:title="@string/bottom_nav_create_route_text"
         android:icon="@drawable/planet_earth"/>
 

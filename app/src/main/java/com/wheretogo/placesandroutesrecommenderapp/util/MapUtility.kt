@@ -3,6 +3,7 @@ package com.wheretogo.placesandroutesrecommenderapp.util
 import android.Manifest
 import android.content.Context
 import android.os.Build
+import androidx.lifecycle.MutableLiveData
 import pub.devrel.easypermissions.EasyPermissions
 
 object MapUtility {

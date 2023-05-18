@@ -70,6 +70,9 @@
             android:name="userId"
             app:argType="string"
             app:nullable="true" />
+        <action
+            android:id="@+id/action_feedFragment_to_createRouteFragment"
+            app:destination="@id/createRouteFragment" />
     </fragment>
     <fragment
         android:id="@+id/postViewFragment"
@@ -112,5 +115,13 @@
         <argument
             android:name="email"
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/createRouteFragment"
+        android:name="com.wheretogo.placesandroutesrecommenderapp.ui.createroute.CreateRouteFragment"
+        android:label="CreateRouteFragment" >
+        <action
+            android:id="@+id/action_createRouteFragment_to_feedFragment"
+            app:destination="@id/feedFragment" />
     </fragment>
 </navigation>
