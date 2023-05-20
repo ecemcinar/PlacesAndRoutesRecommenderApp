@@ -23,7 +23,7 @@
 
             <EditText
                 android:id="@+id/titleEditText"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/dim_zero"
                 style="@style/smallTextViewStyleForPostUploadTopic"
                 android:layout_height="60dp"
                 android:layout_marginTop="@dimen/dim_medium"
@@ -41,7 +41,7 @@
             <EditText
                 android:id="@+id/contentEditText"
                 style="@style/smallTextViewStyleForPostUploadContent"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/dim_zero"
                 android:layout_height="350dp"
                 android:layout_marginTop="@dimen/dim_large"
                 android:background="@drawable/custom_input"

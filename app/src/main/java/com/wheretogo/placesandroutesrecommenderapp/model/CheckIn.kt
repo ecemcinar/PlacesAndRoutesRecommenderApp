@@ -1,6 +1,8 @@
 package com.wheretogo.placesandroutesrecommenderapp.model
 
 data class CheckIn(
-    private val placeName: String? = null,
-    private val checkInOwner: String? = null
+    val userId: String? = null,
+    val username: String? = null,
+    val placeName: String? = null,
+    val checkInOwner: String? = null
 )

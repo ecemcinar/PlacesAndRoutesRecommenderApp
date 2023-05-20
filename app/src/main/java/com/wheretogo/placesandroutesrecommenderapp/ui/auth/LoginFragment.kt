@@ -15,6 +15,7 @@ import com.wheretogo.placesandroutesrecommenderapp.R
 import com.wheretogo.placesandroutesrecommenderapp.databinding.FragmentLoginBinding
 import com.wheretogo.placesandroutesrecommenderapp.util.Resource
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class LoginFragment: Fragment() {
@@ -40,7 +41,7 @@ class LoginFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        lifecycleScope.launchWhenStarted {
+        lifecycleScope.launch {
             sharedViewModel.loginFlow.collect {
                 when (it) {
                     is Resource.Failure -> {
@@ -70,7 +71,7 @@ class LoginFragment: Fragment() {
             }
         }
 
-        lifecycleScope.launchWhenStarted {
+        lifecycleScope.launch {
             sharedViewModel.otherOptionButtonClick.collect {
                 findNavController().popBackStack()
                 findNavController().navigate(R.id.signUpFragment)

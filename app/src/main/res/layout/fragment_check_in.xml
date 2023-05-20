@@ -6,70 +6,97 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.checkin.CheckInFragment"
+        tools:context=".ui.maps.checkin.CheckInFragment"
         android:layout_marginBottom="56dp">
+
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/searchView"
+            android:layout_width="@dimen/dim_zero"
+            android:layout_height="wrap_content"
+            android:background="@drawable/search_item_background"
+            android:iconifiedByDefault="false"
+            android:queryHint="Search Somewhere"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/mapView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.gms.maps.MapView
             android:id="@+id/mapView"
             android:layout_width="match_parent"
-            android:layout_height="400dp"
-            android:layout_margin="@dimen/dim_small"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_height="0dp"
+            android:layout_margin="2dp"
+            app:layout_constraintVertical_chainStyle="spread"
+            app:layout_constraintEnd_toStartOf="@+id/searchView"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/searchView"
+            app:layout_constraintBottom_toTopOf="@id/selectedPlace"/>
 
         <TextView
             android:id="@+id/selectedPlace"
             style="@style/regularTextViewStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dim_small"
-            android:layout_marginTop="@dimen/dim_medium"
             tools:text="Selected Place"
-            android:text="@string/checkin_selected_place_label"
+            android:textAlignment="center"
+            app:layout_constraintVertical_chainStyle="packed"
             android:textSize="22sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/mapView" />
+            app:layout_constraintTop_toBottomOf="@id/mapView"
+            app:layout_constraintBottom_toTopOf="@id/placeCoordination"/>
 
         <TextView
             android:id="@+id/placeCoordination"
             style="@style/greySmallTextViewStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dim_small"
-            android:layout_marginEnd="@dimen/dim_small"
-            android:layout_marginTop="@dimen/dim_medium"
+            app:layout_constraintVertical_chainStyle="packed"
             tools:text="38.418594 latitude and 27.131760 longitude"
-            android:text="38.418594 latitude and 27.131760 longitude"
             android:textStyle="bold"
+            android:textAlignment="center"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/selectedPlace" />
+            app:layout_constraintTop_toBottomOf="@id/selectedPlace"
+            app:layout_constraintBottom_toTopOf="@+id/placeCategoryTextView"/>
 
         <TextView
-            android:id="@+id/placeName"
+            android:id="@+id/placeCategoryTextView"
             style="@style/greySmallTextViewStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dim_small"
-            android:layout_marginEnd="@dimen/dim_small"
-            android:layout_marginTop="@dimen/dim_small"
             tools:text="Name"
+            android:textAlignment="center"
             android:textStyle="bold"
+            app:layout_constraintVertical_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/placeCoordination" />
+            app:layout_constraintTop_toBottomOf="@id/placeCoordination"
+            app:layout_constraintBottom_toTopOf="@id/makeCheckInButton"/>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/findPlaceButton"
+            android:id="@+id/makeCheckInButton"
             style="@style/orangeButtonStyle"
-            android:layout_marginBottom="@dimen/dim_large"
-            android:text="FIND"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:text="CHECK IN"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintEnd_toStartOf="@id/findLocationIcon"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/placeCategoryTextView"
             app:layout_constraintBottom_toBottomOf="parent" />
+
+        <ImageView
+            android:id="@+id/findLocationIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/check_in"
+            android:clickable="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/placeCategoryTextView"
+            app:layout_constraintStart_toEndOf="@+id/makeCheckInButton"
+            android:focusable="true" />
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

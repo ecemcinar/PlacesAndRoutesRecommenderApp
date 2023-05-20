@@ -3,6 +3,7 @@ package com.wheretogo.placesandroutesrecommenderapp.repository.firestore
 import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
+import com.wheretogo.placesandroutesrecommenderapp.model.CheckIn
 import com.wheretogo.placesandroutesrecommenderapp.model.Post
 import com.wheretogo.placesandroutesrecommenderapp.model.User
 import com.wheretogo.placesandroutesrecommenderapp.repository.await

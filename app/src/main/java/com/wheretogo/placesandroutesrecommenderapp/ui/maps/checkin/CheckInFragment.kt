@@ -1,4 +1,4 @@
-package com.wheretogo.placesandroutesrecommenderapp.ui.checkin
+package com.wheretogo.placesandroutesrecommenderapp.ui.maps.checkin
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
@@ -12,8 +12,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.appcompat.widget.SearchView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -29,14 +32,18 @@ import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest
 import com.google.android.libraries.places.api.net.PlacesClient
 import com.wheretogo.placesandroutesrecommenderapp.R
 import com.wheretogo.placesandroutesrecommenderapp.databinding.FragmentCheckInBinding
+import com.wheretogo.placesandroutesrecommenderapp.extension.isNull
+import com.wheretogo.placesandroutesrecommenderapp.ui.maps.MapsSharedViewModel
 import com.wheretogo.placesandroutesrecommenderapp.util.MapUtility
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class CheckInFragment : Fragment(), OnMapReadyCallback {
 
     private var _binding: FragmentCheckInBinding? = null
     private val binding get() = _binding!!
+    private val sharedViewModel: MapsSharedViewModel by viewModels()
 
     private var map: GoogleMap? = null
     private var cameraPosition: CameraPosition? = null
@@ -103,8 +110,51 @@ class CheckInFragment : Fragment(), OnMapReadyCallback {
 
         getLocationPermission()
 
-        binding.findPlaceButton.setOnClickListener {
+        initListeners()
+        initCollectors()
+    }
+
+    private fun initListeners() {
+        binding.findLocationIcon.setOnClickListener {
             showCurrentPlace()
+        }
+
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                sharedViewModel.searchForLocation(query)
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                // Optionally, you can provide search suggestions here.
+                return false
+            }
+        })
+    }
+
+    private fun initCollectors() {
+        lifecycleScope.launch {
+            sharedViewModel.searchForLocationResponse.collect { searchForLocationResponse ->
+                sharedViewModel.fetchPlaceResponse.collect { fetchPlaceResponse ->
+                    binding.apply {
+                        if (fetchPlaceResponse?.place?.name.isNullOrEmpty().not()) {
+                            selectedPlace.text = fetchPlaceResponse?.place?.name
+                        }
+                        if (fetchPlaceResponse?.place?.latLng?.latitude.isNull() ||fetchPlaceResponse?.place?.latLng?.longitude.isNull()) {
+                            placeCoordination.text = fetchPlaceResponse?.place?.latLng.toString()
+                        }
+                        if (sharedViewModel.placeCategoryPredictionList.isNotEmpty()) {
+                            placeCategoryTextView.text = sharedViewModel.placeCategoryPredictionList.toString()
+                        }
+                    }
+                    fetchPlaceResponse?.place?.latLng?.let {  place ->
+                        val cameraUpdate = CameraUpdateFactory.newLatLngZoom(place, 15f)
+                        map?.moveCamera(cameraUpdate)
+                        map?.clear()
+                        map?.addMarker(MarkerOptions().position(place))
+                    }
+                }
+            }
         }
     }
 
@@ -320,7 +370,7 @@ class CheckInFragment : Fragment(), OnMapReadyCallback {
 
             binding.placeCoordination.text =
                 "${markerLatLng.latitude} latitude and ${markerLatLng.longitude} longitude"
-            binding.placeName.text = likelyPlaceNames[which]
+            // binding.placeName.text = likelyPlaceNames[which]
         }
 
         // Display the dialog.

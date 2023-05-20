@@ -85,7 +85,7 @@
     </fragment>
     <fragment
         android:id="@+id/checkInFragment"
-        android:name="com.wheretogo.placesandroutesrecommenderapp.ui.checkin.CheckInFragment"
+        android:name="com.wheretogo.placesandroutesrecommenderapp.ui.maps.checkin.CheckInFragment"
         android:label="Check In" >
         <action
             android:id="@+id/action_checkInFragment_to_feedFragment"
@@ -118,7 +118,7 @@
     </fragment>
     <fragment
         android:id="@+id/createRouteFragment"
-        android:name="com.wheretogo.placesandroutesrecommenderapp.ui.createroute.CreateRouteFragment"
+        android:name="com.wheretogo.placesandroutesrecommenderapp.ui.maps.createroute.CreateRouteFragment"
         android:label="CreateRouteFragment" >
         <action
             android:id="@+id/action_createRouteFragment_to_feedFragment"

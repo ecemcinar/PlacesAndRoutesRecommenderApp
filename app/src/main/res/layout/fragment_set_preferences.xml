@@ -15,8 +15,8 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/setPrefRecyclerView"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="@dimen/dim_zero"
+            android:layout_height="@dimen/dim_zero"
             app:layout_constraintBottom_toTopOf="@+id/continueButton"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginBottom="@dimen/dim_medium"

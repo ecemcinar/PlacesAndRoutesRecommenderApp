@@ -11,7 +11,7 @@ object MapUtility {
     const val KEY_CAMERA_POSITION = "camera_position"
     const val KEY_LOCATION = "location"
     const val PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 100
-    const val DEFAULT_ZOOM = 100
+    const val DEFAULT_ZOOM = 15f
     const val M_MAX_ENTRIES = 1
 
     const val REQUEST_CODE_LOCATION_PERMISSION = 0

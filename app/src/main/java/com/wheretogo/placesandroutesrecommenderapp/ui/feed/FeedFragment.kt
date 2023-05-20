@@ -15,6 +15,7 @@ import com.wheretogo.placesandroutesrecommenderapp.databinding.FragmentFeedBindi
 import com.wheretogo.placesandroutesrecommenderapp.model.Post
 import com.wheretogo.placesandroutesrecommenderapp.util.Resource
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class FeedFragment : Fragment() {
@@ -49,7 +50,7 @@ class FeedFragment : Fragment() {
         // disables the back arrow
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
 
-        lifecycleScope.launchWhenStarted {
+        lifecycleScope.launch {
             viewModel.getPostListFlow.collect {
                 when (it) {
                     is Resource.Failure -> {
