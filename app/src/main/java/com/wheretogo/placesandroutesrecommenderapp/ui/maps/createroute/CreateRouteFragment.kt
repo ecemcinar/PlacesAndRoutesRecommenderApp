@@ -1,25 +1,36 @@
 package com.wheretogo.placesandroutesrecommenderapp.ui.maps.createroute
 
+import android.graphics.Color
+import android.graphics.Color.red
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.ecemsevvalcinar.easyroute.EasyRoutesDirections
+import com.ecemsevvalcinar.easyroute.EasyRoutesDrawer
+import com.ecemsevvalcinar.easyroute.drawRoute
+import com.ecemsevvalcinar.easyroute.enums.TransportationMode
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.PolylineOptions
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.net.PlacesClient
 import com.wheretogo.placesandroutesrecommenderapp.R
 import com.wheretogo.placesandroutesrecommenderapp.databinding.FragmentCreateRouteBinding
-import com.wheretogo.placesandroutesrecommenderapp.model.map.LatLng
 import com.wheretogo.placesandroutesrecommenderapp.ui.maps.MapsSharedViewModel
+import com.wheretogo.placesandroutesrecommenderapp.util.MapUtility.API_KEY
+import com.wheretogo.placesandroutesrecommenderapp.util.MapUtility.DEFAULT_ZOOM
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -37,6 +48,8 @@ class CreateRouteFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapLongC
 
     // The entry point to the Fused Location Provider.
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+
+    private val markersList: ArrayList<Marker> = arrayListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -80,10 +93,13 @@ class CreateRouteFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapLongC
             sharedViewModel.searchForLocationResponse.collect {
                 sharedViewModel.fetchPlaceResponse.collect { fetchPlaceResponse ->
                     binding.locationListTextView.text = fetchPlaceResponse?.place?.types?.toString()
-                    fetchPlaceResponse?.place?.latLng?.let {  place ->
-                        val cameraUpdate = CameraUpdateFactory.newLatLngZoom(place, 15f)
-                        map?.moveCamera(cameraUpdate)
-                        map?.addMarker(MarkerOptions().position(place))
+                    fetchPlaceResponse?.place?.let {  place ->
+                        viewModel.addToLocationList(place)
+                        place.latLng?.let {
+                            val cameraUpdate = CameraUpdateFactory.newLatLngZoom(it, DEFAULT_ZOOM)
+                            map?.moveCamera(cameraUpdate)
+                            map?.addMarker(MarkerOptions().position(it))
+                        }
                     }
                 }
             }
@@ -105,11 +121,68 @@ class CreateRouteFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapLongC
 
         binding.clearMarkersButton.setOnClickListener {
             map?.clear()
+            viewModel.clearLocationList()
         }
 
+
         binding.createRouteButton.setOnClickListener {
-            // viewModel.getRoute()
+            val origin = viewModel.locationList.value?.get(0)
+            val dest = viewModel.locationList.value?.get(1)
+            val placeDirections = EasyRoutesDirections().apply {
+                originPlace = origin?.name?.toString()
+                destinationPlace = dest?.name?.toString()
+                apiKey = API_KEY
+                waypointsLatLng = arrayListOf(
+                    com.google.android.gms.maps.model.LatLng(
+                        origin?.latLng?.latitude!!, origin.latLng?.longitude!!
+                    ),
+                    com.google.android.gms.maps.model.LatLng(
+                        dest?.latLng?.latitude!!, dest.latLng?.longitude!!
+                    )
+                )
+                showDefaultMarkers = false
+                transportationMode = TransportationMode.WALKING
+            }
+
+            val routeDrawer = EasyRoutesDrawer.Builder(map!!)
+                .pathWidth(10f)
+                .pathColor(Color.GREEN)
+                .geodesic(true)
+                .previewMode(false)
+                .build()
+
+            val customPolylineOptions = PolylineOptions()
+            customPolylineOptions.color(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.main_color_orange
+                )
+            )
+            customPolylineOptions.width(15f)
+
+            val routeDrawerWithCustomPolyline =
+                EasyRoutesDrawer.Builder(map!!, customPolylineOptions)
+                    .previewMode(false)
+                    .build()
+
+            map?.drawRoute(
+                easyRoutesDirections = placeDirections,
+                routeDrawer = routeDrawer,
+                markersListCallback = { markers -> markersList.addAll(markers) },
+                googleMapsLink = { url -> Log.d("GoogleLink", url) }
+            ) { legs ->
+                legs?.forEach {
+                    Log.d("Point startAddress:", it?.startAddress.toString())
+                    Log.d("Point endAddress:", it?.endAddress.toString())
+                    Log.d("Distance:", it?.distance.toString())
+                    Log.d("Duration:", it?.duration.toString())
+                }
+            }
         }
+    }
+
+    override fun onMapLongClick(pos: com.google.android.gms.maps.model.LatLng) {
+        map?.addMarker(MarkerOptions().position(pos))
     }
 
     override fun onDestroy() {
@@ -146,20 +219,5 @@ class CreateRouteFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapLongC
     override fun onMapReady(map: GoogleMap) {
         this.map = map
         this.map?.setOnMapLongClickListener(this)
-    }
-
-    override fun onMapLongClick(pos: com.google.android.gms.maps.model.LatLng) {
-        map?.addMarker(MarkerOptions().position(pos))
-        viewModel.addToLocationList(
-            LatLng(
-                longitude = pos.longitude,
-                latitude = pos.latitude
-            )
-        )
-
-        binding.locationListTextView.text = viewModel.setLocationListText(
-            binding.locationListTextView.text.toString(),
-            "${pos.longitude.toFloat()}-${pos.latitude.toFloat()}"
-        )
     }
 }

@@ -13,6 +13,7 @@ object MapUtility {
     const val PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 100
     const val DEFAULT_ZOOM = 15f
     const val M_MAX_ENTRIES = 1
+    const val API_KEY = "AIzaSyBxeRzEJOIBUNmcjB_MBBu-172zJBmR2z0"
 
     const val REQUEST_CODE_LOCATION_PERMISSION = 0
 

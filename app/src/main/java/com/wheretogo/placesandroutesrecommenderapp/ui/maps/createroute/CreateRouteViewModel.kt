@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.common.api.ApiException
+import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.net.FetchPlaceResponse
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsResponse
 import com.wheretogo.placesandroutesrecommenderapp.model.map.LatLng
@@ -29,18 +30,19 @@ class CreateRouteViewModel @Inject constructor(
     private val placeRepository: PlaceRepository
 ): AndroidViewModel(application) {
 
-    private val _locationList = MutableStateFlow<MutableList<LatLng>?>(null)
+    private val _locationList = MutableStateFlow<MutableList<Place>?>(mutableListOf())
     val locationList = _locationList.asStateFlow()
 
-    fun addToLocationList(location: LatLng) {
-        locationList.value?.add(location)
+    fun addToLocationList(location: Place) {
+        _locationList.value?.add(location)
     }
 
-    fun setLocationListText(prev: String, new: String): String {
-        return "$prev $new"
+    fun clearLocationList() {
+        _locationList.value?.clear()
     }
 
 
+    /*
     fun getRoute() {
         val routeRequest = RouteRequest().apply {
             origins = listOf(
@@ -72,4 +74,6 @@ class CreateRouteViewModel @Inject constructor(
             googleMapsRepository.getRoutes(routeRequest)
         }
     }
+     */
+
 }

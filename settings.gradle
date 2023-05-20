@@ -16,4 +16,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "PlacesAndRoutesRecommenderApp"
 include ':app'
-include ':route'
+include ':easyroute'
