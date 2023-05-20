@@ -134,7 +134,7 @@ class CheckInFragment : Fragment(), OnMapReadyCallback {
 
     private fun initCollectors() {
         lifecycleScope.launch {
-            sharedViewModel.searchForLocationResponse.collect { searchForLocationResponse ->
+            sharedViewModel.searchForLocationResponse.collect {
                 sharedViewModel.fetchPlaceResponse.collect { fetchPlaceResponse ->
                     binding.apply {
                         if (fetchPlaceResponse?.place?.name.isNullOrEmpty().not()) {
@@ -214,6 +214,7 @@ class CheckInFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
+    @SuppressLint("PotentialBehaviorOverride")
     override fun onMapReady(map: GoogleMap) {
         this.map = map
 
@@ -261,13 +262,13 @@ class CheckInFragment : Fragment(), OnMapReadyCallback {
                             map?.moveCamera(
                                 CameraUpdateFactory.newLatLngZoom(
                                 LatLng(lastKnownLocation!!.latitude,
-                                    lastKnownLocation!!.longitude), MapUtility.DEFAULT_ZOOM.toFloat()))
+                                    lastKnownLocation!!.longitude), MapUtility.DEFAULT_ZOOM))
                         }
                     } else {
                         Log.d("TAG", "Current location is null. Using defaults.")
                         Log.e("TAG", "Exception: %s", task.exception)
                         map?.moveCamera(CameraUpdateFactory
-                            .newLatLngZoom(defaultLocation, MapUtility.DEFAULT_ZOOM.toFloat()))
+                            .newLatLngZoom(defaultLocation, MapUtility.DEFAULT_ZOOM))
                         map?.uiSettings?.isMyLocationButtonEnabled = false
                     }
                 }
@@ -366,7 +367,7 @@ class CheckInFragment : Fragment(), OnMapReadyCallback {
 
             // Position the map's camera at the location of the marker.
             map?.moveCamera(CameraUpdateFactory.newLatLngZoom(markerLatLng,
-                MapUtility.DEFAULT_ZOOM.toFloat()))
+                MapUtility.DEFAULT_ZOOM))
 
             binding.placeCoordination.text =
                 "${markerLatLng.latitude} latitude and ${markerLatLng.longitude} longitude"
