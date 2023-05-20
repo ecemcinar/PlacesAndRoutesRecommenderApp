@@ -108,7 +108,7 @@ fun getGoogleMapsLink(easyRoutesDirections: EasyRoutesDirections): String {
     }
 
     if(destinationPlace != null){
-        url += "${destinationPlace}"
+        url += "$destinationPlace"
     }
 
     return url
