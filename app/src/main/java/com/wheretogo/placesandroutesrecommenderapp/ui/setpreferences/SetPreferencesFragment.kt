@@ -16,9 +16,10 @@ import com.wheretogo.placesandroutesrecommenderapp.R
 import com.wheretogo.placesandroutesrecommenderapp.databinding.FragmentSetPreferencesBinding
 import com.wheretogo.placesandroutesrecommenderapp.util.Resource
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class SetPreferencesFragment : Fragment(), PreferenceButtonClick {
+class SetPreferencesFragment : Fragment() {
 
     private var _binding: FragmentSetPreferencesBinding? = null
     private val binding get() = _binding!!
@@ -32,9 +33,10 @@ class SetPreferencesFragment : Fragment(), PreferenceButtonClick {
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentSetPreferencesBinding.inflate(inflater, container, false)
+        binding.lifecycleOwner = this
 
         viewModel.createPrefList()
-        lifecycleScope.launchWhenStarted {
+        lifecycleScope.launch {
             viewModel.prefList.collect {
                 it?.let { mutableList ->
                     adapter.setData(mutableList.toList())
@@ -42,7 +44,7 @@ class SetPreferencesFragment : Fragment(), PreferenceButtonClick {
                 }
             }
         }
-        adapter = SetPreferencesRecyclerAdapter(viewModel.prefList.value, this)
+        adapter = SetPreferencesRecyclerAdapter(viewModel.prefList.value, ::onPreferenceButtonClick)
         setUpRecyclerView()
         setListeners()
 
@@ -52,7 +54,7 @@ class SetPreferencesFragment : Fragment(), PreferenceButtonClick {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        lifecycleScope.launchWhenStarted {
+        lifecycleScope.launch {
             viewModel.setPrefListFlow.collect {
                 when (it) {
                     is Resource.Failure -> {
@@ -74,8 +76,8 @@ class SetPreferencesFragment : Fragment(), PreferenceButtonClick {
         }
     }
 
-    override fun onPreferenceButtonClick(item: SetPreferencesModel) {
-        item.isSelected = (item.isSelected != true)
+    private fun onPreferenceButtonClick(item: SetPreferencesModel) {
+        binding.executePendingBindings()
         viewModel.setPrefList(item)
     }
 
