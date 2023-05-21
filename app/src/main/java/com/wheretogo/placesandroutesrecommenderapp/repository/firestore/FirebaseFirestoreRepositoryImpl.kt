@@ -125,7 +125,6 @@ class FirebaseFirestoreRepositoryImpl  @Inject constructor(
             val checkInMap = hashMapOf(
                 "userId" to checkIn.userId,
                 "placeName" to checkIn.placeName,
-                "checkInOwner" to checkIn.checkInOwner,
                 "longitude" to checkIn.longitude,
                 "latitude" to checkIn.latitude,
                 "category" to checkIn.category
