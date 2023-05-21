@@ -119,4 +119,25 @@ class FirebaseFirestoreRepositoryImpl  @Inject constructor(
             Resource.Failure(e)
         }
     }
+
+    override suspend fun addCheckIn(checkIn: CheckIn): Resource<CheckIn> {
+        return try {
+            val checkInMap = hashMapOf(
+                "userId" to checkIn.userId,
+                "placeName" to checkIn.placeName,
+                "checkInOwner" to checkIn.checkInOwner,
+                "longitude" to checkIn.longitude,
+                "latitude" to checkIn.latitude,
+                "category" to checkIn.category
+            )
+
+            firebaseFirestore.collection("checkins").add(checkInMap)
+            Resource.Success(checkIn)
+
+            Resource.Success(checkIn)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Resource.Failure(e)
+        }
+    }
 }

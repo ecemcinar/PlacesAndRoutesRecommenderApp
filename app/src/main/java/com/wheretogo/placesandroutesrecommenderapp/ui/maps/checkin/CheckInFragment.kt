@@ -12,11 +12,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -37,6 +40,7 @@ import com.wheretogo.placesandroutesrecommenderapp.databinding.FragmentCheckInBi
 import com.wheretogo.placesandroutesrecommenderapp.extension.isNull
 import com.wheretogo.placesandroutesrecommenderapp.ui.maps.MapsSharedViewModel
 import com.wheretogo.placesandroutesrecommenderapp.util.MapUtility
+import com.wheretogo.placesandroutesrecommenderapp.util.Resource
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -47,6 +51,8 @@ class CheckInFragment : Fragment(), OnMapReadyCallback {
     private val binding get() = _binding!!
     private val sharedViewModel: MapsSharedViewModel by viewModels()
     private lateinit var adapter: CategoryItemAdapter
+    private val viewModel: CheckInViewModel by viewModels()
+    private val args by navArgs<CheckInFragmentArgs>()
 
     private var map: GoogleMap? = null
     private var cameraPosition: CameraPosition? = null
@@ -121,7 +127,7 @@ class CheckInFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun onItemSelect(category: CategoryModel) {
-        sharedViewModel.setSelectedCategory(category)
+        viewModel.setSelectedCategory(category)
         binding.executePendingBindings()
     }
 
@@ -141,6 +147,10 @@ class CheckInFragment : Fragment(), OnMapReadyCallback {
                 return false
             }
         })
+
+        binding.makeCheckInButton.setOnClickListener {
+            args.userId?.let { id -> viewModel.addCheckInToFirebase(id) }
+        }
     }
 
     private fun initCollectors() {
@@ -150,9 +160,11 @@ class CheckInFragment : Fragment(), OnMapReadyCallback {
                     binding.apply {
                         if (fetchPlaceResponse?.place?.name.isNullOrEmpty().not()) {
                             selectedPlace.text = fetchPlaceResponse?.place?.name
+                            viewModel.setSelectedName(fetchPlaceResponse?.place?.name)
                         }
                         if (fetchPlaceResponse?.place?.latLng?.latitude.isNull() ||fetchPlaceResponse?.place?.latLng?.longitude.isNull()) {
                             placeCoordination.text = fetchPlaceResponse?.place?.latLng.toString()
+                            viewModel.setSelectedLatlng(fetchPlaceResponse?.place?.latLng)
                         }
                         val data: MutableList<CategoryModel?> = mutableListOf()
                         for (i in sharedViewModel.placeCategoryPredictionList) {
@@ -173,6 +185,26 @@ class CheckInFragment : Fragment(), OnMapReadyCallback {
                         map?.clear()
                         map?.addMarker(MarkerOptions().position(place))
                     }
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            viewModel.addCheckInFlow.collect {
+                when (it) {
+                    is Resource.Failure -> {
+                        binding.progressBarLoading.visibility = View.GONE
+                        Toast.makeText(requireActivity(), it.exception.message, Toast.LENGTH_LONG)
+                            .show()
+                    }
+                    is Resource.Success -> {
+                        Toast.makeText(requireActivity(), "Check in added!.", Toast.LENGTH_SHORT)
+                            .show()
+                        findNavController().popBackStack()
+                        findNavController().navigate(R.id.feedFragment)
+                    }
+                    is Resource.Loading -> { binding.progressBarLoading.visibility = View.VISIBLE }
+                    else -> {}
                 }
             }
         }

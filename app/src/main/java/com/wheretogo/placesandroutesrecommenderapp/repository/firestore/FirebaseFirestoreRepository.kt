@@ -1,5 +1,6 @@
 package com.wheretogo.placesandroutesrecommenderapp.repository.firestore
 
+import com.wheretogo.placesandroutesrecommenderapp.model.CheckIn
 import com.wheretogo.placesandroutesrecommenderapp.model.Post
 import com.wheretogo.placesandroutesrecommenderapp.model.User
 import com.wheretogo.placesandroutesrecommenderapp.util.Resource
@@ -17,4 +18,6 @@ interface FirebaseFirestoreRepository {
     suspend fun getUser(documentId: String): User?
 
     suspend fun getPosts(): Resource<List<Post>>
+
+    suspend fun addCheckIn(checkIn: CheckIn): Resource<CheckIn>
 }
