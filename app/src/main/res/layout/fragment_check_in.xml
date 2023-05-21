@@ -12,7 +12,7 @@
         <androidx.appcompat.widget.SearchView
             android:id="@+id/searchView"
             android:layout_width="@dimen/dim_zero"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:background="@drawable/search_item_background"
             android:iconifiedByDefault="false"
             android:queryHint="Search Somewhere"
@@ -40,7 +40,7 @@
             tools:text="Selected Place"
             android:textAlignment="center"
             app:layout_constraintVertical_chainStyle="packed"
-            android:textSize="22sp"
+            android:textSize="15sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -55,6 +55,7 @@
             app:layout_constraintVertical_chainStyle="packed"
             tools:text="38.418594 latitude and 27.131760 longitude"
             android:textStyle="bold"
+            android:textSize="12sp"
             android:textAlignment="center"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -75,10 +76,25 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/placeCoordination" />
 
+        <EditText
+            android:id="@+id/categoryEditText"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:visibility="gone"
+            android:layout_margin="2dp"
+            app:layout_constraintBottom_toTopOf="@+id/makeCheckInButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/placeCoordination" >
+        </EditText>
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/makeCheckInButton"
             style="@style/orangeButtonStyle"
+            android:layout_height="35dp"
             android:text="CHECK IN"
+            android:textSize="10sp"
             app:layout_constraintVertical_chainStyle="packed"
             app:layout_constraintEnd_toStartOf="@id/findLocationIcon"
             app:layout_constraintStart_toStartOf="parent"

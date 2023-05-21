@@ -161,6 +161,8 @@ class CheckInFragment : Fragment(), OnMapReadyCallback {
                                 break
                             }
                         }
+                        binding.categoryEditText.visibility = View.GONE
+                        binding.categoryRecyclerView.visibility = View.VISIBLE
                         data.toList().let { list -> adapter.setData(list) }
                         adapter.notifyDataSetChanged()
                         binding.executePendingBindings()
@@ -389,7 +391,9 @@ class CheckInFragment : Fragment(), OnMapReadyCallback {
             binding.selectedPlace.text = likelyPlaceNames[which]
             binding.placeCoordination.text =
                 "$markerLatLng"
-            // binding.placeName.text = likelyPlaceNames[which]
+
+            binding.categoryEditText.visibility = View.VISIBLE
+            binding.categoryRecyclerView.visibility = View.GONE
         }
 
         // Display the dialog.
