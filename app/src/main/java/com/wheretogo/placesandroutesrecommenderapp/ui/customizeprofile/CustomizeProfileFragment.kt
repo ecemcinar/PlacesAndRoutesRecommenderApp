@@ -5,12 +5,14 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -29,6 +31,8 @@ class CustomizeProfileFragment: Fragment() {
     private val binding get() = _binding!!
     private val viewModel: CustomizeProfileViewModel by viewModels()
     private val PERMISSION_REQUEST_READ_EXTERNAL_STORAGE = Manifest.permission.READ_EXTERNAL_STORAGE
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    private val PERMISSION_REQUEST_READ_MEDIA_IMAGES= Manifest.permission.READ_MEDIA_IMAGES
     private val args by navArgs<CustomizeProfileFragmentArgs>()
     private var selectedImage: Uri? = null
 
@@ -102,10 +106,14 @@ class CustomizeProfileFragment: Fragment() {
 
     // Kullanıcı galerisine erişim izni verilmediyse, izin isteği gösterilir
     private fun requestPermission() {
-        if (ContextCompat.checkSelfPermission(requireActivity(), PERMISSION_REQUEST_READ_EXTERNAL_STORAGE)
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.TIRAMISU && ContextCompat.checkSelfPermission(requireActivity(), PERMISSION_REQUEST_READ_MEDIA_IMAGES)
+            != PackageManager.PERMISSION_GRANTED) {
+            permissionLauncher.launch(PERMISSION_REQUEST_READ_MEDIA_IMAGES)
+        } else if (ContextCompat.checkSelfPermission(requireActivity(), PERMISSION_REQUEST_READ_EXTERNAL_STORAGE)
             != PackageManager.PERMISSION_GRANTED) {
             permissionLauncher.launch(PERMISSION_REQUEST_READ_EXTERNAL_STORAGE)
-        } else {
+        }
+        else {
             openGallery()
         }
     }

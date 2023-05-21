@@ -35,6 +35,7 @@ class SetPreferencesFragment : Fragment() {
         _binding = FragmentSetPreferencesBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
 
+        adapter = SetPreferencesRecyclerAdapter(mutableListOf(), ::onPreferenceButtonClick)
         viewModel.createPrefList()
         lifecycleScope.launch {
             viewModel.prefList.collect {
@@ -44,7 +45,7 @@ class SetPreferencesFragment : Fragment() {
                 }
             }
         }
-        adapter = SetPreferencesRecyclerAdapter(viewModel.prefList.value, ::onPreferenceButtonClick)
+
         setUpRecyclerView()
         setListeners()
 
