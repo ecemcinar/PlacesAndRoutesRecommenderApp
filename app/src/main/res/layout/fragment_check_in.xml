@@ -59,21 +59,21 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/selectedPlace"
-            app:layout_constraintBottom_toTopOf="@+id/placeCategoryTextView"/>
+            app:layout_constraintBottom_toTopOf="@+id/categoryRecyclerView"/>
 
-        <TextView
-            android:id="@+id/placeCategoryTextView"
-            style="@style/greySmallTextViewStyle"
-            android:layout_width="wrap_content"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/categoryRecyclerView"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:text="Name"
-            android:textAlignment="center"
-            android:textStyle="bold"
+            android:clipToPadding="false"
+            android:layoutAnimation="@anim/recyclerview_anim"
+            android:paddingTop="1dp"
+            android:layout_margin="2dp"
             app:layout_constraintVertical_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/makeCheckInButton"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/placeCoordination"
-            app:layout_constraintBottom_toTopOf="@id/makeCheckInButton"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/placeCoordination" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/makeCheckInButton"
@@ -82,7 +82,7 @@
             app:layout_constraintVertical_chainStyle="packed"
             app:layout_constraintEnd_toStartOf="@id/findLocationIcon"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/placeCategoryTextView"
+            app:layout_constraintTop_toBottomOf="@id/categoryRecyclerView"
             app:layout_constraintBottom_toBottomOf="parent" />
 
         <ImageView
@@ -93,7 +93,7 @@
             android:clickable="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/placeCategoryTextView"
+            app:layout_constraintTop_toBottomOf="@id/categoryRecyclerView"
             app:layout_constraintStart_toEndOf="@+id/makeCheckInButton"
             android:focusable="true" />
 

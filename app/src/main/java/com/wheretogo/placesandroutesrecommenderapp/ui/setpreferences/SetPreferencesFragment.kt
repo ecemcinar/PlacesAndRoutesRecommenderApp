@@ -77,8 +77,8 @@ class SetPreferencesFragment : Fragment() {
     }
 
     private fun onPreferenceButtonClick(item: SetPreferencesModel) {
-        binding.executePendingBindings()
         viewModel.setPrefList(item)
+        binding.executePendingBindings()
     }
 
     private fun setListeners() {

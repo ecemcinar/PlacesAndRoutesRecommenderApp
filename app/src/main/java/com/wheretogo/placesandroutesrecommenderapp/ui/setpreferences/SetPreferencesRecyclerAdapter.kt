@@ -38,7 +38,7 @@ class SetPreferencesRecyclerAdapter(
         holder.binding.prefContainer.setOnClickListener {
             currentItem?.isSelected = currentItem?.isSelected?.not()
             currentItem?.let { data -> listener.invoke(data) }
-            holder.binding.prefContainer.background = if (currentItem?.isSelected?.isNotNullAndTrue() == true) context.getDrawable(
+            it.background = if (currentItem?.isSelected?.isNotNullAndTrue() == true) context.getDrawable(
                 R.drawable.item_selected_background) else context.getDrawable(R.drawable.item_background)
         }
         holder.bind(currentItem)

@@ -17,6 +17,8 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.google.android.flexbox.FlexDirection
+import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -44,6 +46,7 @@ class CheckInFragment : Fragment(), OnMapReadyCallback {
     private var _binding: FragmentCheckInBinding? = null
     private val binding get() = _binding!!
     private val sharedViewModel: MapsSharedViewModel by viewModels()
+    private lateinit var adapter: CategoryItemAdapter
 
     private var map: GoogleMap? = null
     private var cameraPosition: CameraPosition? = null
@@ -77,6 +80,9 @@ class CheckInFragment : Fragment(), OnMapReadyCallback {
         binding.mapView.getMapAsync {
             map = it
         }
+
+        adapter = CategoryItemAdapter(mutableListOf(), ::onItemSelect)
+        setUpRecyclerView()
         return binding.root
     }
 
@@ -114,6 +120,11 @@ class CheckInFragment : Fragment(), OnMapReadyCallback {
         initCollectors()
     }
 
+    private fun onItemSelect(category: CategoryModel) {
+        sharedViewModel.setSelectedCategory(category)
+        binding.executePendingBindings()
+    }
+
     private fun initListeners() {
         binding.findLocationIcon.setOnClickListener {
             showCurrentPlace()
@@ -143,9 +154,16 @@ class CheckInFragment : Fragment(), OnMapReadyCallback {
                         if (fetchPlaceResponse?.place?.latLng?.latitude.isNull() ||fetchPlaceResponse?.place?.latLng?.longitude.isNull()) {
                             placeCoordination.text = fetchPlaceResponse?.place?.latLng.toString()
                         }
-                        if (sharedViewModel.placeCategoryPredictionList.isNotEmpty()) {
-                            placeCategoryTextView.text = sharedViewModel.placeCategoryPredictionList.toString()
+                        val data: MutableList<CategoryModel?> = mutableListOf()
+                        for (i in sharedViewModel.placeCategoryPredictionList) {
+                            data.add(CategoryModel(category = i))
+                            if (data.size > 3) {
+                                break
+                            }
                         }
+                        data.toList().let { list -> adapter.setData(list) }
+                        adapter.notifyDataSetChanged()
+                        binding.executePendingBindings()
                     }
                     fetchPlaceResponse?.place?.latLng?.let {  place ->
                         val cameraUpdate = CameraUpdateFactory.newLatLngZoom(place, 15f)
@@ -368,9 +386,9 @@ class CheckInFragment : Fragment(), OnMapReadyCallback {
             // Position the map's camera at the location of the marker.
             map?.moveCamera(CameraUpdateFactory.newLatLngZoom(markerLatLng,
                 MapUtility.DEFAULT_ZOOM))
-
+            binding.selectedPlace.text = likelyPlaceNames[which]
             binding.placeCoordination.text =
-                "${markerLatLng.latitude} latitude and ${markerLatLng.longitude} longitude"
+                "$markerLatLng"
             // binding.placeName.text = likelyPlaceNames[which]
         }
 
@@ -410,5 +428,12 @@ class CheckInFragment : Fragment(), OnMapReadyCallback {
     override fun onLowMemory() {
         super.onLowMemory()
         binding.mapView.onLowMemory()
+    }
+
+    private fun setUpRecyclerView() {
+        val layoutManager = FlexboxLayoutManager(requireActivity())
+        layoutManager.flexDirection = FlexDirection.ROW
+        binding.categoryRecyclerView.layoutManager = layoutManager
+        binding.categoryRecyclerView.adapter = adapter
     }
 }

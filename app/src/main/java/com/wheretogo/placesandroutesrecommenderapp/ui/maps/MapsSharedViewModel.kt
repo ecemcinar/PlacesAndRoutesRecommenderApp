@@ -9,6 +9,7 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.libraries.places.api.net.FetchPlaceResponse
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsResponse
 import com.wheretogo.placesandroutesrecommenderapp.repository.placeservice.PlaceRepository
+import com.wheretogo.placesandroutesrecommenderapp.ui.maps.checkin.CategoryModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,6 +29,8 @@ class MapsSharedViewModel @Inject constructor(
     val fetchPlaceResponse = _fetchPlaceResponse.asStateFlow()
 
     var placeCategoryPredictionList: MutableList<String?> = mutableListOf()
+
+    private var selectedCategory: String? = null
 
     fun searchForLocation(query: String) {
         viewModelScope.launch {
@@ -59,5 +62,9 @@ class MapsSharedViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    fun setSelectedCategory(categoryModel: CategoryModel) {
+        selectedCategory = categoryModel.category
     }
 }
