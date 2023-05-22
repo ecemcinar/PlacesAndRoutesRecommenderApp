@@ -120,4 +120,9 @@ class UploadPostFragment : Fragment() {
         }
         return post
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

@@ -23,6 +23,7 @@ import com.wheretogo.placesandroutesrecommenderapp.R
 import com.wheretogo.placesandroutesrecommenderapp.databinding.FragmentCustomizeProfileBinding
 import com.wheretogo.placesandroutesrecommenderapp.util.Resource
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class CustomizeProfileFragment: Fragment() {
@@ -50,13 +51,17 @@ class CustomizeProfileFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        lifecycleScope.launchWhenStarted {
+        initCollectors()
+    }
+
+    private fun initCollectors() {
+        lifecycleScope.launch {
             viewModel.imageClickEvent.collect {
                 requestPermission()
             }
         }
 
-        lifecycleScope.launchWhenStarted {
+        lifecycleScope.launch {
             viewModel.uploadClickEvent.collect {
                 selectedImage?.let { image ->
                     args.userId?.let {
@@ -66,7 +71,7 @@ class CustomizeProfileFragment: Fragment() {
             }
         }
 
-        lifecycleScope.launchWhenStarted {
+        lifecycleScope.launch {
             viewModel.uploadImageFlow.collect {
                 when (it) {
                     is Resource.Failure -> {

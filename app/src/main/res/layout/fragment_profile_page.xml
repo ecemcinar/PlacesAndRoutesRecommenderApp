@@ -56,10 +56,12 @@
             android:fontFamily="@font/quicksand_medium"
             android:textAlignment="center"
             android:text="Log Out"
+            android:clickable="true"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/profileImageView"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            tools:text="Log Out" />
+            tools:text="Log Out"
+            android:focusable="true" />
 
         <ProgressBar
             android:id="@+id/progressBarLoading"
