@@ -9,13 +9,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
-import androidx.swiperefreshlayout.widget.CircularProgressDrawable
-import coil.transform.CircleCropTransformation
 import com.wheretogo.placesandroutesrecommenderapp.databinding.FragmentProfilePageBinding
 import com.wheretogo.placesandroutesrecommenderapp.model.User
 import com.wheretogo.placesandroutesrecommenderapp.ui.auth.SharedAuthViewModel
 import com.wheretogo.placesandroutesrecommenderapp.util.Resource
-import com.wheretogo.placesandroutesrecommenderapp.util.downloadFromUrl
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 

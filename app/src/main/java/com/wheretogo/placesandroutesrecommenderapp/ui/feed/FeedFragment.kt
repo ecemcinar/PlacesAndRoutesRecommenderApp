@@ -12,7 +12,6 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wheretogo.placesandroutesrecommenderapp.R
 import com.wheretogo.placesandroutesrecommenderapp.databinding.FragmentFeedBinding
-import com.wheretogo.placesandroutesrecommenderapp.model.Post
 import com.wheretogo.placesandroutesrecommenderapp.util.Resource
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
