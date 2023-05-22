@@ -41,6 +41,15 @@ class CreateRouteViewModel @Inject constructor(
         _locationList.value?.clear()
     }
 
+    fun setLocationListPositions() {
+        val newOrigin = _locationList.value?.get(1)
+        _locationList.value?.clear()
+
+        newOrigin?.let {
+            _locationList.value?.add(it)
+        }
+    }
+
 
     /*
     fun getRoute() {

@@ -41,6 +41,7 @@ class CreateRouteFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapLongC
     private val binding get() = _binding!!
     private val viewModel: CreateRouteViewModel by viewModels()
     private val sharedViewModel: MapsSharedViewModel by viewModels()
+    private var placeIndex = 1
 
     private var map: GoogleMap? = null
     // The entry point to the Places API.
@@ -98,7 +99,8 @@ class CreateRouteFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapLongC
                         place.latLng?.let {
                             val cameraUpdate = CameraUpdateFactory.newLatLngZoom(it, DEFAULT_ZOOM)
                             map?.moveCamera(cameraUpdate)
-                            map?.addMarker(MarkerOptions().position(it))
+                            map?.addMarker(MarkerOptions().position(it).title(placeIndex.toString()).snippet(place.name))?.showInfoWindow()
+                            placeIndex += 1
                         }
                     }
                 }
@@ -122,8 +124,8 @@ class CreateRouteFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapLongC
         binding.clearMarkersButton.setOnClickListener {
             map?.clear()
             viewModel.clearLocationList()
+            placeIndex = 1
         }
-
 
         binding.createRouteButton.setOnClickListener {
             val origin = viewModel.locationList.value?.get(0)
@@ -178,6 +180,7 @@ class CreateRouteFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapLongC
                     Log.d("Duration:", it?.duration.toString())
                 }
             }
+            viewModel.setLocationListPositions()
         }
     }
 
