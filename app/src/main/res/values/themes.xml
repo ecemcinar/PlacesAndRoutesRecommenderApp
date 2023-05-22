@@ -36,7 +36,7 @@
         <item name="android:textStyle">normal</item>
         <item name="android:textColor">#ff6624</item>
         <item name="android:textSize">16sp</item>
-        <item name="android:ems">12</item>
+        <item name="android:ems">15</item>
         <item name="android:minHeight">48dp</item>
     </style>
 

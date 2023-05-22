@@ -24,8 +24,8 @@
         <com.google.android.gms.maps.MapView
             android:id="@+id/mapView"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_margin="2dp"
+            android:layout_height="@dimen/dim_zero"
+            android:layout_margin="@dimen/dim_two"
             app:layout_constraintVertical_chainStyle="spread"
             app:layout_constraintEnd_toStartOf="@+id/searchView"
             app:layout_constraintStart_toStartOf="parent"
@@ -92,9 +92,8 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/makeCheckInButton"
             style="@style/orangeButtonStyle"
-            android:layout_height="35dp"
-            android:text="CHECK IN"
-            android:textSize="10sp"
+            android:layout_height="wrap_content"
+            android:text="@string/check_in_text"
             app:layout_constraintVertical_chainStyle="packed"
             app:layout_constraintEnd_toStartOf="@id/findLocationIcon"
             app:layout_constraintStart_toStartOf="parent"

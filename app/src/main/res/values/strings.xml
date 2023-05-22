@@ -58,4 +58,6 @@
     <string name="pick_place">Pick Place</string>
 
     <string name="create_route_text">Create Route</string>
+    <string name="check_in_text">Check In</string>
+    <string name="clear_route_text">Clear</string>
 </resources>
