@@ -27,7 +27,7 @@
             android:layout_height="@dimen/dim_zero"
             android:layout_margin="@dimen/dim_two"
             app:layout_constraintVertical_chainStyle="spread"
-            app:layout_constraintEnd_toStartOf="@+id/searchView"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/searchView"
             app:layout_constraintBottom_toTopOf="@id/selectedPlace"/>
@@ -59,8 +59,7 @@
             android:textAlignment="center"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/selectedPlace"
-            app:layout_constraintBottom_toTopOf="@+id/categoryRecyclerView"/>
+            app:layout_constraintTop_toBottomOf="@id/selectedPlace" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/categoryRecyclerView"
@@ -69,7 +68,7 @@
             android:clipToPadding="false"
             android:layoutAnimation="@anim/recyclerview_anim"
             android:paddingTop="1dp"
-            android:layout_margin="2dp"
+            android:layout_margin="@dimen/dim_two"
             app:layout_constraintVertical_chainStyle="packed"
             app:layout_constraintBottom_toTopOf="@+id/makeCheckInButton"
             app:layout_constraintEnd_toEndOf="parent"
@@ -81,7 +80,8 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:visibility="gone"
-            android:layout_margin="2dp"
+            android:layout_margin="@dimen/dim_two"
+            app:layout_constrainedHeight="true"
             app:layout_constraintBottom_toTopOf="@+id/makeCheckInButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintVertical_chainStyle="packed"
@@ -97,7 +97,6 @@
             app:layout_constraintVertical_chainStyle="packed"
             app:layout_constraintEnd_toStartOf="@id/findLocationIcon"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/categoryRecyclerView"
             app:layout_constraintBottom_toBottomOf="parent" />
 
         <ImageView
@@ -108,7 +107,6 @@
             android:clickable="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/categoryRecyclerView"
             app:layout_constraintStart_toEndOf="@+id/makeCheckInButton"
             android:focusable="true" />
 
