@@ -11,7 +11,7 @@
     </data>
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="wrap_content" >
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -65,7 +65,8 @@
                 android:onClick="@{() -> viewModel.uploadClickEvent()}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/contentEditText" />
+                app:layout_constraintTop_toBottomOf="@+id/contentEditText"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
             <ProgressBar
                 android:id="@+id/progressBarLoading"

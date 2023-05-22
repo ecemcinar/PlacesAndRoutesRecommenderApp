@@ -15,6 +15,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/item_background"
         android:layout_margin="@dimen/dim_small"
+        android:sendDataToUpdateFragment="@{post}"
         android:padding="@dimen/dim_small">
 
         <ImageView

@@ -2,12 +2,16 @@ package com.wheretogo.placesandroutesrecommenderapp.util
 
 import android.content.Context
 import android.widget.ImageView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.BindingAdapter
+import androidx.navigation.findNavController
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import coil.load
 import coil.transform.CircleCropTransformation
 import coil.transform.RoundedCornersTransformation
 import coil.transform.Transformation
+import com.wheretogo.placesandroutesrecommenderapp.model.Post
+import com.wheretogo.placesandroutesrecommenderapp.ui.feed.FeedFragmentDirections
 
 class BindingAdapters {
 
@@ -34,6 +38,14 @@ fun downloadImageRounded(view: ImageView, url: String?) {
         url, placeholderProgressBar(view.context),
         RoundedCornersTransformation(topLeft = 20f, topRight = 20f, bottomLeft = 20f, bottomRight = 20f)
     )
+}
+
+@BindingAdapter("android:sendDataToUpdateFragment")
+fun sendDataToUpdateFragment(view: ConstraintLayout, currentItem: Post) {
+    view.setOnClickListener {
+        val action = FeedFragmentDirections.actionFeedFragmentToPostViewFragment(currentItem)
+        view.findNavController().navigate(action)
+    }
 }
 
 fun placeholderProgressBar(context: Context): CircularProgressDrawable {
