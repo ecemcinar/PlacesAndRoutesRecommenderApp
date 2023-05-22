@@ -81,7 +81,7 @@ class FirebaseFirestoreRepositoryImpl  @Inject constructor(
         }
     }
 
-    override suspend fun getUser(documentId: String): User? {
+    override suspend fun getUser(documentId: String): Resource<User?> {
         var user: User? = User()
         return try {
             firebaseFirestore.collection("users").document(documentId)
@@ -94,11 +94,10 @@ class FirebaseFirestoreRepositoryImpl  @Inject constructor(
                 .addOnFailureListener {
                     Log.d("Hata", it.message, it)
                 }
-            user
+            Resource.Success(user)
         } catch (e: Exception) {
             e.printStackTrace()
             Resource.Failure(e)
-            user
         }
     }
 
