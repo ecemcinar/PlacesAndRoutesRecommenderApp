@@ -16,6 +16,7 @@ import com.wheretogo.placesandroutesrecommenderapp.databinding.FragmentUploadPos
 import com.wheretogo.placesandroutesrecommenderapp.model.Post
 import com.wheretogo.placesandroutesrecommenderapp.util.Resource
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class UploadPostFragment : Fragment() {
@@ -23,6 +24,7 @@ class UploadPostFragment : Fragment() {
     private var _binding: FragmentUploadPostBinding? = null
     private val binding get() = _binding!!
     private val viewModel: UploadPostViewModel by viewModels()
+    private var post: Post? = null
     private val args by navArgs<UploadPostFragmentArgs>()
 
     override fun onCreateView(
@@ -32,8 +34,7 @@ class UploadPostFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentUploadPostBinding.inflate(inflater, container, false)
         binding.viewModel = viewModel
-
-        setListeners()
+        binding.lifecycleOwner = viewLifecycleOwner
 
         return binding.root
     }
@@ -41,14 +42,41 @@ class UploadPostFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        lifecycleScope.launchWhenStarted {
-            viewModel.postButtonClickEvent.collect {
-                val post = setPost()
-                viewModel.addPostToFirestore(post)
+        args.userId?.let { viewModel.getUser(it) }
+        initCollectors()
+        initListeners()
+    }
+
+    private fun initCollectors() {
+
+        lifecycleScope.launch {
+            viewModel.getUserFlow.collect {
+                when (it) {
+                    is Resource.Loading -> {}
+                    is Resource.Success -> {
+                        post = Post().apply {
+                            userProfileImage = it.result?.userProfileImage
+                        }
+                    }
+                    is Resource.Failure -> {
+                        Toast.makeText(requireActivity(), it.exception.message, Toast.LENGTH_LONG)
+                            .show()
+                    }
+                    else -> {}
+                }
             }
         }
 
-        lifecycleScope.launchWhenStarted {
+        lifecycleScope.launch {
+            viewModel.postButtonClickEvent.collect {
+                post = setPost()
+                post?.let {
+                    viewModel.addPostToFirestore(it)
+                }
+            }
+        }
+
+        lifecycleScope.launch {
             viewModel.addPostFlow.collect {
                 when (it) {
                     is Resource.Failure -> {
@@ -69,7 +97,7 @@ class UploadPostFragment : Fragment() {
         }
     }
 
-    private fun setListeners() {
+    private fun initListeners() {
 
         binding.contentEditText.doOnTextChanged { _, _, _, _ ->
             setButtonEnable()
@@ -85,10 +113,11 @@ class UploadPostFragment : Fragment() {
                 binding.contentEditText.text.isNullOrEmpty().not())
     }
 
-    private fun setPost(): Post {
-        return Post(
-            title = binding.titleEditText.text.toString(),
+    private fun setPost(): Post? {
+        post?.apply {
+            title = binding.titleEditText.text.toString()
             content = binding.contentEditText.text.toString()
-        )
+        }
+        return post
     }
 }

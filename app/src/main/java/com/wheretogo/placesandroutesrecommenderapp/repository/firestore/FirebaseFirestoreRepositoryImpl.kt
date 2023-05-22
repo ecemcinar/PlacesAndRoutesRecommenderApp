@@ -52,7 +52,9 @@ class FirebaseFirestoreRepositoryImpl  @Inject constructor(
             val postMap = hashMapOf(
                 "username" to username,
                 "title" to post.title,
-                "content" to post.content
+                "content" to post.content,
+                "userId" to post.userId,
+                "userProfileImage" to post.userProfileImage
             )
 
             firebaseFirestore.collection("posts")
@@ -84,16 +86,11 @@ class FirebaseFirestoreRepositoryImpl  @Inject constructor(
     override suspend fun getUser(documentId: String): Resource<User?> {
         var user: User? = User()
         return try {
-            firebaseFirestore.collection("users").document(documentId)
-                .get()
-                .addOnSuccessListener {
-                    if (it.exists()) {
-                        user = it.toObject()
-                    }
-                }
-                .addOnFailureListener {
-                    Log.d("Hata", it.message, it)
-                }
+            val result = firebaseFirestore.collection("users").document(documentId)
+                .get().await()
+            if (result.exists()) {
+                user = result.toObject<User>()
+            }
             Resource.Success(user)
         } catch (e: Exception) {
             e.printStackTrace()

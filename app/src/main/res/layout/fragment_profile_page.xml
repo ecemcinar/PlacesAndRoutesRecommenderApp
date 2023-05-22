@@ -16,7 +16,8 @@
         <ImageView
             android:id="@+id/profileImageView"
             android:layout_width="wrap_content"
-            android:layout_height="100dp"
+            android:layout_height="150dp"
+            android:downloadUrl="@{user.userProfileImage}"
             app:layout_constraintTop_toTopOf="parent"
             android:src="@drawable/user_profile_photo"
             app:layout_constraintEnd_toEndOf="parent"
@@ -59,6 +60,18 @@
             app:layout_constraintEnd_toEndOf="@id/profileImageView"
             app:layout_constraintBottom_toBottomOf="parent"
             tools:text="Log Out" />
+
+        <ProgressBar
+            android:id="@+id/progressBarLoading"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminateDrawable="@drawable/circularprogressbar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

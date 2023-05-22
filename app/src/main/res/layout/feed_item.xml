@@ -22,7 +22,7 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:contentDescription="@null"
-            android:src="@drawable/user_profile_photo"
+            android:downloadUrl="@{post.userProfileImage}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
