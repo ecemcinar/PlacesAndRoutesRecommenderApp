@@ -9,10 +9,14 @@
             type="com.wheretogo.placesandroutesrecommenderapp.model.User" />
     </data>
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="56dp">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="56dp">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/profileImageView"
@@ -39,14 +43,78 @@
             app:layout_constraintEnd_toEndOf="@id/profileImageView"
             tools:text="Name Surname" />
 
+        <TextView
+            android:id="@+id/postLabelTextView"
+            style="@style/regularTextViewStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dim_small"
+            android:layout_marginStart="@dimen/dim_small"
+            android:fontFamily="@font/quicksand_medium"
+            android:textAlignment="center"
+            android:text="Posts"
+            app:layout_constraintTop_toBottomOf="@+id/nameSurnameTextView"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="Posts" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/main_color_orange"
+            app:layout_constraintTop_toBottomOf="@id/postLabelTextView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/postRecyclerView"/>
+
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/checkInsRecyclerView"
+            android:id="@+id/postRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dim_zero"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_margin="@dimen/dim_small"
-            app:layout_constraintTop_toBottomOf="@+id/nameSurnameTextView" />
+            app:layout_constraintTop_toBottomOf="@+id/postLabelTextView" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/main_color_orange"
+            app:layout_constraintTop_toBottomOf="@id/postRecyclerView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/checkInLabelTextView"/>
+
+        <TextView
+            android:id="@+id/checkInLabelTextView"
+            style="@style/regularTextViewStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dim_small"
+            android:layout_marginStart="@dimen/dim_small"
+            android:fontFamily="@font/quicksand_medium"
+            android:textAlignment="center"
+            android:text="Check Ins"
+            app:layout_constraintTop_toBottomOf="@+id/postRecyclerView"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="Check Ins" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/checkInRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dim_zero"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_margin="@dimen/dim_small"
+            app:layout_constraintTop_toBottomOf="@+id/checkInLabelTextView" />
+
+        <View
+            android:id="@+id/seperator"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/main_color_orange"
+            app:layout_constraintTop_toBottomOf="@id/checkInRecyclerView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <TextView
             android:id="@+id/logOutTextView"
@@ -58,6 +126,7 @@
             android:textAlignment="center"
             android:text="Log Out"
             android:clickable="true"
+            app:layout_constraintTop_toBottomOf="@+id/seperator"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -76,5 +145,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
 </layout>

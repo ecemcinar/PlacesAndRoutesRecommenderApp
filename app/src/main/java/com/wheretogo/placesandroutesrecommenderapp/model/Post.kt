@@ -9,5 +9,6 @@ data class Post(
     var title: String? = null,
     var content: String? = null,
     var userId: String? = null,
-    var userProfileImage: String? = null
+    var userProfileImage: String? = null,
+    var date: String? = null
 ): Parcelable

@@ -1,13 +1,18 @@
 package com.wheretogo.placesandroutesrecommenderapp.ui.maps.checkin
 
 import android.app.Application
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.maps.model.LatLng
 import com.wheretogo.placesandroutesrecommenderapp.model.CheckIn
 import com.wheretogo.placesandroutesrecommenderapp.repository.firestore.FirebaseFirestoreRepository
 import com.wheretogo.placesandroutesrecommenderapp.util.Resource
+import com.wheretogo.placesandroutesrecommenderapp.util.Util
 import dagger.hilt.android.lifecycle.HiltViewModel
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -38,6 +43,7 @@ class CheckInViewModel @Inject constructor(
         selectedPlaceLatlng = latLng
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun addCheckInToFirebase(
         userId: String
     ) {
@@ -48,6 +54,7 @@ class CheckInViewModel @Inject constructor(
             this.latitude = selectedPlaceLatlng?.latitude.toString()
             this.longitude = selectedPlaceLatlng?.longitude.toString()
             this.category = selectedCategory
+            this.date = Util.getCurrentTime()
         }
         viewModelScope.launch {
             val result = firestoreRepository.addCheckIn(checkIn)

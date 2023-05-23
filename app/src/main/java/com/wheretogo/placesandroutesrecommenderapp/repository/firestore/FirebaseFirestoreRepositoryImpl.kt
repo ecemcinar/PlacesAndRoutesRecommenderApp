@@ -53,7 +53,8 @@ class FirebaseFirestoreRepositoryImpl  @Inject constructor(
                 "title" to post.title,
                 "content" to post.content,
                 "userId" to post.userId,
-                "userProfileImage" to post.userProfileImage
+                "userProfileImage" to post.userProfileImage,
+                "date" to post.date
             )
 
             firebaseFirestore.collection("posts")
@@ -122,13 +123,32 @@ class FirebaseFirestoreRepositoryImpl  @Inject constructor(
                 "placeName" to checkIn.placeName,
                 "longitude" to checkIn.longitude,
                 "latitude" to checkIn.latitude,
-                "category" to checkIn.category
+                "category" to checkIn.category,
+                "date" to checkIn.date
             )
 
             firebaseFirestore.collection("checkins").add(checkInMap)
             Resource.Success(checkIn)
 
             Resource.Success(checkIn)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Resource.Failure(e)
+        }
+    }
+
+    override suspend fun getUserPosts(userId: String): Resource<List<Post>> {
+        val postList = mutableListOf<Post>()
+        return try {
+            val result = firebaseFirestore.collection("posts")
+                .get().await()
+            for (doc in result.documents) {
+                val post = doc.toObject<Post>()
+                if (post?.userId == userId) {
+                    postList.add(post)
+                }
+            }
+            Resource.Success(postList)
         } catch (e: Exception) {
             e.printStackTrace()
             Resource.Failure(e)

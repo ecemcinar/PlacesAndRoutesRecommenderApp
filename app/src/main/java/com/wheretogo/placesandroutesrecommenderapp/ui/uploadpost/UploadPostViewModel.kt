@@ -1,6 +1,8 @@
 package com.wheretogo.placesandroutesrecommenderapp.ui.uploadpost
 
 import android.app.Application
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.wheretogo.placesandroutesrecommenderapp.model.Post
@@ -8,6 +10,7 @@ import com.wheretogo.placesandroutesrecommenderapp.model.User
 import com.wheretogo.placesandroutesrecommenderapp.repository.authentication.FirebaseAuthRepository
 import com.wheretogo.placesandroutesrecommenderapp.repository.firestore.FirebaseFirestoreRepository
 import com.wheretogo.placesandroutesrecommenderapp.util.Resource
+import com.wheretogo.placesandroutesrecommenderapp.util.Util
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.channels.Channel
@@ -32,12 +35,14 @@ class UploadPostViewModel @Inject constructor(
     private var _getUserFlow = MutableStateFlow<Resource<User?>?>(null)
     val getUserFlow = _getUserFlow.asStateFlow()
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun addPostToFirestore(post: Post) {
         _addPostFlow.value = Resource.Loading
         viewModelScope.launch {
             authRepository.currentUser?.let { user ->
                 user.displayName?.let {
                     post.userId = user.uid
+                    post.date = Util.getCurrentTime()
                     val result = repository.addPost(it, post)
                     _addPostFlow.value = result
                 }

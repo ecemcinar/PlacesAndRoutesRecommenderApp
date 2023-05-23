@@ -3,6 +3,7 @@ package com.wheretogo.placesandroutesrecommenderapp.ui.profile
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.wheretogo.placesandroutesrecommenderapp.model.Post
 import com.wheretogo.placesandroutesrecommenderapp.model.User
 import com.wheretogo.placesandroutesrecommenderapp.repository.firestore.FirebaseFirestoreRepository
 import com.wheretogo.placesandroutesrecommenderapp.util.Resource
@@ -21,11 +22,22 @@ class ProfileViewModel @Inject constructor(
     private var _getUserFlow = MutableStateFlow<Resource<User?>?>(null)
     val getUserFlow = _getUserFlow.asStateFlow()
 
+    private var _getUserPostListFlow = MutableStateFlow<Resource<List<Post>?>?>(null)
+    val getUserPostListFlow = _getUserPostListFlow.asStateFlow()
+
     fun getUser(userId: String) {
         _getUserFlow.value = Resource.Loading
         viewModelScope.launch {
             val result = firestoreRepository.getUser(userId)
             _getUserFlow.value = result
+        }
+    }
+
+    fun getUserPostList(userId: String) {
+        _getUserPostListFlow.value = Resource.Loading
+        viewModelScope.launch {
+            val result = firestoreRepository.getUserPosts(userId)
+            _getUserPostListFlow.value = result
         }
     }
 }
