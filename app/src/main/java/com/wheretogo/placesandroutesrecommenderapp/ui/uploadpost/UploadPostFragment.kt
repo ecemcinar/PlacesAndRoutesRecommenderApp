@@ -49,7 +49,7 @@ class UploadPostFragment : Fragment() {
 
     private fun initCollectors() {
 
-        lifecycleScope.launch {
+        lifecycleScope.launchWhenStarted {
             viewModel.getUserFlow.collect {
                 when (it) {
                     is Resource.Loading -> {}
@@ -67,7 +67,7 @@ class UploadPostFragment : Fragment() {
             }
         }
 
-        lifecycleScope.launch {
+        lifecycleScope.launchWhenStarted {
             viewModel.postButtonClickEvent.collect {
                 post = setPost()
                 post?.let {
@@ -76,7 +76,7 @@ class UploadPostFragment : Fragment() {
             }
         }
 
-        lifecycleScope.launch {
+        lifecycleScope.launchWhenStarted {
             viewModel.addPostFlow.collect {
                 when (it) {
                     is Resource.Failure -> {

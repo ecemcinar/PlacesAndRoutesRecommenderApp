@@ -6,9 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.wheretogo.placesandroutesrecommenderapp.R
 import com.wheretogo.placesandroutesrecommenderapp.databinding.FragmentProfilePageBinding
 import com.wheretogo.placesandroutesrecommenderapp.model.User
 import com.wheretogo.placesandroutesrecommenderapp.ui.auth.SharedAuthViewModel
@@ -70,6 +73,7 @@ class ProfileFragment: Fragment() {
     private fun initListeners() {
         binding.logOutTextView.setOnClickListener {
             sharedAuthViewModel.logout()
+            findNavController().navigate(R.id.loginFragment)
         }
     }
 

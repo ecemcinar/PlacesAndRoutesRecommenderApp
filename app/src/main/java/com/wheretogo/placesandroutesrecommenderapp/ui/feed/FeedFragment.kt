@@ -49,7 +49,7 @@ class FeedFragment : Fragment() {
         // disables the back arrow
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
 
-        lifecycleScope.launch {
+        lifecycleScope.launchWhenStarted {
             viewModel.getPostListFlow.collect {
                 when (it) {
                     is Resource.Failure -> {

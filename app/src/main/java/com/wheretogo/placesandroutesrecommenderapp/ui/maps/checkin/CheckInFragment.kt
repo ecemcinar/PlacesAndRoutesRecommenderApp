@@ -154,7 +154,7 @@ class CheckInFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun initCollectors() {
-        lifecycleScope.launch {
+        lifecycleScope.launchWhenStarted {
             sharedViewModel.searchForLocationResponse.collect {
                 sharedViewModel.fetchPlaceResponse.collect { fetchPlaceResponse ->
                     binding.apply {
@@ -189,7 +189,7 @@ class CheckInFragment : Fragment(), OnMapReadyCallback {
             }
         }
 
-        lifecycleScope.launch {
+        lifecycleScope.launchWhenStarted {
             viewModel.addCheckInFlow.collect {
                 when (it) {
                     is Resource.Failure -> {

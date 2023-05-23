@@ -25,9 +25,7 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class CreateRouteViewModel @Inject constructor(
-    application: Application,
-    private val googleMapsRepository: GoogleMapsRepository,
-    private val placeRepository: PlaceRepository
+    application: Application
 ): AndroidViewModel(application) {
 
     private val _locationList = MutableStateFlow<MutableList<Place>?>(mutableListOf())
