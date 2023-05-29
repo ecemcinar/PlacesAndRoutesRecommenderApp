@@ -1,10 +1,12 @@
 package com.wheretogo.placesandroutesrecommenderapp.repository.firestore
 
 import com.google.firebase.Timestamp
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.toObject
 import com.wheretogo.placesandroutesrecommenderapp.model.CheckIn
+import com.wheretogo.placesandroutesrecommenderapp.model.Location
 import com.wheretogo.placesandroutesrecommenderapp.model.Post
 import com.wheretogo.placesandroutesrecommenderapp.model.Recommendation
 import com.wheretogo.placesandroutesrecommenderapp.model.User
@@ -185,10 +187,25 @@ class FirebaseFirestoreRepositoryImpl  @Inject constructor(
                 .get()
                 .await()
             for (doc in result.documents) {
-                val recommendation = doc.toObject<Recommendation>()
-                recommendation?.let {
-                    list.add(it)
+                val recommendation = Recommendation().apply {
+                    title = doc.getString("title")
+                    content = doc.getString("content")
+                    image = doc.getString("image")
                 }
+                val places = doc.get("placeList") as List<DocumentReference>
+                val placeList = mutableListOf<Location?>()
+                for (ref in places) {
+                    val res = ref.get().await()
+                    placeList.add(
+                        Location().apply {
+                        locationName = res.getString("locationName")
+                            latitude = res.getString("latitude")
+                            longitude = res.getString("longitude")
+                            category = res.getString("category")
+                    })
+                }
+                recommendation.placeList = placeList
+                list.add(recommendation)
             }
             Resource.Success(list)
         } catch (e: Exception) {

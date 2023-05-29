@@ -13,18 +13,20 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:layout_marginBottom="56dp">
 
         <ImageView
             android:id="@+id/cityImage"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             android:contentDescription="@null"
-            android:src="@drawable/article"
             android:downloadUrlRounded="@{recommendation.image}"
+            android:src="@drawable/article"
+            app:layout_constraintBottom_toTopOf="@id/recommendationTitle"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/recommendationTitle"
@@ -33,12 +35,50 @@
             android:layout_height="wrap_content"
             android:text="@{recommendation.title}"
             android:textSize="18sp"
-            android:layout_margin="@dimen/dim_four"
             android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/nestedScrollView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cityImage"
-            app:layout_constraintStart_toStartOf="@id/cityImage"
-            app:layout_constraintEnd_toEndOf="@id/cityImage"
             tools:text="Izmir'de Gorulmesi Gereken Yerler" />
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/nestedScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dim_zero"
+            android:layout_margin="@dimen/dim_small"
+            android:fillViewport="true"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:layout_constraintBottom_toTopOf="@+id/showRouteButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/recommendationTitle">
+
+            <TextView
+                android:id="@+id/contentTextView"
+                style="@style/greySmallTextViewStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/custom_input"
+                android:justificationMode="inter_word"
+                android:padding="@dimen/dim_small"
+                android:text="@{recommendation.content}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:targetApi="o"
+                tools:text="@string/post_view_content_sample" />
+        </androidx.core.widget.NestedScrollView>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/showRouteButton"
+            style="@style/orangeButtonStyle"
+            android:layout_margin="@dimen/dim_small"
+            android:enabled="false"
+            android:text="@string/show_route_label"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/nestedScrollView" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

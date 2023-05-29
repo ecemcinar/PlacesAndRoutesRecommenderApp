@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import com.wheretogo.placesandroutesrecommenderapp.databinding.FragmentRouteRecommendationBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -13,6 +14,7 @@ class RouteRecommendationFragment : Fragment() {
 
     private var _binding: FragmentRouteRecommendationBinding? = null
     private val binding get() = _binding!!
+    private val args by navArgs<RouteRecommendationFragmentArgs>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -25,6 +27,7 @@ class RouteRecommendationFragment : Fragment() {
             false
         )
         binding.lifecycleOwner = viewLifecycleOwner
+        binding.recommendation = args.recommendation
 
         return binding.root
     }

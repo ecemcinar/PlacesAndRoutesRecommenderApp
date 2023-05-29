@@ -12,6 +12,7 @@ import coil.transform.RoundedCornersTransformation
 import coil.transform.Transformation
 import com.wheretogo.placesandroutesrecommenderapp.R
 import com.wheretogo.placesandroutesrecommenderapp.model.Post
+import com.wheretogo.placesandroutesrecommenderapp.model.Recommendation
 import com.wheretogo.placesandroutesrecommenderapp.ui.feed.FeedFragmentDirections
 import com.wheretogo.placesandroutesrecommenderapp.ui.profile.ProfileFragmentDirections
 
@@ -96,6 +97,14 @@ fun setPlaceCategoryImage(view: ImageView, category: String?) {
 fun sendDataToPostViewFragment(view: ConstraintLayout, currentItem: Post) {
     view.setOnClickListener {
         val action = ProfileFragmentDirections.actionProfileFragmentToPostViewFragment(currentItem)
+        view.findNavController().navigate(action)
+    }
+}
+
+@BindingAdapter("android:sendDataToRouteRecommendationFragment")
+fun sendDataToRouteRecommendationFragment(view: ConstraintLayout, currentItem: Recommendation) {
+    view.setOnClickListener {
+        val action = FeedFragmentDirections.actionFeedFragmentToRouteRecommendationFragment(currentItem)
         view.findNavController().navigate(action)
     }
 }
