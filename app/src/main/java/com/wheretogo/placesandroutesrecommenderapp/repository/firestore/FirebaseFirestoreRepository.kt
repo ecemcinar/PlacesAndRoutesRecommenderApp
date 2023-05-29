@@ -22,4 +22,6 @@ interface FirebaseFirestoreRepository {
     suspend fun addCheckIn(checkIn: CheckIn): Resource<CheckIn>
 
     suspend fun getUserPosts(userId: String): Resource<List<Post>>
+
+    suspend fun getUserCheckInList(userId: String): Resource<List<CheckIn>>
 }

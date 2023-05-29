@@ -154,4 +154,22 @@ class FirebaseFirestoreRepositoryImpl  @Inject constructor(
             Resource.Failure(e)
         }
     }
+
+    override suspend fun getUserCheckInList(userId: String): Resource<List<CheckIn>> {
+        val checkinList = mutableListOf<CheckIn>()
+        return try {
+            val result = firebaseFirestore.collection("checkins")
+                .get().await()
+            for (doc in result.documents) {
+                val checkIn = doc.toObject<CheckIn>()
+                if (checkIn?.userId == userId) {
+                    checkinList.add(checkIn)
+                }
+            }
+            Resource.Success(checkinList)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Resource.Failure(e)
+        }
+    }
 }
