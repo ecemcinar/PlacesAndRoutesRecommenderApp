@@ -1,6 +1,8 @@
 package com.wheretogo.placesandroutesrecommenderapp.repository.firestore
 
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.toObject
 import com.wheretogo.placesandroutesrecommenderapp.model.CheckIn
 import com.wheretogo.placesandroutesrecommenderapp.model.Post
@@ -54,7 +56,8 @@ class FirebaseFirestoreRepositoryImpl  @Inject constructor(
                 "content" to post.content,
                 "userId" to post.userId,
                 "userProfileImage" to post.userProfileImage,
-                "date" to post.date
+                "date" to post.date,
+                "time" to Timestamp.now()
             )
 
             firebaseFirestore.collection("posts")
@@ -101,7 +104,7 @@ class FirebaseFirestoreRepositoryImpl  @Inject constructor(
     override suspend fun getPosts(): Resource<List<Post>> {
         val postList = mutableListOf<Post>()
         return try {
-            val result = firebaseFirestore.collection("posts")
+            val result = firebaseFirestore.collection("posts").orderBy("time", Query.Direction.DESCENDING)
                 .get().await()
             for (doc in result.documents) {
                 val post = doc.toObject<Post>()
@@ -124,7 +127,8 @@ class FirebaseFirestoreRepositoryImpl  @Inject constructor(
                 "longitude" to checkIn.longitude,
                 "latitude" to checkIn.latitude,
                 "category" to checkIn.category,
-                "date" to checkIn.date
+                "date" to checkIn.date,
+                "time" to Timestamp.now()
             )
 
             firebaseFirestore.collection("checkins").add(checkInMap)
@@ -140,7 +144,7 @@ class FirebaseFirestoreRepositoryImpl  @Inject constructor(
     override suspend fun getUserPosts(userId: String): Resource<List<Post>> {
         val postList = mutableListOf<Post>()
         return try {
-            val result = firebaseFirestore.collection("posts")
+            val result = firebaseFirestore.collection("posts").orderBy("time", Query.Direction.DESCENDING)
                 .get().await()
             for (doc in result.documents) {
                 val post = doc.toObject<Post>()
@@ -158,7 +162,7 @@ class FirebaseFirestoreRepositoryImpl  @Inject constructor(
     override suspend fun getUserCheckInList(userId: String): Resource<List<CheckIn>> {
         val checkinList = mutableListOf<CheckIn>()
         return try {
-            val result = firebaseFirestore.collection("checkins")
+            val result = firebaseFirestore.collection("checkins").orderBy("time", Query.Direction.DESCENDING)
                 .get().await()
             for (doc in result.documents) {
                 val checkIn = doc.toObject<CheckIn>()

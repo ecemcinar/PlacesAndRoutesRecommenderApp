@@ -147,5 +147,8 @@
             android:name="userId"
             app:argType="string"
             app:nullable="true" />
+        <action
+            android:id="@+id/action_profileFragment_to_postViewFragment"
+            app:destination="@id/postViewFragment" />
     </fragment>
 </navigation>

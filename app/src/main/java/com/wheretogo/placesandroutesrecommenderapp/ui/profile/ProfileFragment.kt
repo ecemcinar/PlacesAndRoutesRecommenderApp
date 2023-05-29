@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.wheretogo.placesandroutesrecommenderapp.R
 import com.wheretogo.placesandroutesrecommenderapp.databinding.FragmentProfilePageBinding
 import com.wheretogo.placesandroutesrecommenderapp.model.User
@@ -25,7 +26,8 @@ class ProfileFragment: Fragment() {
     private val binding get() = _binding!!
     private val viewModel: ProfileViewModel by viewModels()
     private val sharedAuthViewModel: SharedAuthViewModel by viewModels()
-    private val adapter: PostAdapter by lazy { PostAdapter() }
+    private val postAdapter: PostAdapter by lazy { PostAdapter() }
+    private val checkInAdapter: CheckInAdapter by lazy { CheckInAdapter() }
 
     private val args by navArgs<ProfileFragmentArgs>()
     private var user: User? = null
@@ -47,6 +49,7 @@ class ProfileFragment: Fragment() {
         args.userId?.let {
             viewModel.getUser(it)
             viewModel.getUserPostList(it)
+            viewModel.getUserCheckInList(it)
         }
         initCollectors()
         initListeners()
@@ -83,7 +86,27 @@ class ProfileFragment: Fragment() {
                             .show()
                     }
                     is Resource.Success -> {
-                        it.result?.let { it1 -> adapter.setPostList(it1) }
+                        it.result?.let { it1 -> postAdapter.setPostList(it1) }
+                        binding.executePendingBindings()
+                    }
+                    is Resource.Loading -> {
+                        binding.progressBarLoading.visibility = View.VISIBLE
+                    }
+                    else -> {}
+                }
+            }
+        }
+
+        lifecycleScope.launchWhenStarted {
+            viewModel.getUserCheckInListFlow.collect {
+                when (it) {
+                    is Resource.Failure -> {
+                        binding.progressBarLoading.visibility = View.GONE
+                        Toast.makeText(requireActivity(), it.exception.message, Toast.LENGTH_LONG)
+                            .show()
+                    }
+                    is Resource.Success -> {
+                        it.result?.let { it1 -> checkInAdapter.setCheckInList(it1) }
                         binding.executePendingBindings()
                     }
                     is Resource.Loading -> {
@@ -108,8 +131,10 @@ class ProfileFragment: Fragment() {
     }
 
     private fun setUpRecyclerView() {
-        val recyclerView = binding.postRecyclerView
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(requireActivity())
+        binding.postRecyclerView.adapter = postAdapter
+        binding.postRecyclerView.layoutManager = LinearLayoutManager(requireActivity(), RecyclerView.HORIZONTAL, false)
+
+        binding.checkInRecyclerView.adapter = checkInAdapter
+        binding.checkInRecyclerView.layoutManager = LinearLayoutManager(requireActivity(), RecyclerView.HORIZONTAL, false)
     }
 }

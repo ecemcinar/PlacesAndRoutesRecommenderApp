@@ -6,109 +6,111 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.maps.checkin.CheckInFragment"
-        android:layout_marginBottom="56dp">
+        android:layout_marginBottom="56dp"
+        tools:context=".ui.maps.checkin.CheckInFragment">
 
         <androidx.appcompat.widget.SearchView
             android:id="@+id/searchView"
             android:layout_width="@dimen/dim_zero"
             android:layout_height="30dp"
+            android:layout_marginTop="2dp"
             android:background="@drawable/search_item_background"
             android:iconifiedByDefault="false"
             android:queryHint="Search Somewhere"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:closeIcon="@drawable/clear"
             app:layout_constraintBottom_toTopOf="@+id/mapView"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/mapView"
+            app:layout_constraintStart_toStartOf="@id/mapView"
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.gms.maps.MapView
             android:id="@+id/mapView"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dim_zero"
-            android:layout_margin="@dimen/dim_two"
-            app:layout_constraintVertical_chainStyle="spread"
+            android:layout_margin="5dp"
+            app:layout_constraintBottom_toTopOf="@id/selectedPlace"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/searchView"
-            app:layout_constraintBottom_toTopOf="@id/selectedPlace"/>
+            app:layout_constraintVertical_chainStyle="spread" />
 
         <TextView
             android:id="@+id/selectedPlace"
             style="@style/regularTextViewStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="Selected Place"
             android:textAlignment="center"
-            app:layout_constraintVertical_chainStyle="packed"
-            android:textSize="15sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/placeCoordination"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/mapView"
-            app:layout_constraintBottom_toTopOf="@id/placeCoordination"/>
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:text="Selected Place" />
 
         <TextView
             android:id="@+id/placeCoordination"
             style="@style/greySmallTextViewStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintVertical_chainStyle="packed"
-            tools:text="38.418594 latitude and 27.131760 longitude"
-            android:textStyle="bold"
-            android:textSize="12sp"
             android:textAlignment="center"
-            app:layout_constraintStart_toStartOf="parent"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/selectedPlace" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/selectedPlace"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:text="38.418594 latitude and 27.131760 longitude" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/categoryRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dim_two"
             android:clipToPadding="false"
             android:layoutAnimation="@anim/recyclerview_anim"
             android:paddingTop="1dp"
-            android:layout_margin="@dimen/dim_two"
-            app:layout_constraintVertical_chainStyle="packed"
             app:layout_constraintBottom_toTopOf="@+id/makeCheckInButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/placeCoordination" />
+            app:layout_constraintTop_toBottomOf="@+id/placeCoordination"
+            app:layout_constraintVertical_chainStyle="packed" />
 
         <EditText
             android:id="@+id/categoryEditText"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:visibility="gone"
             android:layout_margin="@dimen/dim_two"
+            android:visibility="gone"
             app:layout_constrainedHeight="true"
             app:layout_constraintBottom_toTopOf="@+id/makeCheckInButton"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintVertical_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/placeCoordination" >
-        </EditText>
+            app:layout_constraintTop_toBottomOf="@+id/placeCoordination"
+            app:layout_constraintVertical_chainStyle="packed" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/makeCheckInButton"
             style="@style/orangeButtonStyle"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:text="@string/check_in_text"
-            app:layout_constraintVertical_chainStyle="packed"
-            app:layout_constraintEnd_toStartOf="@id/findLocationIcon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintVertical_chainStyle="packed" />
 
         <ImageView
             android:id="@+id/findLocationIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/check_in"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="2dp"
             android:clickable="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/makeCheckInButton"
-            android:focusable="true" />
+            android:focusable="true"
+            android:src="@drawable/gps"
+            app:layout_constraintBottom_toBottomOf="@id/mapView"
+            app:layout_constraintEnd_toEndOf="@id/mapView" />
 
         <ProgressBar
             android:id="@+id/progressBarLoading"
@@ -116,9 +118,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:indeterminateDrawable="@drawable/circularprogressbar"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

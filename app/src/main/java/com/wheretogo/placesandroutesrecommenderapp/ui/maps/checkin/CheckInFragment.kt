@@ -22,6 +22,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexboxLayoutManager
+import com.google.android.flexbox.JustifyContent
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -42,7 +43,6 @@ import com.wheretogo.placesandroutesrecommenderapp.ui.maps.MapsSharedViewModel
 import com.wheretogo.placesandroutesrecommenderapp.util.MapUtility
 import com.wheretogo.placesandroutesrecommenderapp.util.Resource
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class CheckInFragment : Fragment(), OnMapReadyCallback {
@@ -336,6 +336,7 @@ class CheckInFragment : Fragment(), OnMapReadyCallback {
         }
         if (locationPermissionGranted) {
             // Use fields to define the data types to return.
+            binding.progressBarLoading.visibility = View.VISIBLE
             val placeFields = listOf(Place.Field.NAME, Place.Field.ADDRESS, Place.Field.LAT_LNG)
 
             // Use the builder to create a FindCurrentPlaceRequest.
@@ -383,6 +384,7 @@ class CheckInFragment : Fragment(), OnMapReadyCallback {
             Log.i("TAG", "The user did not grant location permission.")
 
             // Add a default marker, because the user hasn't selected a place.
+            binding.progressBarLoading.visibility = View.GONE
             map?.addMarker(MarkerOptions()
                 .title(getString(R.string.default_info_title))
                 .position(defaultLocation)
@@ -423,7 +425,7 @@ class CheckInFragment : Fragment(), OnMapReadyCallback {
             binding.selectedPlace.text = likelyPlaceNames[which]
             binding.placeCoordination.text =
                 "$markerLatLng"
-
+            binding.progressBarLoading.visibility = View.GONE
             binding.categoryEditText.visibility = View.VISIBLE
             binding.categoryRecyclerView.visibility = View.GONE
         }
@@ -469,6 +471,7 @@ class CheckInFragment : Fragment(), OnMapReadyCallback {
     private fun setUpRecyclerView() {
         val layoutManager = FlexboxLayoutManager(requireActivity())
         layoutManager.flexDirection = FlexDirection.ROW
+        layoutManager.justifyContent = JustifyContent.CENTER
         binding.categoryRecyclerView.layoutManager = layoutManager
         binding.categoryRecyclerView.adapter = adapter
     }

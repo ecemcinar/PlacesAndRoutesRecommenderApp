@@ -10,8 +10,10 @@ import coil.load
 import coil.transform.CircleCropTransformation
 import coil.transform.RoundedCornersTransformation
 import coil.transform.Transformation
+import com.wheretogo.placesandroutesrecommenderapp.R
 import com.wheretogo.placesandroutesrecommenderapp.model.Post
 import com.wheretogo.placesandroutesrecommenderapp.ui.feed.FeedFragmentDirections
+import com.wheretogo.placesandroutesrecommenderapp.ui.profile.ProfileFragmentDirections
 
 class BindingAdapters {
 
@@ -40,8 +42,8 @@ fun downloadImageRounded(view: ImageView, url: String?) {
     )
 }
 
-@BindingAdapter("android:sendDataToUpdateFragment")
-fun sendDataToUpdateFragment(view: ConstraintLayout, currentItem: Post) {
+@BindingAdapter("android:sendDataToFragment")
+fun sendDataToFragment(view: ConstraintLayout, currentItem: Post) {
     view.setOnClickListener {
         val action = FeedFragmentDirections.actionFeedFragmentToPostViewFragment(currentItem)
         view.findNavController().navigate(action)
@@ -69,5 +71,31 @@ fun ImageView.downloadFromUrl(
         // default olarak circle crop ve rounded cropa sahip
         transformations(transformation)
         //transformations(RoundedCornersTransformation())
+    }
+}
+
+@BindingAdapter("android:setPlaceCategoryImage")
+fun setPlaceCategoryImage(view: ImageView, category: String?) {
+    var image = when (category) {
+        "SHOPPING" ->  R.drawable.shopping
+        "BAKERY" -> R.drawable.bakery
+        "CINEMA" -> R.drawable.cinema
+        "MUSEUM" -> R.drawable.museum
+        "NATURE" -> R.drawable.landscape
+        "MUSIC" -> R.drawable.music
+        "THEATRE" -> R.drawable.theatre
+        "DINING" -> R.drawable.dining
+        "FITNESS" -> R.drawable.dumbbell
+        "COFFEE" -> R.drawable.coffee
+        else -> { R.drawable.place }
+    }
+    view.setImageResource(image)
+}
+
+@BindingAdapter("android:sendDataToPostViewFragment")
+fun sendDataToPostViewFragment(view: ConstraintLayout, currentItem: Post) {
+    view.setOnClickListener {
+        val action = ProfileFragmentDirections.actionProfileFragmentToPostViewFragment(currentItem)
+        view.findNavController().navigate(action)
     }
 }

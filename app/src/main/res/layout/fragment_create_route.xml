@@ -12,68 +12,56 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginBottom="56dp">
 
         <androidx.appcompat.widget.SearchView
             android:id="@+id/searchView"
             android:layout_width="@dimen/dim_zero"
             android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="2dp"
             android:background="@drawable/search_item_background"
             android:iconifiedByDefault="false"
             android:queryHint="Search Somewhere"
+            app:closeIcon="@drawable/clear"
             app:layout_constraintBottom_toTopOf="@+id/mapView"
             app:layout_constraintEnd_toStartOf="@+id/clearMarkersButton"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.button.MaterialButton
+        <ImageView
             android:id="@+id/clearMarkersButton"
-            style="@style/orangeButtonStyle2"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:text="@string/clear_route_text"
-            tools:text="Clear"
-            app:layout_constraintBottom_toTopOf="@+id/mapView"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/bin"
+            app:layout_constraintBottom_toBottomOf="@id/searchView"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/searchView"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toEndOf="@+id/searchView"
+            app:layout_constraintTop_toTopOf="@id/searchView" />
 
 
         <com.google.android.gms.maps.MapView
             android:id="@+id/mapView"
             android:layout_width="@dimen/dim_zero"
             android:layout_height="@dimen/dim_zero"
-            android:layout_margin="@dimen/dim_zero"
-            app:layout_constraintBottom_toTopOf="@+id/locationListTextView"
+            android:layout_margin="5dp"
+            app:layout_constraintBottom_toTopOf="@+id/createRouteButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/searchView"
             tools:ignore="SpeakableTextPresentCheck" />
 
-        <TextView
-            android:id="@+id/locationListTextView"
-            style="@style/regularTextViewStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dim_extra"
-            android:layout_marginTop="@dimen/dim_small"
-            android:textSize="15sp"
-            app:layout_constraintBottom_toTopOf="@+id/createRouteButton"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/mapView"
-            tools:text="Location List Information" />
-
-
         <com.google.android.material.button.MaterialButton
             android:id="@+id/createRouteButton"
             style="@style/orangeButtonStyle"
-            android:layout_marginBottom="60dp"
             android:text="@string/create_route_text"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/locationListTextView" />
+            app:layout_constraintTop_toBottomOf="@+id/mapView" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

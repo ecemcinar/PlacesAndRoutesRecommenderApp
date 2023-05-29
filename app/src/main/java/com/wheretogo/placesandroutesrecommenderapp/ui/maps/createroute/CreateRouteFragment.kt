@@ -93,7 +93,6 @@ class CreateRouteFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapLongC
         lifecycleScope.launch {
             sharedViewModel.searchForLocationResponse.collect {
                 sharedViewModel.fetchPlaceResponse.collect { fetchPlaceResponse ->
-                    binding.locationListTextView.text = fetchPlaceResponse?.place?.types?.toString()
                     fetchPlaceResponse?.place?.let {  place ->
                         viewModel.addToLocationList(place)
                         place.latLng?.let {

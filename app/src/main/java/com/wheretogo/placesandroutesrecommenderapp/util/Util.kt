@@ -11,7 +11,7 @@ object Util {
     fun getCurrentTime(): String {
         val currentDateTime = LocalDateTime.now()
         val formatter = DateTimeFormatter.ofPattern("HH:mm:ss")
-        val time = currentDateTime.format(formatter)
+        val time = currentDateTime.format(formatter).dropLast(3)
 
         return "$time ${currentDateTime.dayOfMonth}/${currentDateTime.monthValue}/${currentDateTime.year}"
     }
