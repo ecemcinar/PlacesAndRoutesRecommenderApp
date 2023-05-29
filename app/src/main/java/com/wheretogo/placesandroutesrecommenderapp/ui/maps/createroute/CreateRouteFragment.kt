@@ -28,6 +28,8 @@ import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.net.PlacesClient
 import com.wheretogo.placesandroutesrecommenderapp.R
 import com.wheretogo.placesandroutesrecommenderapp.databinding.FragmentCreateRouteBinding
+import com.wheretogo.placesandroutesrecommenderapp.extension.ifTrue
+import com.wheretogo.placesandroutesrecommenderapp.model.Location
 import com.wheretogo.placesandroutesrecommenderapp.ui.maps.MapsSharedViewModel
 import com.wheretogo.placesandroutesrecommenderapp.util.MapUtility.API_KEY
 import com.wheretogo.placesandroutesrecommenderapp.util.MapUtility.DEFAULT_ZOOM
@@ -51,6 +53,7 @@ class CreateRouteFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapLongC
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
     private val markersList: ArrayList<Marker> = arrayListOf()
+    private var locationList: ArrayList<Location> = arrayListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -65,6 +68,14 @@ class CreateRouteFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapLongC
                 map = it
                 map?.setOnMapLongClickListener(this@CreateRouteFragment)
             }
+        }
+
+        arguments?.let {
+            locationList = it.getParcelableArrayList<Location>("placeList") as ArrayList<Location>
+        }
+
+        locationList.isNotEmpty().ifTrue {
+            viewModel.setLocationList(locationList.toList())
         }
 
         return binding.root

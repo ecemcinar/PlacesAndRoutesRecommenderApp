@@ -73,7 +73,6 @@
             android:id="@+id/showRouteButton"
             style="@style/orangeButtonStyle"
             android:layout_margin="@dimen/dim_small"
-            android:enabled="false"
             android:text="@string/show_route_label"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

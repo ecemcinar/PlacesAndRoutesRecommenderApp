@@ -5,8 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.wheretogo.placesandroutesrecommenderapp.R
 import com.wheretogo.placesandroutesrecommenderapp.databinding.FragmentRouteRecommendationBinding
+import com.wheretogo.placesandroutesrecommenderapp.ui.maps.createroute.CreateRouteFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -34,6 +37,17 @@ class RouteRecommendationFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.showRouteButton.setOnClickListener {
+            val fragment = CreateRouteFragment()
+            val bundle = Bundle()
+            bundle.apply {
+                this.putParcelableArrayList("placeList",
+                    args.recommendation?.placeList?.let { it1 -> ArrayList(it1) })
+            }
+            fragment.arguments = bundle
+            findNavController().navigate(R.id.action_routeRecommendationFragment_to_createRouteFragment, bundle)
+        }
     }
 
     override fun onDestroy() {

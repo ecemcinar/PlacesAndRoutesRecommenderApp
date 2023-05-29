@@ -142,6 +142,9 @@
         <action
             android:id="@+id/action_createRouteFragment_to_feedFragment"
             app:destination="@id/feedFragment" />
+        <action
+            android:id="@+id/action_createRouteFragment_to_routeRecommendationFragment"
+            app:destination="@id/routeRecommendationFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -169,5 +172,8 @@
             android:name="recommendation"
             app:argType="com.wheretogo.placesandroutesrecommenderapp.model.Recommendation"
             app:nullable="true" />
+        <action
+            android:id="@+id/action_routeRecommendationFragment_to_createRouteFragment"
+            app:destination="@id/createRouteFragment" />
     </fragment>
 </navigation>
