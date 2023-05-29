@@ -1,7 +1,6 @@
 package com.wheretogo.placesandroutesrecommenderapp.ui.maps.createroute
 
 import android.graphics.Color
-import android.graphics.Color.red
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -21,6 +20,7 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.PolylineOptions
@@ -128,19 +128,27 @@ class CreateRouteFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapLongC
 
         binding.createRouteButton.setOnClickListener {
             val origin = viewModel.locationList.value?.get(0)
-            val dest = viewModel.locationList.value?.get(1)
+            val dest = viewModel.locationList.value?.size?.let { it1 ->
+                viewModel.locationList.value?.get(
+                    it1 - 1
+                )
+            }
+            val list = mutableListOf<LatLng>()
+            viewModel.locationList.value?.let {
+                for (i in 1..(it.size-2)) {
+                    it[i].latLng?.let { it1 ->
+                        list.add(
+                            it1
+                        )
+                    }
+                }
+            }
+
             val placeDirections = EasyRoutesDirections().apply {
                 originPlace = origin?.name?.toString()
                 destinationPlace = dest?.name?.toString()
                 apiKey = API_KEY
-                waypointsLatLng = arrayListOf(
-                    com.google.android.gms.maps.model.LatLng(
-                        origin?.latLng?.latitude!!, origin.latLng?.longitude!!
-                    ),
-                    com.google.android.gms.maps.model.LatLng(
-                        dest?.latLng?.latitude!!, dest.latLng?.longitude!!
-                    )
-                )
+                waypointsLatLng = ArrayList(list)
                 showDefaultMarkers = false
                 transportationMode = TransportationMode.WALKING
             }
@@ -179,7 +187,7 @@ class CreateRouteFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapLongC
                     Log.d("Duration:", it?.duration.toString())
                 }
             }
-            viewModel.setLocationListPositions()
+            // viewModel.setLocationListPositions()
         }
     }
 
