@@ -6,6 +6,7 @@ import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.toObject
 import com.wheretogo.placesandroutesrecommenderapp.model.CheckIn
 import com.wheretogo.placesandroutesrecommenderapp.model.Post
+import com.wheretogo.placesandroutesrecommenderapp.model.Recommendation
 import com.wheretogo.placesandroutesrecommenderapp.model.User
 import com.wheretogo.placesandroutesrecommenderapp.repository.await
 import com.wheretogo.placesandroutesrecommenderapp.util.Resource
@@ -109,7 +110,7 @@ class FirebaseFirestoreRepositoryImpl  @Inject constructor(
             for (doc in result.documents) {
                 val post = doc.toObject<Post>()
                 post?.let {
-                    postList.add(post)
+                    postList.add(it)
                 }
             }
             Resource.Success(postList)
@@ -171,6 +172,25 @@ class FirebaseFirestoreRepositoryImpl  @Inject constructor(
                 }
             }
             Resource.Success(checkinList)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Resource.Failure(e)
+        }
+    }
+
+    override suspend fun getRecommendationList(): Resource<List<Recommendation>> {
+        val list = mutableListOf<Recommendation>()
+        return try {
+            val result = firebaseFirestore.collection("recommendations")
+                .get()
+                .await()
+            for (doc in result.documents) {
+                val recommendation = doc.toObject<Recommendation>()
+                recommendation?.let {
+                    list.add(it)
+                }
+            }
+            Resource.Success(list)
         } catch (e: Exception) {
             e.printStackTrace()
             Resource.Failure(e)

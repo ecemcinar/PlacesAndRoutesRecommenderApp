@@ -4,6 +4,7 @@
     tools:context="com.wheretogo.placesandroutesrecommenderapp.ui.feed.FeedFragment">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.wheretogo.placesandroutesrecommenderapp.ui.feed.FeedViewModel" />
@@ -16,9 +17,39 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="56dp">
 
+        <TextView
+            android:id="@+id/recommendationLabel"
+            style="@style/regularTextViewStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dim_four"
+            android:text="Suggestions for You"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/recommendationRecyclerView"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Sizin İçin Önerdiklerimiz" />
+
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="@dimen/dim_zero"
+            android:id="@+id/recommendationRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_marginTop="@dimen/dim_four"
+            android:layout_marginBottom="8dp"
+            android:clipToPadding="false"
+            android:layoutAnimation="@anim/recyclerview_anim"
+            android:paddingTop="8dp"
+            app:layout_constraintBottom_toTopOf="@id/postRecyclerView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/recommendationLabel" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/postRecyclerView"
+            android:layout_width="match_parent"
             android:layout_height="@dimen/dim_zero"
             android:clipToPadding="false"
             android:layoutAnimation="@anim/recyclerview_anim"
@@ -26,7 +57,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/recommendationRecyclerView" />
 
         <ProgressBar
             android:id="@+id/progressBarLoading"
@@ -44,13 +75,13 @@
             style="@style/greyRegularTextViewStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/feed_no_post_text"
             android:gravity="center_horizontal"
+            android:text="@string/feed_no_post_text"
             android:visibility="gone"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.wheretogo.placesandroutesrecommenderapp.R
 import com.wheretogo.placesandroutesrecommenderapp.databinding.FragmentFeedBinding
 import com.wheretogo.placesandroutesrecommenderapp.util.Resource
@@ -22,6 +23,7 @@ class FeedFragment : Fragment() {
     private var _binding: FragmentFeedBinding? = null
     private val binding get() =_binding!!
     private val adapter: FeedAdapter by lazy { FeedAdapter() }
+    private val recommendationAdapter: RecommendationAdapter by lazy { RecommendationAdapter() }
     private val args by navArgs<FeedFragmentArgs>()
     private val viewModel: FeedViewModel by viewModels()
 
@@ -39,6 +41,7 @@ class FeedFragment : Fragment() {
         binding.viewModel = viewModel
         setUpRecyclerView()
         viewModel.getPostList()
+        viewModel.getRecommendationList()
 
         return binding.root
     }
@@ -72,6 +75,24 @@ class FeedFragment : Fragment() {
                 }
             }
         }
+
+        lifecycleScope.launchWhenStarted {
+            viewModel.getRecommendationListFlow.collect {
+                when (it) {
+                    is Resource.Failure -> {
+                        binding.progressBarLoading.visibility = View.VISIBLE
+                    }
+                    is Resource.Success -> {
+                        binding.progressBarLoading.visibility = View.GONE
+                        recommendationAdapter.setRecommendationData(it.result)
+                    }
+                    is Resource.Loading -> {
+                        binding.progressBarLoading.visibility = View.VISIBLE
+                    }
+                    else -> {}
+                }
+            }
+        }
     }
 
     override fun onDestroyView() {
@@ -80,8 +101,10 @@ class FeedFragment : Fragment() {
     }
 
     private fun setUpRecyclerView() {
-        val recyclerView = binding.recyclerView
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(requireActivity())
+        binding.postRecyclerView.adapter = adapter
+        binding.postRecyclerView.layoutManager = LinearLayoutManager(requireActivity())
+
+        binding.recommendationRecyclerView.adapter = recommendationAdapter
+        binding.recommendationRecyclerView.layoutManager = LinearLayoutManager(requireActivity(), RecyclerView.HORIZONTAL, false)
     }
 }

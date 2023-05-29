@@ -33,7 +33,7 @@ class SetPreferencesFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentSetPreferencesBinding.inflate(inflater, container, false)
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = viewLifecycleOwner
 
         adapter = SetPreferencesRecyclerAdapter(mutableListOf(), ::onPreferenceButtonClick)
         viewModel.createPrefList()

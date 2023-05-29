@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.wheretogo.placesandroutesrecommenderapp.model.Post
+import com.wheretogo.placesandroutesrecommenderapp.model.Recommendation
 import com.wheretogo.placesandroutesrecommenderapp.repository.firestore.FirebaseFirestoreRepository
 import com.wheretogo.placesandroutesrecommenderapp.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,11 +22,22 @@ class FeedViewModel @Inject constructor(
     private var _getPostListFlow = MutableStateFlow<Resource<List<Post>>?>(null)
     val getPostListFlow = _getPostListFlow.asStateFlow()
 
+    private var _getRecommendationListFlow = MutableStateFlow<Resource<List<Recommendation>>?>(null)
+    val getRecommendationListFlow = _getRecommendationListFlow.asStateFlow()
+
     fun getPostList() {
         _getPostListFlow.value = Resource.Loading
         viewModelScope.launch {
             val result = repository.getPosts()
             _getPostListFlow.value = result
+        }
+    }
+
+    fun getRecommendationList() {
+        _getRecommendationListFlow.value = Resource.Loading
+        viewModelScope.launch {
+            val result = repository.getRecommendationList()
+            _getRecommendationListFlow.value = result
         }
     }
 }

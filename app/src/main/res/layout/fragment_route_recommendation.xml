@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <data>
+
+        <variable
+            name="recommendation"
+            type="com.wheretogo.placesandroutesrecommenderapp.model.Recommendation" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/cityImage"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:contentDescription="@null"
+            android:src="@drawable/article"
+            android:downloadUrlRounded="@{recommendation.image}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/recommendationTitle"
+            style="@style/regularTextViewStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{recommendation.title}"
+            android:textSize="18sp"
+            android:layout_margin="@dimen/dim_four"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/cityImage"
+            app:layout_constraintStart_toStartOf="@id/cityImage"
+            app:layout_constraintEnd_toEndOf="@id/cityImage"
+            tools:text="Izmir'de Gorulmesi Gereken Yerler" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
