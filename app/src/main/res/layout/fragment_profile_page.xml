@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="user"
             type="com.wheretogo.placesandroutesrecommenderapp.model.User" />
@@ -14,139 +15,155 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="56dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:id="@+id/profileImageView"
-            android:layout_width="wrap_content"
-            android:layout_height="150dp"
-            android:downloadUrl="@{user.userProfileImage}"
-            app:layout_constraintTop_toTopOf="parent"
-            android:src="@drawable/user_profile_photo"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_margin="@dimen/dim_medium"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <TextView
-            android:id="@+id/nameSurnameTextView"
-            style="@style/regularTextViewStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dim_small"
-            android:fontFamily="@font/quicksand_medium"
-            android:textAlignment="center"
-            android:text="@{user.username}"
-            app:layout_constraintTop_toBottomOf="@+id/profileImageView"
-            app:layout_constraintStart_toStartOf="@id/profileImageView"
-            app:layout_constraintEnd_toEndOf="@id/profileImageView"
-            tools:text="Name Surname" />
-
-        <TextView
-            android:id="@+id/postLabelTextView"
-            style="@style/regularTextViewStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dim_small"
-            android:layout_marginStart="@dimen/dim_small"
-            android:fontFamily="@font/quicksand_medium"
-            android:textAlignment="center"
-            android:text="Posts"
-            app:layout_constraintTop_toBottomOf="@+id/nameSurnameTextView"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:text="Posts" />
-
-        <View
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/main_color_orange"
-            app:layout_constraintTop_toBottomOf="@id/postLabelTextView"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/postRecyclerView"/>
+            android:layout_height="wrap_content">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/postRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dim_zero"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_margin="@dimen/dim_small"
-            app:layout_constraintTop_toBottomOf="@+id/postLabelTextView" />
+            <ImageView
+                android:id="@+id/profileImageView"
+                android:layout_width="wrap_content"
+                android:layout_height="150dp"
+                android:layout_margin="@dimen/dim_medium"
+                android:downloadUrl="@{user.userProfileImage}"
+                android:src="@drawable/user_profile_photo"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/main_color_orange"
-            app:layout_constraintTop_toBottomOf="@id/postRecyclerView"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/checkInLabelTextView"/>
+            <TextView
+                android:id="@+id/nameSurnameTextView"
+                style="@style/regularTextViewStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dim_small"
+                android:fontFamily="@font/quicksand_medium"
+                android:text="@{user.username}"
+                android:textAlignment="center"
+                app:layout_constraintEnd_toEndOf="@id/profileImageView"
+                app:layout_constraintStart_toStartOf="@id/profileImageView"
+                app:layout_constraintTop_toBottomOf="@+id/profileImageView"
+                tools:text="Name Surname" />
 
-        <TextView
-            android:id="@+id/checkInLabelTextView"
-            style="@style/regularTextViewStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dim_small"
-            android:layout_marginStart="@dimen/dim_small"
-            android:fontFamily="@font/quicksand_medium"
-            android:textAlignment="center"
-            android:text="Check Ins"
-            app:layout_constraintTop_toBottomOf="@+id/postRecyclerView"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:text="Check Ins" />
+            <TextView
+                android:id="@+id/postLabelTextView"
+                style="@style/regularTextViewStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dim_small"
+                android:background="@drawable/item_background"
+                android:fontFamily="@font/quicksand_medium"
+                android:padding="@dimen/dim_four"
+                android:text="Posts"
+                android:textAlignment="center"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/nameSurnameTextView"
+                tools:text="Posts" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/checkInRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dim_zero"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_margin="@dimen/dim_small"
-            app:layout_constraintTop_toBottomOf="@+id/checkInLabelTextView" />
+            <ImageView
+                android:id="@+id/leftArrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dim_two"
+                android:src="@drawable/ic_baseline_arrow_back_ios_24"
+                app:layout_constraintBottom_toBottomOf="@id/postRecyclerView"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/postRecyclerView" />
 
-        <View
-            android:id="@+id/seperator"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/main_color_orange"
-            app:layout_constraintTop_toBottomOf="@id/checkInRecyclerView"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <TextView
-            android:id="@+id/logOutTextView"
-            style="@style/regularTextViewStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/dim_medium"
-            android:fontFamily="@font/quicksand_medium"
-            android:textAlignment="center"
-            android:text="Log Out"
-            android:clickable="true"
-            app:layout_constraintTop_toBottomOf="@+id/seperator"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            tools:text="Log Out"
-            android:focusable="true" />
-
-        <ProgressBar
-            android:id="@+id/progressBarLoading"
-            style="?android:attr/progressBarStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:indeterminateDrawable="@drawable/circularprogressbar"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:visibility="gone"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <ImageView
+                android:id="@+id/righArrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_arrow_forward_ios_24"
+                app:layout_constraintBottom_toBottomOf="@id/postRecyclerView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/postRecyclerView" />
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/postRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dim_zero"
+                android:layout_margin="@dimen/dim_twenty"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/postLabelTextView" />
+
+            <TextView
+                android:id="@+id/checkInLabelTextView"
+                style="@style/regularTextViewStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dim_small"
+                android:background="@drawable/item_background"
+                android:fontFamily="@font/quicksand_medium"
+                android:padding="@dimen/dim_four"
+                android:text="Check In"
+                android:textAlignment="center"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/postRecyclerView"
+                tools:text="Check Ins" />
+
+            <ImageView
+                android:id="@+id/leftArrow2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dim_two"
+                android:src="@drawable/ic_baseline_arrow_back_ios_24"
+                app:layout_constraintBottom_toBottomOf="@id/checkInRecyclerView"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/checkInRecyclerView" />
+
+            <ImageView
+                android:id="@+id/righArrow2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_arrow_forward_ios_24"
+                app:layout_constraintBottom_toBottomOf="@id/checkInRecyclerView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/checkInRecyclerView" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/checkInRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dim_zero"
+                android:layout_margin="@dimen/dim_twenty"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/checkInLabelTextView" />
+
+            <TextView
+                android:id="@+id/logOutTextView"
+                style="@style/regularTextViewStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dim_medium"
+                android:clickable="true"
+                android:focusable="true"
+                android:fontFamily="@font/quicksand_medium"
+                android:text="Log Out"
+                android:textAlignment="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/checkInRecyclerView"
+                tools:text="Log Out" />
+
+            <ProgressBar
+                android:id="@+id/progressBarLoading"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminateDrawable="@drawable/circularprogressbar"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
 </layout>

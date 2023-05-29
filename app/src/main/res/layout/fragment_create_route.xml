@@ -20,7 +20,7 @@
             android:layout_width="@dimen/dim_zero"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
-            android:layout_marginTop="2dp"
+            android:layout_marginTop="@dimen/dim_two"
             android:background="@drawable/search_item_background"
             android:iconifiedByDefault="false"
             android:queryHint="Search Somewhere"

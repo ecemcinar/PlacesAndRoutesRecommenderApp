@@ -2,10 +2,11 @@
 <resources>
     <dimen name="dim_small">8dp</dimen>
     <dimen name="dim_medium">16dp</dimen>
+    <dimen name="dim_twenty">20dp</dimen>
     <dimen name="dim_large">32dp</dimen>
     <dimen name="dim_extra_medium">24dp</dimen>
     <dimen name="dim_zero">0dp</dimen>
     <dimen name="dim_two">2dp</dimen>
-
+    <dimen name="dim_four">4dp</dimen>
     <dimen name="dim_extra">50dp</dimen>
 </resources>

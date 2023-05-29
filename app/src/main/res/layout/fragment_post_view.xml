@@ -51,7 +51,7 @@
             android:layout_height="wrap_content"
             android:text="@{post.date}"
             app:layout_constraintTop_toTopOf="@id/userProfilePictureImageView"
-            android:layout_marginEnd="4dp"
+            android:layout_marginEnd="@dimen/dim_four"
             app:layout_constraintEnd_toEndOf="parent"
             tools:text="02:03:00 25/05/2023" />
 
