@@ -55,14 +55,14 @@ class FeedFragment : Fragment() {
             viewModel.getRecommendationListFlow.collect {
                 when (it) {
                     is Resource.Failure -> {
-                        binding.progressBarLoading.visibility = View.VISIBLE
+                        binding.progressBarLoadingSecond.visibility = View.VISIBLE
                     }
                     is Resource.Success -> {
-                        binding.progressBarLoading.visibility = View.GONE
+                        binding.progressBarLoadingSecond.visibility = View.GONE
                         recommendationAdapter.setRecommendationData(it.result)
                     }
                     is Resource.Loading -> {
-                        binding.progressBarLoading.visibility = View.VISIBLE
+                        binding.progressBarLoadingSecond.visibility = View.VISIBLE
                     }
                     else -> {}
                 }

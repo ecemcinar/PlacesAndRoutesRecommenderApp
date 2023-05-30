@@ -20,6 +20,7 @@
             android:id="@+id/cityImage"
             android:layout_width="150dp"
             android:layout_height="150dp"
+            android:layout_marginTop="@dimen/dim_four"
             android:contentDescription="@null"
             android:downloadUrlRounded="@{recommendation.image}"
             android:src="@drawable/article"
