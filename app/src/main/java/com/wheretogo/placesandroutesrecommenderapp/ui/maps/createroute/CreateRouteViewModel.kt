@@ -2,8 +2,12 @@ package com.wheretogo.placesandroutesrecommenderapp.ui.maps.createroute
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import com.ecemsevvalcinar.easyroute.EasyRoutesDirections
+import com.ecemsevvalcinar.easyroute.enums.TransportationMode
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.libraries.places.api.model.Place
 import com.wheretogo.placesandroutesrecommenderapp.model.Location
+import com.wheretogo.placesandroutesrecommenderapp.util.MapUtility.API_KEY
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -32,6 +36,55 @@ class CreateRouteViewModel @Inject constructor(
         _recommendedLocationList = list.toMutableList()
     }
 
+    fun createEasyRouteDirectionsFromUserSearch(): EasyRoutesDirections {
+        val placeDirection = EasyRoutesDirections().apply {
+            apiKey = API_KEY
+            showDefaultMarkers = false
+            transportationMode = TransportationMode.WALKING
+        }
+        var placeList = mutableListOf<Place>()
+        _locationList.value?.let {
+            placeList = it
+        }
+        val waypointList = mutableListOf<LatLng>()
+        for (i in 1..placeList.size-2) {
+            placeList[i].latLng?.let {
+                waypointList.add(it)
+            }
+        }
+        placeDirection.apply {
+            originPlace = placeList.getOrNull(0)?.name.toString()
+            destinationPlace = placeList.getOrNull(placeList.size-1)?.name.toString()
+            waypointsLatLng = ArrayList(waypointList)
+        }
+
+        return placeDirection
+    }
+
+    fun createEasyRouteDirectionsFromRecommendationList(): EasyRoutesDirections {
+        val placeDirection = EasyRoutesDirections().apply {
+            originPlace = _recommendedLocationList.getOrNull(0)?.locationName
+            destinationPlace = _recommendedLocationList.getOrNull(_recommendedLocationList.size-1)?.locationName
+            apiKey = API_KEY
+            showDefaultMarkers = false
+            transportationMode = TransportationMode.WALKING
+        }
+        val waypointList = mutableListOf<LatLng>()
+        for (i in 1.._recommendedLocationList.size-2) {
+            var latitude = .0
+            var longitude = .0
+            recommendedLocationList[i].latitude?.let {
+                latitude = it.toDouble()
+            }
+            recommendedLocationList[i].longitude?.let {
+                longitude = it.toDouble()
+            }
+            waypointList.add(LatLng(latitude, longitude))
+        }
+        placeDirection.waypointsLatLng = ArrayList(waypointList)
+
+        return placeDirection
+    }
 
     /*
     fun getRoute() {

@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -14,7 +15,6 @@ import androidx.lifecycle.lifecycleScope
 import com.ecemsevvalcinar.easyroute.EasyRoutesDirections
 import com.ecemsevvalcinar.easyroute.EasyRoutesDrawer
 import com.ecemsevvalcinar.easyroute.drawRoute
-import com.ecemsevvalcinar.easyroute.enums.TransportationMode
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -28,10 +28,10 @@ import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.net.PlacesClient
 import com.wheretogo.placesandroutesrecommenderapp.R
 import com.wheretogo.placesandroutesrecommenderapp.databinding.FragmentCreateRouteBinding
+import com.wheretogo.placesandroutesrecommenderapp.extension.ifFalse
 import com.wheretogo.placesandroutesrecommenderapp.extension.ifTrue
 import com.wheretogo.placesandroutesrecommenderapp.model.Location
 import com.wheretogo.placesandroutesrecommenderapp.ui.maps.MapsSharedViewModel
-import com.wheretogo.placesandroutesrecommenderapp.util.MapUtility.API_KEY
 import com.wheretogo.placesandroutesrecommenderapp.util.MapUtility.DEFAULT_ZOOM
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -53,6 +53,7 @@ class CreateRouteFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapLongC
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
     private val markersList: ArrayList<Marker> = arrayListOf()
+    // temp list from recommendation fragment
     private var locationList: ArrayList<Location> = arrayListOf()
 
     override fun onCreateView(
@@ -61,21 +62,23 @@ class CreateRouteFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapLongC
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentCreateRouteBinding.inflate(inflater, container, false)
+
+        // if from recommendation fragment
+        arguments?.let {
+            locationList = it.getParcelableArrayList<Location>("placeList") as ArrayList<Location>
+        }
+        // if from recommendation fragment
+        locationList.isNotEmpty().ifTrue {
+            viewModel.setLocationList(locationList.toList())
+        }
         binding.apply {
             viewModel = viewModel
             mapView.onCreate(savedInstanceState)
             mapView.getMapAsync {
                 map = it
                 map?.setOnMapLongClickListener(this@CreateRouteFragment)
+                ifLocationListFromRecommendationFragmentIsNotEmpty(it)
             }
-        }
-
-        arguments?.let {
-            locationList = it.getParcelableArrayList<Location>("placeList") as ArrayList<Location>
-        }
-
-        locationList.isNotEmpty().ifTrue {
-            viewModel.setLocationList(locationList.toList())
         }
 
         return binding.root
@@ -134,75 +137,24 @@ class CreateRouteFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapLongC
         binding.clearMarkersButton.setOnClickListener {
             map?.clear()
             viewModel.clearLocationList()
+            binding.searchView.setQuery("", true)
+            binding.searchView.clearFocus()
             placeIndex = 1
         }
 
         binding.createRouteButton.setOnClickListener {
-            val origin = viewModel.locationList.value?.get(0)
-            val dest = viewModel.locationList.value?.size?.let { it1 ->
-                viewModel.locationList.value?.get(
-                    it1 - 1
-                )
+            viewModel.locationList.value.isNullOrEmpty().not().ifTrue {
+                val placeDirections = viewModel.createEasyRouteDirectionsFromUserSearch()
+                drawRouteForPoints(placeDirections)
+                // viewModel.setLocationListPositions()
+            }.ifFalse {
+                Toast.makeText(requireActivity(), "You should chose locations to create a route!", Toast.LENGTH_LONG)
+                    .show()
             }
-            val list = mutableListOf<LatLng>()
-            viewModel.locationList.value?.let {
-                for (i in 1..(it.size-2)) {
-                    it[i].latLng?.let { it1 ->
-                        list.add(
-                            it1
-                        )
-                    }
-                }
-            }
-
-            val placeDirections = EasyRoutesDirections().apply {
-                originPlace = origin?.name?.toString()
-                destinationPlace = dest?.name?.toString()
-                apiKey = API_KEY
-                waypointsLatLng = ArrayList(list)
-                showDefaultMarkers = false
-                transportationMode = TransportationMode.WALKING
-            }
-
-            val routeDrawer = EasyRoutesDrawer.Builder(map!!)
-                .pathWidth(10f)
-                .pathColor(Color.GREEN)
-                .geodesic(true)
-                .previewMode(false)
-                .build()
-
-            val customPolylineOptions = PolylineOptions()
-            customPolylineOptions.color(
-                ContextCompat.getColor(
-                    requireContext(),
-                    R.color.main_color_orange
-                )
-            )
-            customPolylineOptions.width(15f)
-
-            val routeDrawerWithCustomPolyline =
-                EasyRoutesDrawer.Builder(map!!, customPolylineOptions)
-                    .previewMode(false)
-                    .build()
-
-            map?.drawRoute(
-                easyRoutesDirections = placeDirections,
-                routeDrawer = routeDrawer,
-                markersListCallback = { markers -> markersList.addAll(markers) },
-                googleMapsLink = { url -> Log.d("GoogleLink", url) }
-            ) { legs ->
-                legs?.forEach {
-                    Log.d("Point startAddress:", it?.startAddress.toString())
-                    Log.d("Point endAddress:", it?.endAddress.toString())
-                    Log.d("Distance:", it?.distance.toString())
-                    Log.d("Duration:", it?.duration.toString())
-                }
-            }
-            // viewModel.setLocationListPositions()
         }
     }
 
-    override fun onMapLongClick(pos: com.google.android.gms.maps.model.LatLng) {
+    override fun onMapLongClick(pos: LatLng) {
         map?.addMarker(MarkerOptions().position(pos))
     }
 
@@ -240,5 +192,74 @@ class CreateRouteFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapLongC
     override fun onMapReady(map: GoogleMap) {
         this.map = map
         this.map?.setOnMapLongClickListener(this)
+    }
+
+    private fun ifLocationListFromRecommendationFragmentIsNotEmpty(map: GoogleMap) {
+        viewModel.recommendedLocationList.isEmpty().not().ifTrue {
+            for (i in viewModel.recommendedLocationList) {
+                var latitude = .0
+                var longitude = .0
+                i.latitude?.let {
+                    latitude = it.toDouble()
+                }
+                i.longitude?.let {
+                    longitude = it.toDouble()
+                }
+                map.addMarker(
+                    MarkerOptions().position(LatLng(latitude, longitude))
+                        .title((viewModel.recommendedLocationList.indexOf(i) + 1).toString())
+                        .snippet(i.locationName)
+                )
+            }
+            val placeDirections = viewModel.createEasyRouteDirectionsFromRecommendationList()
+            drawRouteForPoints(placeDirections)
+            var latitude = .0
+            var longitude = .0
+            viewModel.recommendedLocationList[0].latitude?.let {
+                latitude = it.toDouble()
+            }
+            viewModel.recommendedLocationList[0].longitude?.let {
+                longitude = it.toDouble()
+            }
+            val cameraUpdate = CameraUpdateFactory.newLatLngZoom(LatLng(latitude, longitude), DEFAULT_ZOOM)
+            map.moveCamera(cameraUpdate)
+        }
+    }
+
+    private fun drawRouteForPoints(placeDirections: EasyRoutesDirections) {
+        val routeDrawer = EasyRoutesDrawer.Builder(map!!)
+            .pathWidth(10f)
+            .pathColor(Color.GREEN)
+            .geodesic(true)
+            .previewMode(false)
+            .build()
+
+        val customPolylineOptions = PolylineOptions()
+        customPolylineOptions.color(
+            ContextCompat.getColor(
+                requireContext(),
+                R.color.main_color_orange
+            )
+        )
+        customPolylineOptions.width(15f)
+
+        val routeDrawerWithCustomPolyline =
+            EasyRoutesDrawer.Builder(map!!, customPolylineOptions)
+                .previewMode(false)
+                .build()
+
+        map?.drawRoute(
+            easyRoutesDirections = placeDirections,
+            routeDrawer = routeDrawer,
+            markersListCallback = { markers -> markersList.addAll(markers) },
+            googleMapsLink = { url -> Log.d("GoogleLink", url) }
+        ) { legs ->
+            legs?.forEach {
+                Log.d("Point startAddress:", it?.startAddress.toString())
+                Log.d("Point endAddress:", it?.endAddress.toString())
+                Log.d("Distance:", it?.distance.toString())
+                Log.d("Duration:", it?.duration.toString())
+            }
+        }
     }
 }
