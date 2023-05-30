@@ -154,46 +154,6 @@ class CreateRouteFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapLongC
         }
     }
 
-    override fun onMapLongClick(pos: LatLng) {
-        map?.addMarker(MarkerOptions().position(pos))
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        binding.mapView.onDestroy()
-        _binding = null
-    }
-
-    override fun onResume() {
-        super.onResume()
-        binding.mapView.onResume()
-    }
-
-    override fun onStart() {
-        super.onStart()
-        binding.mapView.onStart()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        binding.mapView.onStop()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        binding.mapView.onStop()
-    }
-
-    override fun onLowMemory() {
-        super.onLowMemory()
-        binding.mapView.onLowMemory()
-    }
-
-    override fun onMapReady(map: GoogleMap) {
-        this.map = map
-        this.map?.setOnMapLongClickListener(this)
-    }
-
     private fun ifLocationListFromRecommendationFragmentIsNotEmpty(map: GoogleMap) {
         viewModel.recommendedLocationList.isEmpty().not().ifTrue {
             for (i in viewModel.recommendedLocationList) {
@@ -261,5 +221,46 @@ class CreateRouteFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapLongC
                 Log.d("Duration:", it?.duration.toString())
             }
         }
+    }
+
+
+    override fun onMapLongClick(pos: LatLng) {
+        map?.addMarker(MarkerOptions().position(pos))
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        binding.mapView.onDestroy()
+        _binding = null
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.mapView.onResume()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        binding.mapView.onStart()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        binding.mapView.onStop()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        binding.mapView.onStop()
+    }
+
+    override fun onLowMemory() {
+        super.onLowMemory()
+        binding.mapView.onLowMemory()
+    }
+
+    override fun onMapReady(map: GoogleMap) {
+        this.map = map
+        this.map?.setOnMapLongClickListener(this)
     }
 }
