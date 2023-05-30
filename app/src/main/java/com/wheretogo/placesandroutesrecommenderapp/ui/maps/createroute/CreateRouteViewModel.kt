@@ -47,14 +47,14 @@ class CreateRouteViewModel @Inject constructor(
             placeList = it
         }
         val waypointList = mutableListOf<LatLng>()
-        for (i in 1..placeList.size-2) {
+        for (i in 1..placeList.size - 2) {
             placeList[i].latLng?.let {
                 waypointList.add(it)
             }
         }
         placeDirection.apply {
             originPlace = placeList.getOrNull(0)?.name.toString()
-            destinationPlace = placeList.getOrNull(placeList.size-1)?.name.toString()
+            destinationPlace = placeList.getOrNull(placeList.size - 1)?.name.toString()
             waypointsLatLng = ArrayList(waypointList)
         }
 
@@ -70,7 +70,7 @@ class CreateRouteViewModel @Inject constructor(
             transportationMode = TransportationMode.WALKING
         }
         val waypointList = mutableListOf<LatLng>()
-        for (i in 1.._recommendedLocationList.size-2) {
+        for (i in 1.._recommendedLocationList.size - 2) {
             var latitude = .0
             var longitude = .0
             recommendedLocationList[i].latitude?.let {

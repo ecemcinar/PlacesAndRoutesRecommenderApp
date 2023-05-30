@@ -15,7 +15,6 @@ import com.wheretogo.placesandroutesrecommenderapp.R
 import com.wheretogo.placesandroutesrecommenderapp.databinding.FragmentFeedBinding
 import com.wheretogo.placesandroutesrecommenderapp.util.Resource
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class FeedFragment : Fragment() {
@@ -53,6 +52,24 @@ class FeedFragment : Fragment() {
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
 
         lifecycleScope.launchWhenStarted {
+            viewModel.getRecommendationListFlow.collect {
+                when (it) {
+                    is Resource.Failure -> {
+                        binding.progressBarLoading.visibility = View.VISIBLE
+                    }
+                    is Resource.Success -> {
+                        binding.progressBarLoading.visibility = View.GONE
+                        recommendationAdapter.setRecommendationData(it.result)
+                    }
+                    is Resource.Loading -> {
+                        binding.progressBarLoading.visibility = View.VISIBLE
+                    }
+                    else -> {}
+                }
+            }
+        }
+
+        lifecycleScope.launchWhenStarted {
             viewModel.getPostListFlow.collect {
                 when (it) {
                     is Resource.Failure -> {
@@ -67,24 +84,6 @@ class FeedFragment : Fragment() {
                                 visibility = View.VISIBLE
                             }
                         }
-                    }
-                    is Resource.Loading -> {
-                        binding.progressBarLoading.visibility = View.VISIBLE
-                    }
-                    else -> {}
-                }
-            }
-        }
-
-        lifecycleScope.launchWhenStarted {
-            viewModel.getRecommendationListFlow.collect {
-                when (it) {
-                    is Resource.Failure -> {
-                        binding.progressBarLoading.visibility = View.VISIBLE
-                    }
-                    is Resource.Success -> {
-                        binding.progressBarLoading.visibility = View.GONE
-                        recommendationAdapter.setRecommendationData(it.result)
                     }
                     is Resource.Loading -> {
                         binding.progressBarLoading.visibility = View.VISIBLE
