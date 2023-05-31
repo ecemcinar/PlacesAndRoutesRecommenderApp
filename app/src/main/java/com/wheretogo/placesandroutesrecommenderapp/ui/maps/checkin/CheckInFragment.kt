@@ -38,6 +38,7 @@ import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest
 import com.google.android.libraries.places.api.net.PlacesClient
 import com.wheretogo.placesandroutesrecommenderapp.R
 import com.wheretogo.placesandroutesrecommenderapp.databinding.FragmentCheckInBinding
+import com.wheretogo.placesandroutesrecommenderapp.extension.ifTrue
 import com.wheretogo.placesandroutesrecommenderapp.extension.isNull
 import com.wheretogo.placesandroutesrecommenderapp.ui.maps.MapsSharedViewModel
 import com.wheretogo.placesandroutesrecommenderapp.util.MapUtility
@@ -173,7 +174,12 @@ class CheckInFragment : Fragment(), OnMapReadyCallback {
         })
 
         binding.makeCheckInButton.setOnClickListener {
-            args.userId?.let { id -> viewModel.addCheckInToFirebase(id) }
+            args.userId?.let { id ->
+                binding.categoryEditText.text.isNullOrEmpty().not().ifTrue {
+                    viewModel.setSelectedCategoryString(binding.categoryEditText.text.toString())
+                }
+                viewModel.addCheckInToFirebase(id)
+            }
         }
     }
 
@@ -197,6 +203,7 @@ class CheckInFragment : Fragment(), OnMapReadyCallback {
                                 break
                             }
                         }
+                        binding.categoryEditText.text.clear()
                         binding.categoryEditText.visibility = View.GONE
                         binding.categoryRecyclerView.visibility = View.VISIBLE
                         data.toList().let { list -> adapter.setData(list) }
@@ -449,8 +456,10 @@ class CheckInFragment : Fragment(), OnMapReadyCallback {
             map?.moveCamera(CameraUpdateFactory.newLatLngZoom(markerLatLng,
                 MapUtility.DEFAULT_ZOOM))
             binding.selectedPlace.text = likelyPlaceNames[which]
+            viewModel.setSelectedName(likelyPlaceNames[which])
             binding.placeCoordination.text =
                 "$markerLatLng"
+            viewModel.setSelectedLatlng(markerLatLng)
             binding.progressBarLoading.visibility = View.GONE
             binding.categoryEditText.visibility = View.VISIBLE
             binding.categoryRecyclerView.visibility = View.GONE

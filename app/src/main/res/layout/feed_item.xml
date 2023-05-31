@@ -63,6 +63,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dim_small"
             android:maxLength="250"
+            android:justificationMode="inter_word"
             android:maxLines="10"
             android:text="@{post.content}"
             android:textSize="16sp"

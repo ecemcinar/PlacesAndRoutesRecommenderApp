@@ -30,6 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{post.title}"
+            android:textAlignment="center"
             android:layout_margin="@dimen/dim_two"
             app:layout_constraintTop_toBottomOf="@id/articleImageView"
             app:layout_constraintStart_toStartOf="@id/articleImageView"

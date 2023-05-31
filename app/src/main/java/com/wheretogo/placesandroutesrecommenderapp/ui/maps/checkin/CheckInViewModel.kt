@@ -35,6 +35,10 @@ class CheckInViewModel @Inject constructor(
         selectedCategory = categoryModel.category
     }
 
+    fun setSelectedCategoryString(category: String) {
+        this.selectedCategory = category
+    }
+
     fun setSelectedName(name: String?) {
         selectedPlaceName = name
     }

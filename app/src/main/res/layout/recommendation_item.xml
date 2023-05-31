@@ -34,6 +34,7 @@
             android:layout_height="wrap_content"
             android:text="@{recommendation.title}"
             android:textSize="18sp"
+            android:textAlignment="center"
             android:layout_margin="@dimen/dim_four"
             android:textStyle="bold"
             app:layout_constraintTop_toBottomOf="@id/cityImage"
