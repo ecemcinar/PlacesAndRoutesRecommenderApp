@@ -35,6 +35,8 @@ class UploadPostViewModel @Inject constructor(
     private var _getUserFlow = MutableStateFlow<Resource<User?>?>(null)
     val getUserFlow = _getUserFlow.asStateFlow()
 
+    var tempFlow = MutableStateFlow<Resource<String>?>(null)
+
     @RequiresApi(Build.VERSION_CODES.O)
     fun addPostToFirestore(post: Post) {
         _addPostFlow.value = Resource.Loading
@@ -47,6 +49,15 @@ class UploadPostViewModel @Inject constructor(
                     _addPostFlow.value = result
                 }
             }
+        }
+    }
+
+    fun addReco(content: String) {
+        tempFlow.value = Resource.Loading
+        viewModelScope.launch {
+            tempFlow.value = Resource.Loading
+            val result = repository.addRecommendation(content)
+            tempFlow.value = result
         }
     }
 

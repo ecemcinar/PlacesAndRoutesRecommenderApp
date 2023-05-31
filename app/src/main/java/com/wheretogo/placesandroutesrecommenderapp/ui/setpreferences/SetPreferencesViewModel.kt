@@ -25,16 +25,17 @@ class SetPreferencesViewModel @Inject constructor(
     private var _userPrefList =  mutableListOf<SetPreferencesModel?>()
 
     private var _locationList: MutableList<String> =
-        mutableListOf("SHOPPING",
+        mutableListOf("SHOPPING_MALL",
             "BAKERY",
-            "CINEMA",
+            "CINEMA_THEATRE",
             "MUSEUM",
-            "NATURE",
+            "PARK",
             "MUSIC",
-            "THEATRE",
-            "DINING",
             "FITNESS",
-            "COFFEE")
+            "CAFE",
+            "FOOD",
+            "HISTORICAL_PLACE",
+            "ZOO")
 
     private var _setPrefListFlow = MutableStateFlow<Resource<List<String>>?>(null)
     val setPrefListFlow = _setPrefListFlow.asStateFlow()
@@ -47,16 +48,17 @@ class SetPreferencesViewModel @Inject constructor(
             item.isSelected = false
             item.prefName = location
             item.prefIcon = when (location) {
-                "SHOPPING" -> R.drawable.shopping
+                "SHOPPING_MALL" -> R.drawable.shopping
                 "BAKERY" -> R.drawable.bakery
-                "CINEMA" -> R.drawable.cinema
+                "CINEMA_THEATRE" -> R.drawable.theatre
                 "MUSEUM" -> R.drawable.museum
-                "NATURE" -> R.drawable.landscape
+                "PARK" -> R.drawable.landscape
                 "MUSIC" -> R.drawable.music
-                "THEATRE" -> R.drawable.theatre
-                "DINING" -> R.drawable.dining
+                "FOOD" -> R.drawable.dining
                 "FITNESS" -> R.drawable.dumbbell
-                "COFFEE" -> R.drawable.coffee
+                "CAFE" -> R.drawable.coffee
+                "HISTORICAL_PLACE" -> R.drawable.castle
+                "ZOO" -> R.drawable.zoo
                 else -> null
             }
             list.add(item)

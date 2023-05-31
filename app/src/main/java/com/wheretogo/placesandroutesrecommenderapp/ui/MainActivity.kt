@@ -32,7 +32,8 @@ class MainActivity : AppCompatActivity() {
 
         navController.addOnDestinationChangedListener { _, dest, args ->
             when (dest.id) {
-                R.id.loginFragment, R.id.signUpFragment, R.id.customizeProfileFragment, R.id.setPreferencesFragment -> {
+                R.id.loginFragment, R.id.signUpFragment, R.id.customizeProfileFragment, R.id.setPreferencesFragment,
+                R.id.initialFragment -> {
                     findViewById<BottomNavigationView>(R.id.bottomNavigationView).visibility = View.GONE
                     args?.putString("userId", sharedViewModel.currentUser?.uid)
                 }

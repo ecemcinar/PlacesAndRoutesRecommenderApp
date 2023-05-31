@@ -1,4 +1,4 @@
-package com.wheretogo.placesandroutesrecommenderapp.ui.profile
+package com.wheretogo.placesandroutesrecommenderapp.ui.profile.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

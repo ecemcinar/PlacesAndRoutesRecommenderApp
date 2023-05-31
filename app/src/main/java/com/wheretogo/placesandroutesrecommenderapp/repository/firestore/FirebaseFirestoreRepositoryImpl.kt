@@ -189,25 +189,80 @@ class FirebaseFirestoreRepositoryImpl  @Inject constructor(
             for (doc in result.documents) {
                 val recommendation = Recommendation().apply {
                     title = doc.getString("title")
-                    content = doc.getString("content")
                     image = doc.getString("image")
+                    documentId = doc.id
                 }
-                val places = doc.get("placeList") as List<DocumentReference>
-                val placeList = mutableListOf<Location?>()
-                for (ref in places) {
-                    val res = ref.get().await()
-                    placeList.add(
-                        Location().apply {
-                        locationName = res.getString("locationName")
-                            latitude = res.getString("latitude")
-                            longitude = res.getString("longitude")
-                            category = res.getString("category")
-                    })
-                }
-                recommendation.placeList = placeList
                 list.add(recommendation)
             }
             Resource.Success(list)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Resource.Failure(e)
+        }
+    }
+
+    override suspend fun getRecommendationById(docId: String): Resource<Recommendation> {
+        val recommendation = Recommendation()
+        return try {
+            val result = firebaseFirestore.collection("recommendations").document(docId)
+                .get()
+                .await()
+            recommendation.apply {
+                title = result.getString("title")
+                content = result.getString("content")
+                image = result.getString("image")
+                documentId = result.id
+                imageList = result.get("imageList") as List<String>
+            }
+            val places = result.get("placeList") as List<DocumentReference>
+            val placeList = mutableListOf<Location?>()
+            for (ref in places) {
+                val res = ref.get().await()
+                placeList.add(
+                    Location().apply {
+                        locationName = res.getString("locationName")
+                        latitude = res.getString("latitude")
+                        longitude = res.getString("longitude")
+                        category = res.getString("category")
+                    })
+            }
+            recommendation.placeList = placeList
+            Resource.Success(recommendation)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Resource.Failure(e)
+        }
+    }
+
+    override suspend fun getLocationList(category: String): Resource<List<Location>> {
+        val list = mutableListOf<Location>()
+        return try {
+            val result = firebaseFirestore.collection("locations")
+                .get()
+                .await()
+            for (doc in result.documents) {
+                val location = doc.toObject<Location>()
+                if (location?.category == category) {
+                    list.add(location)
+                }
+            }
+            Resource.Success(list)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Resource.Failure(e)
+        }
+    }
+
+    override suspend fun addRecommendation(content: String): Resource<String> {
+        return try {
+            val userMap = hashMapOf(
+                "content" to content
+            )
+
+            firebaseFirestore.collection("recommendations")
+                .add(userMap).await()
+            Resource.Success(content)
+
         } catch (e: Exception) {
             e.printStackTrace()
             Resource.Failure(e)

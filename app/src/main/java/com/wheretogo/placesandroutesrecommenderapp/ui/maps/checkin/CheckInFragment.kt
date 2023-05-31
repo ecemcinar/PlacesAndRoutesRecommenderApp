@@ -54,6 +54,8 @@ class CheckInFragment : Fragment(), OnMapReadyCallback {
     private val viewModel: CheckInViewModel by viewModels()
     private val args by navArgs<CheckInFragmentArgs>()
 
+    private var recommendedLocation: com.wheretogo.placesandroutesrecommenderapp.model.Location? = null
+
     private var map: GoogleMap? = null
     private var cameraPosition: CameraPosition? = null
 
@@ -82,11 +84,33 @@ class CheckInFragment : Fragment(), OnMapReadyCallback {
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentCheckInBinding.inflate(inflater, container, false)
+
+        arguments?.let {
+            recommendedLocation = it.getParcelable("recommendedLocation")
+        }
         binding.mapView.onCreate(savedInstanceState)
         binding.mapView.getMapAsync {
             map = it
+
+            recommendedLocation?.let { loc ->
+                var latitude = .0
+                var longitude = .0
+                loc.latitude?.let { lati ->
+                    latitude = lati.toDouble()
+                }
+                loc.longitude?.let { long ->
+                    longitude = long.toDouble()
+                }
+
+                map?.addMarker(MarkerOptions().position(LatLng(latitude, longitude))
+                    .title(loc.locationName))
+                val cameraUpdate = CameraUpdateFactory.newLatLngZoom(LatLng(latitude, longitude), 15f)
+                map?.moveCamera(cameraUpdate)
+                binding.selectedPlace.text = loc.locationName
+            }
         }
 
+        binding.lifecycleOwner = viewLifecycleOwner
         adapter = CategoryItemAdapter(mutableListOf(), ::onItemSelect)
         setUpRecyclerView()
         return binding.root
@@ -182,6 +206,7 @@ class CheckInFragment : Fragment(), OnMapReadyCallback {
                     fetchPlaceResponse?.place?.latLng?.let {  place ->
                         val cameraUpdate = CameraUpdateFactory.newLatLngZoom(place, 15f)
                         map?.moveCamera(cameraUpdate)
+                        binding.makeCheckInButton.isEnabled = true
                         map?.clear()
                         map?.addMarker(MarkerOptions().position(place))
                     }
@@ -385,6 +410,7 @@ class CheckInFragment : Fragment(), OnMapReadyCallback {
 
             // Add a default marker, because the user hasn't selected a place.
             binding.progressBarLoading.visibility = View.GONE
+            binding.makeCheckInButton.isEnabled = true
             map?.addMarker(MarkerOptions()
                 .title(getString(R.string.default_info_title))
                 .position(defaultLocation)
@@ -428,6 +454,7 @@ class CheckInFragment : Fragment(), OnMapReadyCallback {
             binding.progressBarLoading.visibility = View.GONE
             binding.categoryEditText.visibility = View.VISIBLE
             binding.categoryRecyclerView.visibility = View.GONE
+            binding.makeCheckInButton.isEnabled = true
         }
 
         // Display the dialog.

@@ -16,18 +16,19 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="56dp">
 
-        <ImageView
-            android:id="@+id/cityImage"
-            android:layout_width="150dp"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/imageRecyclerView"
+            android:layout_width="match_parent"
             android:layout_height="150dp"
             android:layout_marginTop="@dimen/dim_four"
-            android:contentDescription="@null"
-            android:downloadUrlRounded="@{recommendation.image}"
-            android:src="@drawable/article"
+            android:layout_marginBottom="8dp"
+            android:clipToPadding="false"
+            android:layoutAnimation="@anim/recyclerview_anim"
             app:layout_constraintBottom_toTopOf="@id/recommendationTitle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"/>
+
 
         <TextView
             android:id="@+id/recommendationTitle"
@@ -40,7 +41,7 @@
             app:layout_constraintBottom_toTopOf="@id/nestedScrollView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cityImage"
+            app:layout_constraintTop_toBottomOf="@id/imageRecyclerView"
             tools:text="Izmir'de Gorulmesi Gereken Yerler" />
 
         <androidx.core.widget.NestedScrollView
@@ -80,6 +81,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/nestedScrollView" />
 
+        <ProgressBar
+            android:id="@+id/progressBarLoading"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:indeterminateDrawable="@drawable/circularprogressbar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

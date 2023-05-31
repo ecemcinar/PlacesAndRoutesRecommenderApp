@@ -71,6 +71,7 @@ class CreateRouteFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapLongC
         locationList.isNotEmpty().ifTrue {
             viewModel.setLocationList(locationList.toList())
         }
+        binding.lifecycleOwner = viewLifecycleOwner
         binding.apply {
             viewModel = viewModel
             mapView.onCreate(savedInstanceState)

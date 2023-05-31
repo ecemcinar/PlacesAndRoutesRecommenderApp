@@ -78,16 +78,17 @@ fun ImageView.downloadFromUrl(
 @BindingAdapter("android:setPlaceCategoryImage")
 fun setPlaceCategoryImage(view: ImageView, category: String?) {
     var image = when (category) {
-        "SHOPPING" ->  R.drawable.shopping
+        "SHOPPING_MALL" -> R.drawable.shopping
         "BAKERY" -> R.drawable.bakery
-        "CINEMA" -> R.drawable.cinema
+        "CINEMA_THEATRE" -> R.drawable.theatre
         "MUSEUM" -> R.drawable.museum
-        "NATURE" -> R.drawable.landscape
+        "PARK" -> R.drawable.landscape
         "MUSIC" -> R.drawable.music
-        "THEATRE" -> R.drawable.theatre
-        "DINING" -> R.drawable.dining
+        "FOOD" -> R.drawable.dining
         "FITNESS" -> R.drawable.dumbbell
-        "COFFEE" -> R.drawable.coffee
+        "CAFE" -> R.drawable.coffee
+        "HISTORICAL_PLACE" -> R.drawable.castle
+        "ZOO" -> R.drawable.zoo
         else -> { R.drawable.place }
     }
     view.setImageResource(image)

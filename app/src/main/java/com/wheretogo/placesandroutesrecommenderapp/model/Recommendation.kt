@@ -8,5 +8,8 @@ data class Recommendation(
     var title: String? = null,
     var content: String? = null,
     var image: String? = null,
-    var placeList: List<Location?>? = null
-): Parcelable
+    var placeList: List<Location?>? = null,
+    var imageList: List<String>? = null
+): Parcelable {
+    var documentId: String? = null
+}

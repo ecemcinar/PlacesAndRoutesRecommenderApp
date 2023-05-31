@@ -28,7 +28,8 @@
                 android:src="@drawable/user_profile_photo"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/nameSurnameTextView"/>
 
             <TextView
                 android:id="@+id/nameSurnameTextView"
@@ -42,7 +43,37 @@
                 app:layout_constraintEnd_toEndOf="@id/profileImageView"
                 app:layout_constraintStart_toStartOf="@id/profileImageView"
                 app:layout_constraintTop_toBottomOf="@+id/profileImageView"
+                app:layout_constraintBottom_toTopOf="@id/suggestMe"
                 tools:text="Name Surname" />
+
+            <TextView
+                android:id="@+id/suggestMe"
+                style="@style/regularTextViewStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/gray_background"
+                android:layout_margin="@dimen/dim_small"
+                android:padding="@dimen/dim_small"
+                android:fontFamily="@font/quicksand_medium"
+                android:text="@string/suggest_me_label"
+                android:textAlignment="center"
+                android:clickable="true"
+                app:layout_constraintEnd_toEndOf="@id/profileImageView"
+                app:layout_constraintStart_toStartOf="@id/profileImageView"
+                app:layout_constraintTop_toBottomOf="@+id/profileImageView"
+                app:layout_constraintBottom_toTopOf="@id/userPrefRecyclerView"
+                tools:text="Suggest Me!"
+                android:focusable="true" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/userPrefRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dim_small"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/postLabelTextView"
+                app:layout_constraintTop_toBottomOf="@+id/suggestMe" />
 
             <TextView
                 android:id="@+id/postLabelTextView"
@@ -57,7 +88,7 @@
                 android:textAlignment="center"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/nameSurnameTextView"
+                app:layout_constraintTop_toBottomOf="@+id/userPrefRecyclerView"
                 tools:text="Posts" />
 
             <ImageView

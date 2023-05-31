@@ -44,6 +44,7 @@ class CustomizeProfileFragment: Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentCustomizeProfileBinding.inflate(inflater, container, false)
         binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
 
         return binding.root
     }

@@ -73,6 +73,8 @@ class UploadPostFragment : Fragment() {
                 post?.let {
                     viewModel.addPostToFirestore(it)
                 }
+
+                // viewModel.addReco(binding.contentEditText.text.toString()) // reco metinleri eklemek için, sonradan silinecek
             }
         }
 
@@ -95,6 +97,28 @@ class UploadPostFragment : Fragment() {
                 }
             }
         }
+
+        /*
+        lifecycleScope.launchWhenStarted {
+            viewModel.tempFlow.collect {
+                when (it) {
+                    is Resource.Failure -> {
+                        binding.progressBarLoading.visibility = View.GONE
+                        Toast.makeText(requireActivity(), it.exception.message, Toast.LENGTH_LONG)
+                            .show()
+                    }
+                    is Resource.Success -> {
+                        binding.progressBarLoading.visibility = View.GONE
+                        Toast.makeText(requireActivity(), "Reco upload!", Toast.LENGTH_LONG)
+                            .show()
+                        findNavController().navigate(R.id.action_uploadPostFragment_to_feedFragment)
+                    }
+                    is Resource.Loading -> { binding.progressBarLoading.visibility = View.VISIBLE }
+                    else -> {}
+                }
+            }
+        }
+         */
     }
 
     private fun initListeners() {
