@@ -179,6 +179,7 @@ class ProfileFragment: Fragment() {
 
         binding.suggestMe.setOnClickListener {
             viewModel.getLocationList()
+            binding.suggestMe.setBackgroundResource(R.drawable.item_pressed_background)
         }
     }
 

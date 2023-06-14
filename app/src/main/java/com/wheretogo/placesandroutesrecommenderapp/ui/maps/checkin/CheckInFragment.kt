@@ -158,6 +158,7 @@ class CheckInFragment : Fragment(), OnMapReadyCallback {
 
     private fun initListeners() {
         binding.findLocationIcon.setOnClickListener {
+            map?.clear()
             showCurrentPlace()
         }
 
