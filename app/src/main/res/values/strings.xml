@@ -49,7 +49,7 @@
 
     <string name="feed_no_post_text">There is no post at the moment..</string>
     <string name="feed_problem_message_text">Error occurred while loading the posts</string>
-    <string name="google_maps_key">AIzaSyBxeRzEJOIBUNmcjB_MBBu-172zJBmR2z0</string>
+    <string name="google_maps_key">API_KEY</string>
 
     <string name="checkin_text_accept_permissions">You need to accept location permissions to use this app.</string>
     <string name="checkin_selected_place_label">Selected Place</string>
